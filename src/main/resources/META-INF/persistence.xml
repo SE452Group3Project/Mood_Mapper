@@ -6,6 +6,7 @@
     <class>com.moodmapper.entity.GroupsEntity</class>
     <class>com.moodmapper.entity.MoodStatusesEntity</class>
     <class>com.moodmapper.entity.CommentsEntity</class>
+    <class>com.moodmapper.entity.EntityObject</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mood_mapper"/>
