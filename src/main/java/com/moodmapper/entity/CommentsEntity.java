@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author faithfulokoye
+ * @author Geoff Brown
  */
 @Entity
 @Table(name = "COMMENTS")
@@ -61,6 +61,13 @@ public class CommentsEntity implements Serializable {
 
     public CommentsEntity(Integer id) {
         this.id = id;
+    }
+    
+    public CommentsEntity(Integer id, String content, MoodStatusesEntity moodStatusId, UsersEntity userId) {
+        this.id = id;
+        this.content = content;
+        this.moodStatus = moodStatusId;
+        this.user = userId;
     }
 
     public Integer getId() {
