@@ -84,6 +84,17 @@ public class MoodStatusesEntity implements Serializable {
     public MoodStatusesEntity(Integer id) {
         this.id = id;
     }
+    
+    public MoodStatusesEntity(Integer id, UsersEntity userId, Integer pleasantnessRating, String descrWord, String rParagraph, Integer eRating, Boolean isPrivate) {
+        this.id = id;
+        this.user = userId;
+        //this.time_stamp = new Date();
+        this.pleasantnessRating = pleasantnessRating;
+        this.descriptiveWord = descrWord;
+        this.reflectiveParagraph = rParagraph;
+        this.energyRating = eRating;
+        this.isPrivate = isPrivate; 
+    }
 
     public Integer getId() {
         return id;
