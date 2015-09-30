@@ -45,6 +45,7 @@ public class CommentsEntityJpaController implements Serializable {
         em.getTransaction().commit(); 
        
     }
+   
     
     public List getAll() {
         Query query = em.createQuery("select a from CommentsEntity a"); 

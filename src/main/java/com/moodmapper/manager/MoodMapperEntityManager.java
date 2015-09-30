@@ -7,7 +7,6 @@ package com.moodmapper.manager;
 
 import com.moodmapper.entity.GroupsEntity;
 import com.moodmapper.entity.UsersEntity;
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,50 +17,60 @@ import javax.persistence.Query;
  *
  * @author faithfulokoye
  */
-public class GroupsEntityJpaController implements Serializable {
+public class MoodMapperEntityManager {
+   
+    private final EntityManager em;         
+//    private final EntityManagerFactory emf;  
     
-    private EntityManager em;         
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU"); 
-    
-    public GroupsEntityJpaController(EntityManagerFactory emf) {
+    public MoodMapperEntityManager(EntityManagerFactory emf) {
+        emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU");
         em = emf.createEntityManager(); 
     }
+    
+    /* GROUPS */ 
     
     public void createGroup(GroupsEntity group) {
         em.getTransaction().begin(); 
         em.persist(group); 
-        em.getTransaction().commit(); 
-    }
-    
-    public GroupsEntity searchById(Integer id){
-        return em.find(GroupsEntity.class, id); 
+        
     }
     
     public void updateGroup(GroupsEntity group) {
         em.getTransaction().begin(); 
         em.merge(group); 
-        em.getTransaction().commit(); 
     }
     
     public void removeGroup(GroupsEntity group) {
         em.getTransaction().begin(); 
         em.remove(group); 
-        em.getTransaction().commit(); 
        
     }
     
-    public void setOwner(int groupId, int userId) {
-        GroupsEntity group = em.find(GroupsEntity.class, groupId); 
-        UsersEntity user = em.find(UsersEntity.class, userId);
-        user.addGroupOwned(group);
-      
+    public void commit() {
+        em.getTransaction().commit(); 
     }
     
-    public List getAll() {
-        Query query = em.createQuery("select a from GroupsEntity a"); 
-        List list = query.getResultList(); 
-        return list; 
+    /* USERS */
+    
+    public void createUser(UsersEntity user) {
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
     }
+
+    public void updateUser(UsersEntity user) {
+        em.getTransaction().begin();
+        em.merge(user);
+        em.getTransaction().commit();
+    }
+
+    public void removeUser(UsersEntity user) {
+        em.getTransaction().begin();
+        em.remove(user);
+        em.getTransaction().commit();
+    }
+
+    
     
     public void close() {
         em.close(); 

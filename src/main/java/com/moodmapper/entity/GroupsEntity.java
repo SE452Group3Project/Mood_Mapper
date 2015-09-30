@@ -6,13 +6,20 @@
 package com.moodmapper.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,6 +27,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -53,23 +61,37 @@ public class GroupsEntity implements Serializable {
     private String joinCode; 
     
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private UsersEntity OwnerId; 
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+    private UsersEntity ownerId; 
     
-    
+    @JoinTable(name = "GROUP_MEMBERS", joinColumns = {
+        @JoinColumn(name = "group_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @ManyToMany
+    private Collection<UsersEntity> groupMembers;
+  
     public GroupsEntity() {
-        
+        this.groupMembers = new ArrayList<>(); 
     }
     
     public GroupsEntity(Integer id){
+//        this.id = id; 
+        this.groupMembers = new ArrayList<>(); 
+    }
+    
+    public GroupsEntity(Integer id, String name, String joinCode) {
         this.id = id; 
+        this.name = name; 
+        this.joinCode = joinCode; 
+        this.groupMembers = new ArrayList<>(); 
     }
     
     public GroupsEntity(Integer id, String name, String joinCode, UsersEntity OwnerId) {
         this.id = id; 
         this.name = name; 
         this.joinCode = joinCode; 
-        this.OwnerId = OwnerId; 
+        this.ownerId = OwnerId; 
+        this.groupMembers = new ArrayList<>(); 
     }
     
     
@@ -98,13 +120,41 @@ public class GroupsEntity implements Serializable {
     }
     
     public UsersEntity getOwner(){
-        return this.OwnerId;
+        return this.ownerId;
     }
     
     public void setOwner(UsersEntity owner) {
-        this.OwnerId = owner; 
+        this.ownerId = owner; 
+        owner.addGroupOwned(this);
     }
-
+    
+    @XmlTransient
+    public Collection<UsersEntity> getGroupMembers() {
+        return groupMembers;
+    }
+    
+    public void addGroupMember(UsersEntity group_member){
+        if (!getGroupMembers().contains(group_member)){
+            this.groupMembers.add(group_member); 
+            
+        }
+        
+        
+    }
+//    
+//    public void  removeGroupMember(UsersEntity group_member){
+//        this.groupMembers.remove(group_member);
+//    }
+//    
+//    public void addAllGroupMembers(Set<? extends UsersEntity> group_members){
+//        this.groupMembers.addAll(group_members);
+//    }
+//
+//    @XmlTransient
+//    public ArrayList<UsersEntity> getGroupMembers() {
+//        return groupMembers;
+//    }
+//    
     @Override
     public int hashCode() {
         int hash = 0;

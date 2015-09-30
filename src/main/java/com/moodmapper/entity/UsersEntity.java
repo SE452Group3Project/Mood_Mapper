@@ -6,7 +6,12 @@
 package com.moodmapper.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +19,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -69,12 +76,17 @@ public class UsersEntity implements Serializable {
     @Size(max = 45)
     @Column(name = "last_name")
     private String lastName;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId")
+    private Collection<GroupsEntity> groupsOwned;
 
     public UsersEntity() {
+        this.groupsOwned = new ArrayList<>(); 
     }
 
     public UsersEntity(Integer id) {
         this.id = id;
+        this.groupsOwned = new ArrayList<>();
     }
 
     public UsersEntity(Integer id, String username, String email, String password) {
@@ -82,7 +94,10 @@ public class UsersEntity implements Serializable {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.groupsOwned = new ArrayList<>();
     }
+   
+    
 
     public Integer getId() {
         return id;
@@ -132,6 +147,20 @@ public class UsersEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    
+     
+    @XmlTransient
+    public Collection<GroupsEntity> getGroupsOwned() {
+        return groupsOwned;
+    }
+    
+    
+    public void addGroupOwned(GroupsEntity group){
+        if (!getGroupsOwned().contains(group)){
+            this.groupsOwned.add(group); 
+            group.setOwner(this);
+        }
+    }
     @Override
     public int hashCode() {
         int hash = 0;
