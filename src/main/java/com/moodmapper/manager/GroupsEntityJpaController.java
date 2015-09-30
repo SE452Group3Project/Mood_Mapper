@@ -28,9 +28,9 @@ public class GroupsEntityJpaController implements Serializable {
     }
     
     public void createGroup(GroupsEntity group) {
-        em.getTransaction().begin(); 
+//        em.getTransaction().begin(); 
         em.persist(group); 
-        em.getTransaction().commit(); 
+//        em.getTransaction().commit(); 
     }
     
     public GroupsEntity searchById(Integer id){
@@ -38,15 +38,23 @@ public class GroupsEntityJpaController implements Serializable {
     }
     
     public void updateGroup(GroupsEntity group) {
-        em.getTransaction().begin(); 
+//        em.getTransaction().begin(); 
         em.merge(group); 
-        em.getTransaction().commit(); 
+//        em.getTransaction().commit(); 
     }
     
+    public void begin() {
+        em.getTransaction().begin(); 
+    }
+    
+    public void commit() {
+        em.getTransaction().commit(); 
+       
+    }
     public void removeGroup(GroupsEntity group) {
         em.getTransaction().begin(); 
         em.remove(group); 
-        em.getTransaction().commit(); 
+//        em.getTransaction().commit(); 
        
     }
     

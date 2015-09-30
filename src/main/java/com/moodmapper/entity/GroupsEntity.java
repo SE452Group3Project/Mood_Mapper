@@ -67,7 +67,7 @@ public class GroupsEntity implements Serializable {
     @JoinTable(name = "GROUP_MEMBERS", joinColumns = {
         @JoinColumn(name = "group_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<UsersEntity> groupMembers;
   
     public GroupsEntity() {
@@ -136,6 +136,7 @@ public class GroupsEntity implements Serializable {
     public void addGroupMember(UsersEntity group_member){
         if (!getGroupMembers().contains(group_member)){
             this.groupMembers.add(group_member); 
+            group_member.addGroupJoined(this);
             
         }
         

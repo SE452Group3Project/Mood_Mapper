@@ -4,6 +4,7 @@ import com.moodmapper.entity.UsersEntity;
 import com.moodmapper.manager.GroupsEntityJpaController;
 import com.moodmapper.manager.MoodMapperEntityManager;
 import com.moodmapper.manager.UsersEntityJpaController;
+import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -28,9 +29,11 @@ public class GroupsTester {
    private MoodMapperEntityManager mmEntityManager; 
    
    private GroupsEntity group1; 
-   private UsersEntity ownerId; 
-//   private final UsersEntity group_member1 = new UsersEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
-//   private final UsersEntity group_member2 = new UsersEntity(3, "jenny101", "23828937rdkdiwi", "2839dw797@23dkw89.com"); 
+   private GroupsEntity group2; 
+   private UsersEntity ownerId;
+ 
+   private final UsersEntity group_member1 = new UsersEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
+   private final UsersEntity group_member2 = new UsersEntity(3, "jenny101", "23828937rdkdiwi", "2839dw797@23dkw89.com"); 
    
    protected void setUp() throws Exception {
        emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU"); 
@@ -41,12 +44,25 @@ public class GroupsTester {
        ownerId = new UsersEntity(1, "huang10", "2333928dd", "2334@134dd4.com");
       
        group1 = new GroupsEntity(1, "friends", "dkslsjiewiou");
+       group2 = new GroupsEntity(2, "se452", "sklduwioeu"); 
        group1.setOwner(ownerId);
+       group2.setOwner(ownerId);
        
+       
+       
+       um.createUser(group_member1);
+       um.createUser(group_member2); 
+       
+       gm.begin(); 
        gm.createGroup(group1);
-//       mmEntityManager = new MoodMapperEntityManager(emf); 
-//       mmEntityManager.createGroup(group1);
-//       mmEntityManager.commit();
+       gm.createGroup(group2); 
+       group1.addGroupMember(group_member1);
+       group1.addGroupMember(group_member2);
+       group2.addGroupMember(group_member2); 
+       gm.updateGroup(group1); 
+       gm.updateGroup(group2);
+       gm.commit(); 
+  
 
         
    }
@@ -57,7 +73,6 @@ public class GroupsTester {
    }
    
    public void test() {
-       gm.createGroup(group1);
        System.out.println("After creation of groups in table");
        System.out.println("ID: " + group1.getId());
        System.out.println("Username: " + group1.getName());
@@ -69,12 +84,28 @@ public class GroupsTester {
         System.out.println("ID: " + group1.getOwner().getId());
         System.out.println("Username: " + group1.getOwner().getUsername());
         System.out.println("Email: " + group1.getOwner().getEmail());
-        System.out.println("Groups Owned: " + group1.getOwner().getGroupsOwned().iterator().next().getName());
+        System.out.println("Groups Owned: ");
+        Collection<GroupsEntity> groupsOwned = group1.getOwner().getGroupsOwned();
+        for (GroupsEntity element : groupsOwned) {
+            System.out.println(element.getName()); 
+        }
         
-        
-        System.out.println("List all group members");
-        System.out.println("Group Members: " + group1.getGroupMembers());
+      
        
+        
+        System.out.println("Groups Members: ");
+        Collection<UsersEntity> groupMembers = group1.getGroupMembers();
+        for (UsersEntity element : groupMembers) {
+            System.out.println(element.getUsername()); 
+            System.out.println("Groups joined: "); 
+            
+            Collection<GroupsEntity> groupsJoined = element.getGroupsJoined();
+            for (GroupsEntity element2 : groupsJoined) {
+                System.out.println(element2.getName()); 
+            }
+        }
+        
+        
    }
    
    public static void main(String args[])

@@ -17,6 +17,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -79,14 +82,22 @@ public class UsersEntity implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId")
     private Collection<GroupsEntity> groupsOwned;
+    
+    @JoinTable(name = "GROUP_MEMBERS", joinColumns = {
+        @JoinColumn(name = "group_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private Collection<GroupsEntity> groupsJoined;
 
     public UsersEntity() {
         this.groupsOwned = new ArrayList<>(); 
+        this.groupsJoined = new ArrayList<>(); 
     }
 
     public UsersEntity(Integer id) {
         this.id = id;
         this.groupsOwned = new ArrayList<>();
+        this.groupsJoined = new ArrayList<>(); 
     }
 
     public UsersEntity(Integer id, String username, String email, String password) {
@@ -95,6 +106,7 @@ public class UsersEntity implements Serializable {
         this.email = email;
         this.password = password;
         this.groupsOwned = new ArrayList<>();
+        this.groupsJoined = new ArrayList<>(); 
     }
    
     
@@ -154,11 +166,23 @@ public class UsersEntity implements Serializable {
         return groupsOwned;
     }
     
+    @XmlTransient
+    public Collection<GroupsEntity> getGroupsJoined() {
+        return groupsJoined;
+    }
+    
     
     public void addGroupOwned(GroupsEntity group){
         if (!getGroupsOwned().contains(group)){
             this.groupsOwned.add(group); 
             group.setOwner(this);
+        }
+    }
+    
+    public void addGroupJoined(GroupsEntity group){
+        if (!getGroupsJoined().contains(group)){
+            this.groupsJoined.add(group); 
+            group.addGroupMember(this);
         }
     }
     @Override
