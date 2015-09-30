@@ -56,8 +56,12 @@ public class UsersTester {
         System.out.println("Username: " + user.getUsername());
         System.out.println("Email: " + user.getEmail());
 
-        System.out.println("Adding one more record");
+        System.out.println("Adding two more record");
         um.createUser(user2);
+        UsersEntity user3 = new UsersEntity(3, "huang3", "12345", "12345@12345.com");
+        um.createUser(user3);
+        user3.setLastName("HUANG");
+        um.createUser(user3);
 
         List list = um.getAll();
         System.out.println("Number of users: " + list.size());

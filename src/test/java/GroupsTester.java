@@ -22,7 +22,7 @@ import javax.persistence.Persistence;
 public class GroupsTester {
     
    private EntityManagerFactory emf; 
-  
+    private EntityManager em;
    private GroupsEntityJpaController gm; 
    private UsersEntityJpaController um; 
    
@@ -38,71 +38,68 @@ public class GroupsTester {
    protected void setUp() throws Exception {
        emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU"); 
       
+       em = emf.createEntityManager();
        gm = new GroupsEntityJpaController(emf); 
        um = new UsersEntityJpaController(emf); 
-       
-       ownerId = new UsersEntity(1, "huang10", "2333928dd", "2334@134dd4.com");
-      
-       group1 = new GroupsEntity(1, "friends", "dkslsjiewiou");
-       group2 = new GroupsEntity(2, "se452", "sklduwioeu"); 
-       group1.setOwner(ownerId);
-       group2.setOwner(ownerId);
-       
-       
-       
-       um.createUser(group_member1);
-       um.createUser(group_member2); 
-       
-       gm.begin(); 
-       gm.createGroup(group1);
-       gm.createGroup(group2); 
-       group1.addGroupMember(group_member1);
-       group1.addGroupMember(group_member2);
-       group2.addGroupMember(group_member2); 
-       gm.updateGroup(group1); 
-       gm.updateGroup(group2);
-       gm.commit(); 
-  
-
         
    }
    
    protected void close() throws Exception {
        gm.close(); 
+       em.close();
        emf.close(); 
    }
    
    public void test() {
+       
+       um.createUser(group_member1);
+       um.createUser(group_member2); 
+       
+       ownerId = new UsersEntity(1, "huang10", "2333928dd", "2334@134dd4.com");
+       group1 = new GroupsEntity(1, "friends", "dkslsjiewiou");
+       group2 = new GroupsEntity(2, "se452", "sklduwioeu"); 
+       group1.setOwner(ownerId);
+       group2.setOwner(ownerId);
+       
+       gm.createGroup(group1);
+       gm.createGroup(group2); 
+       
        System.out.println("After creation of groups in table");
        System.out.println("ID: " + group1.getId());
-       System.out.println("Username: " + group1.getName());
+       System.out.println("Group Name: " + group1.getName());
        System.out.println("Join Code: " + group1.getJoinCode());
-       System.out.println("Owner: " + group1.getOwner());
+       System.out.println("Owner: " + group1.getOwner().toString());
        
+       group1.addGroupMember(group_member1);
        
-       System.out.println("After creation of user in table");
-        System.out.println("ID: " + group1.getOwner().getId());
-        System.out.println("Username: " + group1.getOwner().getUsername());
-        System.out.println("Email: " + group1.getOwner().getEmail());
-        System.out.println("Groups Owned: ");
+       group2.addGroupMember(group_member2); 
+       gm.updateGroup(group2); 
+       
+       group1.addGroupMember(group_member2);
+       gm.updateGroup(group1);
+     
+        System.out.println("After creation of user in table");
+        System.out.println("Owner ID: " + group1.getOwner().getId());
+        System.out.println("Owener Username: " + group1.getOwner().getUsername());
+        System.out.println("Owener Email: " + group1.getOwner().getEmail());
+        System.out.println("Owener Groups Owned: ");
         Collection<GroupsEntity> groupsOwned = group1.getOwner().getGroupsOwned();
         for (GroupsEntity element : groupsOwned) {
-            System.out.println(element.getName()); 
+            System.out.print(element.getName() + " "); 
         }
+        System.out.println();
         
-      
-       
-        
-        System.out.println("Groups Members: ");
+        System.out.println("Group Members: ");
         Collection<UsersEntity> groupMembers = group1.getGroupMembers();
         for (UsersEntity element : groupMembers) {
-            System.out.println(element.getUsername()); 
-            System.out.println("Groups joined: "); 
+            System.out.print(element.getUsername() + ": "); 
+            System.out.print("Groups joined: "); 
             
             Collection<GroupsEntity> groupsJoined = element.getGroupsJoined();
             for (GroupsEntity element2 : groupsJoined) {
-                System.out.println(element2.getName()); 
+                System.out.print(element2.getName() + " "); 
             }
+            System.out.println("");
         }
         
         

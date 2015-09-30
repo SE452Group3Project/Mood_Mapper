@@ -159,8 +159,6 @@ public class UsersEntity implements Serializable {
         this.lastName = lastName;
     }
 
-    
-     
     @XmlTransient
     public Collection<GroupsEntity> getGroupsOwned() {
         return groupsOwned;
