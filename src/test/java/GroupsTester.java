@@ -2,7 +2,6 @@
 import com.moodmapper.entity.GroupsEntity;
 import com.moodmapper.entity.UsersEntity;
 import com.moodmapper.manager.GroupsEntityJpaController;
-import com.moodmapper.manager.MoodMapperEntityManager;
 import com.moodmapper.manager.UsersEntityJpaController;
 import java.util.Collection;
 import javax.persistence.EntityManager;
@@ -22,11 +21,11 @@ import javax.persistence.Persistence;
 public class GroupsTester {
     
    private EntityManagerFactory emf; 
-    private EntityManager em;
+   private EntityManager em;
    private GroupsEntityJpaController gm; 
    private UsersEntityJpaController um; 
    
-   private MoodMapperEntityManager mmEntityManager; 
+   //private MoodMapperEntityManager mmEntityManager; 
    
    private GroupsEntity group1; 
    private GroupsEntity group2; 

@@ -2,9 +2,7 @@
 import com.moodmapper.entity.MoodStatusesEntity;
 import com.moodmapper.entity.UsersEntity;
 import com.moodmapper.manager.MoodStatusesEntityJpaController;
-import com.moodmapper.manager.MoodMapperEntityManager;
 import com.moodmapper.manager.UsersEntityJpaController;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -24,9 +22,6 @@ public class MoodStatusesTester {
   
    private MoodStatusesEntityJpaController msm; 
    private UsersEntityJpaController um; 
-   
-   private MoodMapperEntityManager mmEntityManager; 
-   
    private MoodStatusesEntity  moodStatus;
    private UsersEntity ownerId; 
 //   private final UsersEntity group_member1 = new UsersEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 

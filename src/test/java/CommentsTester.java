@@ -1,6 +1,8 @@
 import com.moodmapper.entity.CommentsEntity;
+import com.moodmapper.entity.MoodStatusesEntity;
 import com.moodmapper.entity.UsersEntity;
 import com.moodmapper.manager.CommentsEntityJpaController;
+import com.moodmapper.manager.MoodStatusesEntityJpaController;
 import com.moodmapper.manager.UsersEntityJpaController;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,20 +25,18 @@ public class CommentsTester {
    private CommentsEntity comment1;
    
    private UsersEntityJpaController um; 
+   private MoodStatusesEntityJpaController mm;
    private EntityManager users_em; 
    private EntityManagerFactory users_emf; 
-   private final UsersEntity ownerId = new UsersEntity(4, "huang6", "a1b2c3d4", "huang6@gmail.com");
+   private final UsersEntity ownerId = new UsersEntity(4, "huang11", "fhaklgkewalg", "agekwlfes@gmail.com");
+   private final MoodStatusesEntity moodId = new MoodStatusesEntity(1, ownerId, 4, "Happy", "A Reflective Paragraph Here.", 7, true);
    
    protected void setUp() throws Exception {
        emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU");
        em = emf.createEntityManager();
        cm = new CommentsEntityJpaController(emf);
-       
+       mm = new MoodStatusesEntityJpaController(emf);
        um = new UsersEntityJpaController(emf);
-       um.createUser(ownerId);
-       
-       //TODO need moodstatusentityjpacontroller in place of null
-       comment1 = new CommentsEntity(1, "new comment string", null, ownerId);
    }
    
    protected void close() throws Exception {
@@ -46,6 +46,10 @@ public class CommentsTester {
    }
    
    public void test() {
+       um.createUser(ownerId);
+       mm.createMoodStatus(moodId);
+       
+       comment1 = new CommentsEntity(1, "new comment string", moodId, ownerId);
        cm.createComment(comment1);
        System.out.println("After creation of comment in table");
        System.out.println("ID: " + comment1.getId());
