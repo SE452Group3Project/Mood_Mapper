@@ -5,7 +5,7 @@
  */
 package com.moodmapper.manager;
 
-import com.moodmapper.entity.UsersEntity;
+import com.moodmapper.entity.UserEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -16,31 +16,31 @@ import javax.persistence.Query;
  *
  * @author Suqing
  */
-public class UsersEntityJpaController implements Serializable {
+public class UserService implements Serializable {
 
     private EntityManager em;
 
-    public UsersEntityJpaController(EntityManagerFactory emf) {
+    public UserService(EntityManagerFactory emf) {
         em = emf.createEntityManager();
     }
 
-    public void createUser(UsersEntity user) {
+    public void createUser(UserEntity user) {
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
     }
 
-    public UsersEntity searchById(Integer id) {
-        return em.find(UsersEntity.class, id);
+    public UserEntity searchById(Integer id) {
+        return em.find(UserEntity.class, id);
     }
 
-    public void updateUser(UsersEntity user) {
+    public void updateUser(UserEntity user) {
         em.getTransaction().begin();
         em.merge(user);
         em.getTransaction().commit();
     }
 
-    public void removeUser(UsersEntity user) {
+    public void removeUser(UserEntity user) {
         em.getTransaction().begin();
         em.remove(user);
         em.getTransaction().commit();

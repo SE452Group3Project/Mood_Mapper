@@ -5,8 +5,8 @@
  */
 package com.moodmapper.manager;
 
-import com.moodmapper.entity.MoodStatusesEntity;
-import com.moodmapper.entity.UsersEntity;
+import com.moodmapper.entity.MoodStatusEntity;
+import com.moodmapper.entity.UserEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,32 +18,32 @@ import javax.persistence.Query;
  *
  * @author geoffbrown
  */
-public class MoodStatusesEntityJpaController implements Serializable {
+public class MoodStatusService implements Serializable {
     
     private EntityManager em;         
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU"); 
     
-    public MoodStatusesEntityJpaController(EntityManagerFactory emf) {
+    public MoodStatusService(EntityManagerFactory emf) {
         em = emf.createEntityManager(); 
     }
     
-    public void createMoodStatus(MoodStatusesEntity moodStatus) {
+    public void createMoodStatus(MoodStatusEntity moodStatus) {
         em.getTransaction().begin(); 
         em.persist(moodStatus); 
         em.getTransaction().commit(); 
     }
     
-    public MoodStatusesEntity searchById(Integer id){
-        return em.find(MoodStatusesEntity.class, id); 
+    public MoodStatusEntity searchById(Integer id){
+        return em.find(MoodStatusEntity.class, id); 
     }
     
-    public void updateMoodStatus(MoodStatusesEntity moodStatus) {
+    public void updateMoodStatus(MoodStatusEntity moodStatus) {
         em.getTransaction().begin(); 
         em.merge(moodStatus); 
         em.getTransaction().commit(); 
     }
     
-    public void removeMoodStatus(MoodStatusesEntity moodStatus) {
+    public void removeMoodStatus(MoodStatusEntity moodStatus) {
         em.getTransaction().begin(); 
         em.remove(moodStatus); 
         em.getTransaction().commit(); 

@@ -5,8 +5,8 @@
  */
 
 
-import com.moodmapper.manager.UsersEntityJpaController;
-import com.moodmapper.entity.UsersEntity;
+import com.moodmapper.manager.UserService;
+import com.moodmapper.entity.UserEntity;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,16 +18,16 @@ import javax.persistence.Persistence;
  */
 public class UsersTester {
 
-    private UsersEntityJpaController um;
+    private UserService um;
     private EntityManager em;
     private EntityManagerFactory emf;
-    private static final UsersEntity user1 = new UsersEntity(1, "huang1", "123", "123@123.com");
-    private static final UsersEntity user2 = new UsersEntity(2, "huang2", "1234", "1234@1234.com");
+    private static final UserEntity user1 = new UserEntity(1, "huang1", "123", "123@123.com");
+    private static final UserEntity user2 = new UserEntity(2, "huang2", "1234", "1234@1234.com");
 
     protected void setUp() throws Exception {
         emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU");
         em = emf.createEntityManager();
-        um = new UsersEntityJpaController(emf);
+        um = new UserService(emf);
     }
 
     protected void close() throws Exception {
@@ -38,7 +38,7 @@ public class UsersTester {
 
     public void test() {
         um.createUser(user1);
-        UsersEntity user = um.searchById(1);
+        UserEntity user = um.searchById(1);
         System.out.println("After creation of user in table");
         System.out.println("ID: " + user.getId());
         System.out.println("Username: " + user.getUsername());
@@ -58,7 +58,7 @@ public class UsersTester {
 
         System.out.println("Adding two more record");
         um.createUser(user2);
-        UsersEntity user3 = new UsersEntity(3, "huang3", "12345", "12345@12345.com");
+        UserEntity user3 = new UserEntity(3, "huang3", "12345", "12345@12345.com");
         um.createUser(user3);
         user3.setLastName("HUANG");
         um.createUser(user3);

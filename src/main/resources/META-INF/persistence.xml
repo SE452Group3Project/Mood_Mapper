@@ -2,12 +2,12 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.moodmapper.entity.UsersEntity</class>
-    <class>com.moodmapper.entity.GroupsEntity</class>
-    <class>com.moodmapper.entity.MoodStatusesEntity</class>
-    <class>com.moodmapper.entity.CommentsEntity</class>
     <class>com.moodmapper.entity.EntityObject</class>
     <class>MoodMapperService.MoodMapperService</class>
+    <class>com.moodmapper.entity.GroupEntity</class>
+    <class>com.moodmapper.entity.UserEntity</class>
+    <class>com.moodmapper.entity.CommentEntity</class>
+    <class>com.moodmapper.entity.MoodStatusEntity</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mood_mapper"/>

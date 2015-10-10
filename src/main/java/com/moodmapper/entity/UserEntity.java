@@ -8,8 +8,6 @@ package com.moodmapper.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,14 +36,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "USERS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UsersEntity.findAll", query = "SELECT u FROM UsersEntity u"),
-    @NamedQuery(name = "UsersEntity.findById", query = "SELECT u FROM UsersEntity u WHERE u.id = :id"),
-    @NamedQuery(name = "UsersEntity.findByUsername", query = "SELECT u FROM UsersEntity u WHERE u.username = :username"),
-    @NamedQuery(name = "UsersEntity.findByEmail", query = "SELECT u FROM UsersEntity u WHERE u.email = :email"),
-    @NamedQuery(name = "UsersEntity.findByPassword", query = "SELECT u FROM UsersEntity u WHERE u.password = :password"),
-    @NamedQuery(name = "UsersEntity.findByFirstName", query = "SELECT u FROM UsersEntity u WHERE u.firstName = :firstName"),
-    @NamedQuery(name = "UsersEntity.findByLastName", query = "SELECT u FROM UsersEntity u WHERE u.lastName = :lastName")})
-public class UsersEntity implements Serializable {
+    @NamedQuery(name = "UserEntity.findAll", query = "SELECT u FROM UserEntity u"),
+    @NamedQuery(name = "UserEntity.findById", query = "SELECT u FROM UserEntity u WHERE u.id = :id"),
+    @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
+    @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
+    @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT u FROM UserEntity u WHERE u.password = :password"),
+    @NamedQuery(name = "UserEntity.findByFirstName", query = "SELECT u FROM UserEntity u WHERE u.firstName = :firstName"),
+    @NamedQuery(name = "UserEntity.findByLastName", query = "SELECT u FROM UserEntity u WHERE u.lastName = :lastName")})
+public class UserEntity extends MMEntityService implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,27 +78,33 @@ public class UsersEntity implements Serializable {
     @Column(name = "last_name")
     private String lastName;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId")
-    private Collection<GroupsEntity> groupsOwned;
+    @OneToMany(orphanRemoval = true, mappedBy = "ownerId")
+    private Collection<GroupEntity> groupsOwned;
+    
+    @OneToMany(orphanRemoval = true, mappedBy = "user")
+    private Collection<CommentEntity> comments;
+    
+    @OneToMany(orphanRemoval = true, mappedBy = "user")
+    private Collection<MoodStatusEntity> moodStatuses;
     
     @JoinTable(name = "GROUP_MEMBERS", joinColumns = {
-        @JoinColumn(name = "group_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    private Collection<GroupsEntity> groupsJoined;
+        @JoinColumn(name = "user_id", referencedColumnName = "id")} , inverseJoinColumns = {
+        @JoinColumn(name = "group_id", referencedColumnName = "id")})
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private Collection<GroupEntity> groupsJoined;
 
-    public UsersEntity() {
+    public UserEntity() {
         this.groupsOwned = new ArrayList<>(); 
         this.groupsJoined = new ArrayList<>(); 
     }
 
-    public UsersEntity(Integer id) {
+    public UserEntity(Integer id) {
         this.id = id;
         this.groupsOwned = new ArrayList<>();
         this.groupsJoined = new ArrayList<>(); 
     }
 
-    public UsersEntity(Integer id, String username, String email, String password) {
+    public UserEntity(Integer id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -160,29 +164,53 @@ public class UsersEntity implements Serializable {
     }
 
     @XmlTransient
-    public Collection<GroupsEntity> getGroupsOwned() {
+    public Collection<GroupEntity> getGroupsOwned() {
         return groupsOwned;
     }
     
     @XmlTransient
-    public Collection<GroupsEntity> getGroupsJoined() {
+    public Collection<GroupEntity> getGroupsJoined() {
         return groupsJoined;
     }
     
+    public Collection<CommentEntity> getComments() {
+        return comments;
+    }
     
-    public void addGroupOwned(GroupsEntity group){
+    public void addComment(CommentEntity comment){
+        if (!getComments().contains(comment)){
+            this.comments.add(comment); 
+            comment.setUser(this);
+        }
+    }
+    
+    
+    public Collection<MoodStatusEntity> getMoodStatuses() {
+        return moodStatuses;
+    }
+    
+    public void addMoodStatus(MoodStatusEntity moodStatus){
+        if (!getMoodStatuses().contains(moodStatus)){
+            this.moodStatuses.add(moodStatus); 
+            moodStatus.setUser(this);
+        }
+    }
+    
+    public void addGroupOwned(GroupEntity group){
         if (!getGroupsOwned().contains(group)){
             this.groupsOwned.add(group); 
             group.setOwner(this);
         }
     }
     
-    public void addGroupJoined(GroupsEntity group){
+    public void addGroupJoined(GroupEntity group){
         if (!getGroupsJoined().contains(group)){
             this.groupsJoined.add(group); 
             group.addGroupMember(this);
         }
     }
+    
+  
     @Override
     public int hashCode() {
         int hash = 0;
@@ -193,19 +221,21 @@ public class UsersEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UsersEntity)) {
+        if (!(object instanceof UserEntity)) {
             return false;
         }
-        UsersEntity other = (UsersEntity) object;
+        UserEntity other = (UserEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
+    
+    
 
     @Override
     public String toString() {
-        return "com.moodmapper.entity.UsersEntity[ id=" + id + " ]";
+        return "com.moodmapper.entity.UserEntity[ id=" + id + " ]";
     }
     
 }

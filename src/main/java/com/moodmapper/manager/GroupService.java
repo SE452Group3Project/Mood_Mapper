@@ -5,12 +5,13 @@
  */
 package com.moodmapper.manager;
 
-import com.moodmapper.entity.GroupsEntity;
-import com.moodmapper.entity.UsersEntity;
+import com.moodmapper.entity.GroupEntity;
+import com.moodmapper.entity.UserEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -18,26 +19,42 @@ import javax.persistence.Query;
  *
  * @author faithfulokoye
  */
-public class GroupsEntityJpaController implements Serializable {
+public class GroupService implements Serializable {
     
     private EntityManager em;         
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU"); 
     
-    public GroupsEntityJpaController(EntityManagerFactory emf) {
+    public GroupService(EntityManagerFactory emf) {
         em = emf.createEntityManager(); 
     }
     
-    public void createGroup(GroupsEntity group) {
+//    public void saveGroup(GroupEntity group){
+//       EntityTransaction tx = em.getTransaction(); 
+//       
+//       tx.begin(); 
+//       GroupEntity groupToUpdate; 
+//       if((group.getId() != null) && (group.getId() > 0)) {
+//           groupToUpdate = em.find(GroupEntity.class, group.getId()); 
+//           groupToUpdate.setName(group.getName());
+//           groupToUpdate.setJoinCode(group.getJoinCode());
+//           groupToUpdate.setOwner(group.getOwner());
+//           groupToUpdate.
+//       }
+//       
+//    }
+    
+    
+    public void createGroup(GroupEntity group) {
         em.getTransaction().begin(); 
-        em.merge(group); 
+        em.persist(group); 
         em.getTransaction().commit(); 
     }
     
-    public GroupsEntity searchById(Integer id){
-        return em.find(GroupsEntity.class, id); 
+    public GroupEntity searchById(Integer id){
+        return em.find(GroupEntity.class, id); 
     }
     
-    public void updateGroup(GroupsEntity group) {
+    public void updateGroup(GroupEntity group) {
         em.getTransaction().begin(); 
         em.merge(group); 
         em.getTransaction().commit(); 
@@ -51,7 +68,7 @@ public class GroupsEntityJpaController implements Serializable {
         em.getTransaction().commit(); 
        
     }
-    public void removeGroup(GroupsEntity group) {
+    public void removeGroup(GroupEntity group) {
         em.getTransaction().begin(); 
         em.remove(group); 
         em.getTransaction().commit(); 
@@ -59,8 +76,8 @@ public class GroupsEntityJpaController implements Serializable {
     }
     
     public void setOwner(int groupId, int userId) {
-        GroupsEntity group = em.find(GroupsEntity.class, groupId); 
-        UsersEntity user = em.find(UsersEntity.class, userId);
+        GroupEntity group = em.find(GroupEntity.class, groupId); 
+        UserEntity user = em.find(UserEntity.class, userId);
         user.addGroupOwned(group);
       
     }

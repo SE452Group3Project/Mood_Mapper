@@ -8,6 +8,7 @@ package com.moodmapper.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,11 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "COMMENTS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CommentsEntity.findAll", query = "SELECT c FROM CommentsEntity c"),
-    @NamedQuery(name = "CommentsEntity.findById", query = "SELECT c FROM CommentsEntity c WHERE c.id = :id"),
-    @NamedQuery(name = "CommentsEntity.findByContent", query = "SELECT c FROM CommentsEntity c WHERE c.content = :content"),
-    @NamedQuery(name = "CommentsEntity.findByTimestamp", query = "SELECT c FROM CommentsEntity c WHERE c.time_stamp = :timestamp")})
-public class CommentsEntity implements Serializable {
+    @NamedQuery(name = "CommentEntity.findAll", query = "SELECT c FROM CommentEntity c"),
+    @NamedQuery(name = "CommentEntity.findById", query = "SELECT c FROM CommentEntity c WHERE c.id = :id"),
+    @NamedQuery(name = "CommentEntity.findByContent", query = "SELECT c FROM CommentEntity c WHERE c.content = :content"),
+    @NamedQuery(name = "CommentEntity.findByTimestamp", query = "SELECT c FROM CommentEntity c WHERE c.time_stamp = :timestamp")})
+public class CommentEntity extends MMEntityService implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -49,21 +50,21 @@ public class CommentsEntity implements Serializable {
     private Date time_stamp;
     
     @JoinColumn(name = "mood_status_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private MoodStatusesEntity moodStatus;
+    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    private MoodStatusEntity moodStatus;
     
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private UsersEntity user;
+    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    private UserEntity user;
 
-    public CommentsEntity() {
+    public CommentEntity() {
     }
 
-    public CommentsEntity(Integer id) {
+    public CommentEntity(Integer id) {
         this.id = id;
     }
     
-    public CommentsEntity(Integer id, String content, MoodStatusesEntity moodStatusId, UsersEntity userId) {
+    public CommentEntity(Integer id, String content, MoodStatusEntity moodStatusId, UserEntity userId) {
         this.id = id;
         this.content = content;
         this.moodStatus = moodStatusId;
@@ -94,20 +95,22 @@ public class CommentsEntity implements Serializable {
         this.time_stamp = timestamp;
     }
 
-    public MoodStatusesEntity getMoodStatus() {
+    public MoodStatusEntity getMoodStatus() {
         return moodStatus;
     }
 
-    public void setMoodStatus(MoodStatusesEntity moodStatus) {
+    public void setMoodStatus(MoodStatusEntity moodStatus) {
         this.moodStatus = moodStatus;
+        moodStatus.addComment(this);
     }
 
-    public UsersEntity getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(UsersEntity user) {
+    public void setUser(UserEntity user) {
         this.user = user;
+        user.addComment(this);
     }
 
     @Override
@@ -120,16 +123,16 @@ public class CommentsEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CommentsEntity)) {
+        if (!(object instanceof CommentEntity)) {
             return false;
         }
-        CommentsEntity other = (CommentsEntity) object;
+        CommentEntity other = (CommentEntity) object;
         return this.id.equals(other.id);
     }
 
     @Override
     public String toString() {
-        return "components.Comment[ id=" + id + " ]";
+        return "components.CommentEntity[ id=" + id + " ]";
     }
     
 }

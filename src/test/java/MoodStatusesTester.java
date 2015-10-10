@@ -1,8 +1,8 @@
 
-import com.moodmapper.entity.MoodStatusesEntity;
-import com.moodmapper.entity.UsersEntity;
-import com.moodmapper.manager.MoodStatusesEntityJpaController;
-import com.moodmapper.manager.UsersEntityJpaController;
+import com.moodmapper.entity.MoodStatusEntity;
+import com.moodmapper.entity.UserEntity;
+import com.moodmapper.manager.MoodStatusService;
+import com.moodmapper.manager.UserService;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -20,23 +20,23 @@ public class MoodStatusesTester {
     
    private EntityManagerFactory emf; 
   
-   private MoodStatusesEntityJpaController msm; 
-   private UsersEntityJpaController um; 
-   private MoodStatusesEntity  moodStatus;
-   private UsersEntity ownerId; 
-//   private final UsersEntity group_member1 = new UsersEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
-//   private final UsersEntity group_member2 = new UsersEntity(3, "jenny101", "23828937rdkdiwi", "2839dw797@23dkw89.com"); 
+   private MoodStatusService msm; 
+   private UserService um; 
+   private MoodStatusEntity  moodStatus;
+   private UserEntity ownerId; 
+//   private final UserEntity group_member1 = new UserEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
+//   private final UserEntity group_member2 = new UserEntity(3, "jenny101", "23828937rdkdiwi", "2839dw797@23dkw89.com"); 
    
    protected void setUp() throws Exception {
        emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU"); 
       
-       msm = new MoodStatusesEntityJpaController(emf);
-       um = new UsersEntityJpaController(emf); 
+       msm = new MoodStatusService(emf);
+       um = new UserService(emf); 
        
        
-       ownerId = new UsersEntity(7, "UniqueUserName7", "7dkfdjklfds", "7@77.com");
+       ownerId = new UserEntity(7, "UniqueUserName7", "7dkfdjklfds", "7@77.com");
        
-       moodStatus = new MoodStatusesEntity(7, ownerId, 7, "Happy", "A Reflective Paragraph Here.", 7, true);
+       moodStatus = new MoodStatusEntity(7, ownerId, 7, "Happy", "A Reflective Paragraph Here.", 7, true);
        
 
 
