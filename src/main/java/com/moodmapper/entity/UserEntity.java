@@ -87,10 +87,7 @@ public class UserEntity extends MMEntityService implements Serializable {
     @OneToMany(orphanRemoval = true, mappedBy = "user")
     private Collection<MoodStatusEntity> moodStatuses;
     
-    @JoinTable(name = "GROUP_MEMBERS", joinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")} , inverseJoinColumns = {
-        @JoinColumn(name = "group_id", referencedColumnName = "id")})
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy="groupMembers")
     private Collection<GroupEntity> groupsJoined;
 
     public UserEntity() {

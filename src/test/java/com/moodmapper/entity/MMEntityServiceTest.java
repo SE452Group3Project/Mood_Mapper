@@ -1,53 +1,69 @@
-
-import com.moodmapper.entity.CommentEntity;
-import com.moodmapper.entity.GroupEntity;
-import com.moodmapper.entity.MoodStatusEntity;
-import com.moodmapper.entity.UserEntity;
-import com.moodmapper.manager.GroupService;
-import com.moodmapper.manager.UserService;
-import java.util.Collection;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.moodmapper.entity;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Collection;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.sql.DataSource;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
  * @author faithfulokoye
  */
-public class GroupsTester {
+public class MMEntityServiceTest {
     
-   private EntityManagerFactory emf; 
-   private EntityManager em;
-   private GroupService gm; 
-   private UserService um; 
+    
+    private Connection con;
+    
+    private static EntityManagerFactory emf; 
+    private EntityManager em;
       
-   private GroupEntity group1; 
-   private GroupEntity group2; 
-   private UserEntity ownerId;
+   private static GroupEntity group1; 
+   private static GroupEntity group2; 
+   private static UserEntity ownerId;
    
-   private CommentEntity comment1; 
-   private MoodStatusEntity moodstatus1; 
+   private static CommentEntity comment1; 
+   private static MoodStatusEntity moodstatus1; 
  
-  private UserEntity group_member1 = new UserEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
-  private UserEntity group_member2 = new UserEntity(3, "jenny101", "23828937rdkdiwi", "2839dw797@23dkw89.com"); 
-   
-   protected void setUp() throws Exception {
-       emf = Persistence.createEntityManagerFactory("com.moodmapper_MoodMapper_war_1.0-SNAPSHOTPU"); 
-      
-       em = emf.createEntityManager();
-       gm = new GroupService(emf); 
-       um = new UserService(emf); 
-       
-       ownerId = new UserEntity(1, "huang10", "2333928dd", "2334@134dd4.com");
+  private static final UserEntity group_member1 = new UserEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
+  private static final UserEntity group_member2 = new UserEntity(3, "jenny101", "23828937rdkdiwi", "2839dw797@23dkw89.com"); 
+  
+    public MMEntityServiceTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+        emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+        ownerId = new UserEntity(1, "huang10", "2333928dd", "2334@134dd4.com");
        group1 = new GroupEntity(1, "friends", "dkslsjiewiou");
        group2 = new GroupEntity(2, "se452", "sklduwioeu"); 
        
+       em = emf.createEntityManager();
+
        moodstatus1 = new MoodStatusEntity(); 
        moodstatus1.setId(1);
        moodstatus1.setDescriptiveWord("great");
@@ -59,29 +75,31 @@ public class GroupsTester {
        comment1 = new CommentEntity(); 
        comment1.setContent("This is really inspirational");
        comment1.setId(1);
+    }
+    
+    @After
+    public void tearDown() {
+        emf.close();
         
-   }
-   
-   protected void close() throws Exception {
-       gm.close(); 
-       em.close();
-       emf.close(); 
-   }
-   
-   public void test() {
-       
- 
+    }
+
+    /**
+     * Test of save method, of class MMEntityService.
+     */
+    @Test
+    public void testSave() {
        ownerId.save(emf); 
 
        group1.setOwner(ownerId); 
        group2.setOwner(ownerId);
        
-       group_member1.save(emf);
-       group_member2.save(emf); 
-       
        group1.addGroupMember(group_member1);   
        group2.addGroupMember(group_member2); 
        group1.addGroupMember(group_member2);
+      
+      
+       group2.save(emf); 
+       group1.save(emf); 
        
        
        moodstatus1.setUser(group_member1);
@@ -91,9 +109,6 @@ public class GroupsTester {
        comment1.setUser(group_member2);
        comment1.save(emf); 
        
-      
-       group2.save(emf); 
-       group1.save(emf); 
    
        GroupEntity grouptest1 = em.find(GroupEntity.class, 1);   
        
@@ -162,26 +177,6 @@ public class GroupsTester {
             System.out.println("Reverse - Comment's Owner Username" + element.getUser().getUsername()); 
 
         }
-        
-     
-        
-        
-        
-        
-   }
-   
-   public static void main(String args[])
-   {
-       System.out.println("Inside TestJPA main"); 
-       GroupsTester testJPA = new GroupsTester(); 
-       try {
-           testJPA.setUp(); 
-           testJPA.test(); 
-           testJPA.close(); 
-       } catch (Exception e){
-           e.printStackTrace();
-       }
-       
-       System.out.println("End of TestJPA main"); 
-   }    
+    }
+    
 }
