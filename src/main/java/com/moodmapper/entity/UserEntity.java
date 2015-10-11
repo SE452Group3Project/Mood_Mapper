@@ -8,10 +8,15 @@ package com.moodmapper.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +27,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -39,7 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserEntity.findAll", query = "SELECT u FROM UserEntity u"),
     @NamedQuery(name = "UserEntity.findById", query = "SELECT u FROM UserEntity u WHERE u.id = :id"),
     @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
+    @NamedQuery(name = "UserEntity.findByUsernameAndPassword", query = "SELECT u FROM UserEntity u WHERE u.username = :username and u.password = :password"),
     @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
+    @NamedQuery(name = "UserEntity.findByEmailAndPassword", query = "SELECT u FROM UserEntity u WHERE u.email = :email and u.password = :password"),
     @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT u FROM UserEntity u WHERE u.password = :password"),
     @NamedQuery(name = "UserEntity.findByFirstName", query = "SELECT u FROM UserEntity u WHERE u.firstName = :firstName"),
     @NamedQuery(name = "UserEntity.findByLastName", query = "SELECT u FROM UserEntity u WHERE u.lastName = :lastName")})
@@ -54,14 +62,14 @@ public class UserEntity extends MMEntityService implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 16)
-    @Column(name = "username")
+    @Column(unique=true, name = "username")
     private String username;
     
     @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "email")
+    @Column(unique=true, name = "email")
     private String email;
     
     @Basic(optional = false)
@@ -206,6 +214,50 @@ public class UserEntity extends MMEntityService implements Serializable {
             group.addGroupMember(this);
         }
     }
+            
+    
+    
+    public boolean hasUniqueEmail(EntityManagerFactory emf){
+         EntityManager em; 
+        em = emf.createEntityManager();
+         return em.createNamedQuery("UserEntity.findByEmail")
+            .setParameter("email", this.email)
+            .getResultList().isEmpty();
+     }
+    
+    public boolean hasUniqueUsername(EntityManagerFactory emf){
+         EntityManager em; 
+        em = emf.createEntityManager();
+         return em.createNamedQuery("UserEntity.findByUsername")
+            .setParameter("username", this.username)
+            .getResultList().isEmpty();
+     }
+    
+    public static UserEntity loginByUserName(String username, String password, EntityManagerFactory emf){
+        
+        EntityManager em; 
+        em = emf.createEntityManager();
+        List<UserEntity> rs = em.createNamedQuery("UserEntity.findByUsernameAndPassword")
+            .setParameter("username", username)
+            .setParameter("password", password)
+            .getResultList();
+        
+        return ((rs.isEmpty()) ? null : rs.get(0));
+    }
+    
+    public static UserEntity loginByEmail(String email, String password, EntityManagerFactory emf){
+        EntityManager em; 
+        em = emf.createEntityManager();
+        List<UserEntity> rs = em.createNamedQuery("UserEntity.findByEmailAndPassword")
+            .setParameter("email", email)
+            .setParameter("password", password)
+            .getResultList();
+        
+        return ((rs.isEmpty()) ? null : rs.get(0));
+    }
+    
+    
+   
     
   
     @Override

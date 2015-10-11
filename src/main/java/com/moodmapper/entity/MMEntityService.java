@@ -16,6 +16,21 @@ import javax.persistence.EntityTransaction;
  */
 public class MMEntityService implements Serializable {
     
+    //If you want to create a new object only
+    //Use when you want to make sure it doesn't already exist in the database
+    public void create(EntityManagerFactory emf) {
+      EntityManager em; 
+      em = emf.createEntityManager();
+      EntityTransaction tx = em.getTransaction(); 
+       
+       tx.begin(); 
+       em.persist(this); 
+       tx.commit(); 
+       em.close(); 
+    }
+    
+    //If you want to create or update
+    //When you want to avoid errors when doing complex relationships
     public void save(EntityManagerFactory emf) {
       EntityManager em; 
       em = emf.createEntityManager();
@@ -26,5 +41,6 @@ public class MMEntityService implements Serializable {
        tx.commit(); 
        em.close(); 
     }
+    
     
 }

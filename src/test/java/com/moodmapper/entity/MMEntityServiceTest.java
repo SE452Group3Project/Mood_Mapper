@@ -57,6 +57,8 @@ public class MMEntityServiceTest {
     
     @Before
     public void setUp() {
+        
+        
         emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
         ownerId = new UserEntity(1, "huang10", "2333928dd", "2334@134dd4.com");
        group1 = new GroupEntity(1, "friends", "dkslsjiewiou");
