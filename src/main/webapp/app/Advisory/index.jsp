@@ -1,3 +1,10 @@
+<%-- 
+    Document   : index
+    Created on : Oct 13, 2015, 8:18:09 PM
+    Author     : Dave Messer
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!doctype html>
 <html>
@@ -19,7 +26,7 @@
     <!-- D3.js Library -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
-   <title>Mood Mapper | Create Group</title>
+   <title>Mood Mapper | Advisory</title>
 </head>
 <body>
     <!-- Uses a transparent header that draws on top of the layout's background -->
@@ -52,35 +59,51 @@
 </div>  
       <main class="mdl-layout__content">
         <div class="page-content">
-         <style>
-          .demo-card-square.mdl-card {
-            width: 320px;
-            height: 320px;
-          }
-          .demo-card-square > .mdl-card__title {
-            color: #fff;
-            background:
-              url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
-          }
-          </style>
-          <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
-            <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">Create Group</h2>
+         
+          <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
+            <div class="mdl-card__title">
+              <h2 class="mdl-card__title-text">Advisory</h2>
             </div>
-            <div class="mdl-card__supporting-text">
-              <form action="#">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="sample3" />
-                  <label class="mdl-textfield__label" for="sample3">Name of Group</label>
+              <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%;">
+              <tbody>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">Aaron
+                    <a href=""><i class="material-icons" style="float: right;"><i id="unfollow" class="material-icons">person</i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">Ben
+                    <a href=""><i class="material-icons" style="float: right;"><i id="unfollow1" class="material-icons">person</i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">Courtney
+                    <a href=""><i class="material-icons" style="float: right;"><i id="follow" class="material-icons">person_outline</i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">Dave
+                    <a href=""><i class="material-icons" style="float: right;"><i id="follow1" class="material-icons">person_outline</i></a>
+                  </td>
+                </tr>
+                
+                <div class="mdl-tooltip" for="unfollow">
+                Unfollow
                 </div>
-              </form>
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                Create
-              </a>
-            </div>
-          </div>
+                <div class="mdl-tooltip" for="unfollow1">
+                Unfollow
+                </div>
+                <div class="mdl-tooltip" for="follow">
+                Follow
+                </div>
+                <div class="mdl-tooltip" for="follow1">
+                Follow
+                </div>
+              </tbody>
+            </table>
+            <!-- Right aligned menu on top of button  -->
+            <div class=""></div>
+
         </div>
       </main>
       

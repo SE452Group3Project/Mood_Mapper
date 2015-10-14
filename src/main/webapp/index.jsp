@@ -1,5 +1,11 @@
+<%-- 
+    Document   : index
+    Created on : Oct 13, 2015, 8:15:08 PM
+    Author     : Dave Messer
+--%>
 
-<!doctype html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 
@@ -19,7 +25,7 @@
     <!-- D3.js Library -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
-   <title>Mood Mapper | Mood Maps</title>
+   <title>Mood Mapper | Home</title>
 </head>
 <body>
     <!-- Uses a transparent header that draws on top of the layout's background -->
@@ -30,49 +36,20 @@
     <span class="mdl-layout-title">Mood Mapper</span>
     <!-- Add spacer, to align navigation to the right -->
     <div class="mdl-layout-spacer"></div>
-    <!-- Navigation -->
-    <nav class="mdl-navigation">
-      <a href="/app/new-status/">
-      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
-        <i class="material-icons">add</i>
-      </button>
-    </a>
-    </nav>
   </div>
-</header>    <!-- Nav Drawer -->
-<div class="mdl-layout__drawer">
-  <span class="mdl-layout-title">Mood Mapper</span>
-  <nav class="mdl-navigation">
-    <a class="mdl-navigation__link" href="/app/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
-    <a class="mdl-navigation__link" href="/app/my-groups/"><i class="material-icons">people</i>My Groups</a>
-    <a class="mdl-navigation__link" href="/app/mood-maps/"><i class="material-icons">insert_chart</i>Mood Maps</a>
-    <a class="mdl-navigation__link" href="/app/new-status"><i class="material-icons">add_circle</i>New Status</a>
-    <a class="mdl-navigation__link" href=""><i class="material-icons">exit_to_app</i>Sign out</a>
-  </nav>
-</div>  
+</header>
       <main class="mdl-layout__content">
         <div class="page-content">
-         <style>
-          .demo-card-square.mdl-card {
-            width: 320px;
-            height: 320px;
-          }
-          .demo-card-square > .mdl-card__title {
-            color: #fff;
-            background:
-              url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
-          }
-          </style>
-          <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
-            <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">My Mood Maps</h2>
+            <div class="mdl-button mdl-js-button mdl-button--accent g-signin2" data-onsuccess="onSignIn"
+                 style="
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    ">
             </div>
-            
-          </div>
         </div>
       </main>
-      
-
 
       <script>function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();

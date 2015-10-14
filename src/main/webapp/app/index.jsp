@@ -1,4 +1,10 @@
+<%-- 
+    Document   : index
+    Created on : Oct 13, 2015, 8:17:02 PM
+    Author     : Dave Messer
+--%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html>
 <head>
