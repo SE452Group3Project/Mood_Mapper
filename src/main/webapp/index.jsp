@@ -4,40 +4,18 @@
     Author     : Dave Messer
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%
+String pageTitle = "Home";
+%>
 <!DOCTYPE html>
 <html>
-<head>
-
-   <meta charset="utf-8">
-   <meta name="google-signin-client_id" content="260435330613-uvlunbaam70iv523mmh5457gm4r8cc57.apps.googleusercontent.com">
-
-   <!-- Google OAuth -->
-   <script src="https://apis.google.com/js/platform.js" async defer></script>
-
-   <!-- Material Design Lite -->
-   <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
-   <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.blue_grey-blue.min.css" /> 
-
-   <!-- Material Design icon font -->
-   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-    <!-- D3.js Library -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-
-   <title>Mood Mapper | Home</title>
-</head>
+<jsp:include page="/WEB-INF/inc/head.jsp" flush="true">
+    <jsp:param name="pageTitle" value="<%=pageTitle%>" />
+</jsp:include>
 <body>
-    <!-- Uses a transparent header that draws on top of the layout's background -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" style="background: url('http://images.adsttc.com/media/images/54da/8b55/e58e/cecb/5300/0066/large_jpg/08__Intrinsic_School_Steve_Hall_Hedrich_Blessing_Photography.jpg?1423608643') center / cover">    <!-- Nav Bar -->
-<header class="mdl-layout__header mdl-layout__header--fixed">
-  <div class="mdl-layout__header-row">
-    <!-- Title -->
-    <span class="mdl-layout-title">Mood Mapper</span>
-    <!-- Add spacer, to align navigation to the right -->
-    <div class="mdl-layout-spacer"></div>
-  </div>
-</header>
+    <jsp:include page="WEB-INF/inc/background.jsp"/>
+    <jsp:include page="WEB-INF/inc/navbarhome.jsp"/>
       <main class="mdl-layout__content">
         <div class="page-content">
             <div class="mdl-button mdl-js-button mdl-button--accent g-signin2" data-onsuccess="onSignIn"
