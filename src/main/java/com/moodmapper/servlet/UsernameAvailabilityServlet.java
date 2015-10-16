@@ -6,11 +6,9 @@
 package com.moodmapper.servlet;
 
 import com.moodmapper.entity.UserEntity;
+import com.sun.media.jfxmedia.logging.Logger;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.logging.Logger;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.ServletException;
@@ -23,24 +21,18 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author faithfulokoye
  */
-@WebServlet("/signup")
-public class SignUpServlet extends HttpServlet {
-    
-    public SignUpServlet(){
-        super(); 
-    }
+ 
+@WebServlet("/username_availability")
+public class UsernameAvailabilityServlet extends HttpServlet {
     
     private static EntityManagerFactory emf; 
-    private EntityManager em;
     private static UserEntity user; 
     
     @Override
     public void init() {
       emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
-      em = emf.createEntityManager(); 
-      user = new UserEntity(); 
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       response.setContentType("text/html"); 
@@ -48,28 +40,12 @@ public class SignUpServlet extends HttpServlet {
       PrintWriter out = response.getWriter(); 
       
       String username = request.getParameter("username"); 
-      String password = request.getParameter("password"); 
-      String email = request.getParameter("email"); 
       
-      user.setUsername(username);
-      user.setPassword(password);
-      user.setEmail(email);
+      boolean result = UserEntity.hasUniqueUsername(username, emf); 
       
-     
-      if (user.hasUniqueEmail(emf)) {
-          if (user.hasUniqueUsername(emf)) {
-                 try {
-                    user.create(emf);
-                    out.println("Account created successfully. Please activate your account."); 
-                 } catch (Exception e){
-                     Logger.getLogger(Arrays.toString(e.getStackTrace())); 
-                 }
-          } else {
-              out.println("Username has already been taken."); 
-          }
-      } else {
-          out.println("Email already exists"); 
-      }
+      Logger.logMsg(1, Boolean.toString(result));
+      
+      out.print(result); 
      
       
     }

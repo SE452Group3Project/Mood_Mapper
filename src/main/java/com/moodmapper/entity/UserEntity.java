@@ -233,6 +233,15 @@ public class UserEntity extends MMEntityService implements Serializable {
             .getResultList().isEmpty();
      }
     
+    public static boolean hasUniqueUsername(String username, EntityManagerFactory emf){
+        
+        EntityManager em; 
+        em = emf.createEntityManager();
+         return em.createNamedQuery("UserEntity.findByUsername")
+            .setParameter("username", username)
+            .getResultList().isEmpty();
+    }
+    
     public static UserEntity loginByUserName(String username, String password, EntityManagerFactory emf){
         
         EntityManager em; 

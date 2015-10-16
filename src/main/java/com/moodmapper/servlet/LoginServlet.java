@@ -54,15 +54,15 @@ public class LoginServlet extends HttpServlet {
       PrintWriter out = response.getWriter(); 
       
       
-      String usernameOrEmail = request.getParameter("username"); 
+      String emailOrUsername = request.getParameter("emailOrUsername"); 
       String password = request.getParameter("password"); 
      
      
-      if (EmailValidator.validate(usernameOrEmail)) {
-          String email = usernameOrEmail; 
+      if (EmailValidator.validate(emailOrUsername)) {
+          String email = emailOrUsername; 
           user = UserEntity.loginByEmail(email, password, emf); 
       } else {
-           String username = usernameOrEmail; 
+           String username = emailOrUsername; 
             user = UserEntity.loginByUserName(username, password, emf); 
       }
       
