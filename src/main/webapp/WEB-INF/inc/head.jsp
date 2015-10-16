@@ -1,5 +1,4 @@
-<!doctype html>
-<html>
+<!-- Header -->
 <head>
 
    <meta charset="utf-8">
@@ -18,5 +17,5 @@
     <!-- D3.js Library -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
-	 <title>Mood Mapper | <?php echo $pageTitle; ?></title>
+	 <title>Mood Mapper | <%=request.getParameter("pageTitle")%></title>
 </head>
