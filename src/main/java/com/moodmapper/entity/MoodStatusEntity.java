@@ -35,15 +35,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "MOOD_STATUSES")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MoodStatusesEntity.findAll", query = "SELECT m FROM MoodStatusesEntity m"),
-    @NamedQuery(name = "MoodStatusesEntity.findById", query = "SELECT m FROM MoodStatusesEntity m WHERE m.id = :id"),
-    @NamedQuery(name = "MoodStatusesEntity.findByTimestamp", query = "SELECT m FROM MoodStatusesEntity m WHERE m.time_stamp = :timestamp"),
-    @NamedQuery(name = "MoodStatusesEntity.findByPleasantnessRating", query = "SELECT m FROM MoodStatusesEntity m WHERE m.pleasantnessRating = :pleasantnessRating"),
-    @NamedQuery(name = "MoodStatusesEntity.findByDescriptiveWord", query = "SELECT m FROM MoodStatusesEntity m WHERE m.descriptiveWord = :descriptiveWord"),
-    @NamedQuery(name = "MoodStatusesEntity.findByReflectiveParagraph", query = "SELECT m FROM MoodStatusesEntity m WHERE m.reflectiveParagraph = :reflectiveParagraph"),
-    @NamedQuery(name = "MoodStatusesEntity.findByEnergyRating", query = "SELECT m FROM MoodStatusesEntity m WHERE m.energyRating = :energyRating"),
-    @NamedQuery(name = "MoodStatusesEntity.findByIsPrivate", query = "SELECT m FROM MoodStatusesEntity m WHERE m.isPrivate = :isPrivate")})
-public class MoodStatusesEntity implements Serializable {
+    @NamedQuery(name = "MoodStatusEntity.findAll", query = "SELECT m FROM MoodStatusEntity m"),
+    @NamedQuery(name = "MoodStatusEntity.findById", query = "SELECT m FROM MoodStatusEntity m WHERE m.id = :id"),
+    @NamedQuery(name = "MoodStatusEntity.findByTimestamp", query = "SELECT m FROM MoodStatusEntity m WHERE m.time_stamp = :timestamp"),
+    @NamedQuery(name = "MoodStatusEntity.findByPleasantnessRating", query = "SELECT m FROM MoodStatusEntity m WHERE m.pleasantnessRating = :pleasantnessRating"),
+    @NamedQuery(name = "MoodStatusEntity.findByDescriptiveWord", query = "SELECT m FROM MoodStatusEntity m WHERE m.descriptiveWord = :descriptiveWord"),
+    @NamedQuery(name = "MoodStatusEntity.findByReflectiveParagraph", query = "SELECT m FROM MoodStatusEntity m WHERE m.reflectiveParagraph = :reflectiveParagraph"),
+    @NamedQuery(name = "MoodStatusEntity.findByEnergyRating", query = "SELECT m FROM MoodStatusEntity m WHERE m.energyRating = :energyRating"),
+    @NamedQuery(name = "MoodStatusEntity.findByIsPrivate", query = "SELECT m FROM MoodStatusEntity m WHERE m.isPrivate = :isPrivate")})
+public class MoodStatusEntity extends MMEntityService implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -71,24 +71,24 @@ public class MoodStatusesEntity implements Serializable {
     @Column(name = "is_private")
     private Boolean isPrivate;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "moodStatus")
-    private Set<CommentsEntity> commentsEntity;
+    @OneToMany(orphanRemoval = true, mappedBy = "moodStatus")
+    private Set<CommentEntity> comments;
     
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private UsersEntity user;
+    @ManyToOne(cascade = CascadeType.MERGE,  optional = false)
+    private UserEntity user;
 
-    public MoodStatusesEntity() {
+    public MoodStatusEntity() {
     }
 
-    public MoodStatusesEntity(Integer id) {
+    public MoodStatusEntity(Integer id) {
         this.id = id;
     }
     
-    public MoodStatusesEntity(Integer id, UsersEntity userId, Integer pleasantnessRating, String descrWord, String rParagraph, Integer eRating, Boolean isPrivate) {
+    public MoodStatusEntity(Integer id, UserEntity userId, Integer pleasantnessRating, String descrWord, String rParagraph, Integer eRating, Boolean isPrivate) {
         this.id = id;
         this.user = userId;
-        //this.time_stamp = new Date();
+//        this.time_stamp = new Date();
         this.pleasantnessRating = pleasantnessRating;
         this.descriptiveWord = descrWord;
         this.reflectiveParagraph = rParagraph;
@@ -153,20 +153,24 @@ public class MoodStatusesEntity implements Serializable {
     }
 
     @XmlTransient
-    public Set<CommentsEntity> getComments() {
-        return commentsEntity;
+    public Set<CommentEntity> getComments() {
+        return comments;
+    }
+    
+    public void addComment(CommentEntity comment){
+        if (!getComments().contains(comment)){
+            this.comments.add(comment); 
+            comment.setMoodStatus(this);
+        }
     }
 
-    public void setComments(Set<CommentsEntity> commentsEntity) {
-        this.commentsEntity = commentsEntity;
-    }
-
-    public UsersEntity getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(UsersEntity user) {
+    public void setUser(UserEntity user) {
         this.user = user;
+        user.addMoodStatus(this); 
     }
 
     @Override
@@ -179,10 +183,10 @@ public class MoodStatusesEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MoodStatusesEntity)) {
+        if (!(object instanceof MoodStatusEntity)) {
             return false;
         }
-        MoodStatusesEntity other = (MoodStatusesEntity) object;
+        MoodStatusEntity other = (MoodStatusEntity) object;
         return this.id.equals(other.id);
     }
 
