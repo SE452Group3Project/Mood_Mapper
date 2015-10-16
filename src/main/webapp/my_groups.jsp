@@ -29,7 +29,7 @@ String pageTitle = "My Groups";
               <tbody>
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric">Advisory
-                    <a href="/app/advisory/"><i class="material-icons" style="float: right;">chevron_right</i></a>
+                    <a href="advisory.jsp"><i class="material-icons" style="float: right;">chevron_right</i></a>
                   </td>
                 </tr>
                 <tr>
@@ -44,12 +44,12 @@ String pageTitle = "My Groups";
                 </tr>
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric">Create Group
-                    <a href="/app/create-group/"><i class="material-icons" style="float: right;">add</i></a>
+                    <a href="create_group.jsp"><i class="material-icons" style="float: right;">add</i></a>
                   </td>
                 </tr>
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric">Join Group
-                    <a href="/app/join-group/"><i class="material-icons" style="float: right;">group_add</i></a>
+                    <a href="join_group.jsp"><i class="material-icons" style="float: right;">group_add</i></a>
                   </td>
                 </tr>
               </tbody>
