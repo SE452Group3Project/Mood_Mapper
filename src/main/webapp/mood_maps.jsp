@@ -1,12 +1,12 @@
 <%-- 
     Document   : index
-    Created on : Oct 13, 2015, 8:19:36 PM
+    Created on : Oct 13, 2015, 8:20:13 PM
     Author     : Dave Messer
 --%>
 
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
-String pageTitle = "Join Group";
+String pageTitle = "Mood Maps";
 %>
 <!DOCTYPE html>
 <html>
@@ -14,9 +14,9 @@ String pageTitle = "Join Group";
     <jsp:param name="pageTitle" value="<%=pageTitle%>" />
 </jsp:include>
 <body>
-    <jsp:include page="WEB-INF/inc/background.jsp"/>
-    <jsp:include page="WEB-INF/inc/navbar.jsp"/>
-    <jsp:include page="WEB-INF/inc/navdrawer.jsp"/>
+    <jsp:include page="/WEB-INF/inc/background.jsp"/>
+    <jsp:include page="/WEB-INF/inc/navbar.jsp"/>
+    <jsp:include page="/WEB-INF/inc/navdrawer.jsp"/>
 
       <main class="mdl-layout__content">
         <div class="page-content">
@@ -33,21 +33,9 @@ String pageTitle = "Join Group";
           </style>
           <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">Join Group</h2>
+              <h2 class="mdl-card__title-text">My Mood Maps</h2>
             </div>
-            <div class="mdl-card__supporting-text">
-              <form action="#">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="sample3" />
-                  <label class="mdl-textfield__label" for="sample3">Join Code</label>
-                </div>
-              </form>
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="float: right;">
-                Join
-              </button>
-            </div>
+            
           </div>
         </div>
       </main>

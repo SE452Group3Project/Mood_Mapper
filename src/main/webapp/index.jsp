@@ -14,8 +14,8 @@ String pageTitle = "Home";
     <jsp:param name="pageTitle" value="<%=pageTitle%>" />
 </jsp:include>
 <body>
-    <jsp:include page="WEB-INF/inc/background.jsp"/>
-    <jsp:include page="WEB-INF/inc/navbarhome.jsp"/>
+    <jsp:include page="/WEB-INF/inc/background.jsp"/>
+    <jsp:include page="/WEB-INF/inc/navbarhome.jsp"/>
       <main class="mdl-layout__content">
         <div class="page-content">
             <div class="mdl-button mdl-js-button mdl-button--accent g-signin2" data-onsuccess="onSignIn"
