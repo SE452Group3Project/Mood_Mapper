@@ -27,9 +27,17 @@ String pageTitle = "My Groups";
             </div>
               <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%;">
               <tbody>
+                <!-- Template for each group listing with text of the group name
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">GroupName
+                    <a href="group.jsp"><i class="material-icons" style="float: right;">chevron_right</i></a>
+                  </td>
+                </tr>
+                -->
+                  
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric">Advisory
-                    <a href="advisory.jsp"><i class="material-icons" style="float: right;">chevron_right</i></a>
+                    <a href="group.jsp"><i class="material-icons" style="float: right;">chevron_right</i></a>
                   </td>
                 </tr>
                 <tr>
