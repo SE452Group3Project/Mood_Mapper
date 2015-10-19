@@ -1,12 +1,12 @@
 <%-- 
     Document   : index
-    Created on : Oct 13, 2015, 8:20:13 PM
+    Created on : Oct 13, 2015, 8:15:08 PM
     Author     : Dave Messer
 --%>
 
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
-String pageTitle = "Mood Maps";
+String pageTitle = "Home";
 %>
 <!DOCTYPE html>
 <html>
@@ -15,32 +15,27 @@ String pageTitle = "Mood Maps";
 </jsp:include>
 <body>
     <jsp:include page="/WEB-INF/inc/background.jsp"/>
-    <jsp:include page="/WEB-INF/inc/navbar.jsp"/>
-    <jsp:include page="/WEB-INF/inc/navdrawer.jsp"/>
-
+    <jsp:include page="/WEB-INF/inc/navbarhome.jsp"/>
       <main class="mdl-layout__content">
         <div class="page-content">
-         <style>
-          .demo-card-square.mdl-card {
-            width: 320px;
-            height: 320px;
-          }
-          .demo-card-square > .mdl-card__title {
-            color: #fff;
-            background:
-              url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
-          }
-          </style>
-          <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
-            <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">My Mood Maps</h2>
+            <div class="mdl-button mdl-js-button mdl-button--accent g-signin2" data-onsuccess="onSignIn"
+                 style="
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    ">
             </div>
-            
-          </div>
+            <a class="mdl-button mdl-js-button mdl-button--accent" href="signup.jsp"
+               style="
+                    position: fixed;
+                    background-color: #fff;
+                    top: 60%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    ">Signup/Login</a>
         </div>
       </main>
-      
-
 
       <script>function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
@@ -49,7 +44,7 @@ String pageTitle = "Mood Maps";
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
       }</script>
-
+      
     </div>
   </body>
 </body>

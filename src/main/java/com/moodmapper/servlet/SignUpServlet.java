@@ -36,7 +36,7 @@ public class SignUpServlet extends HttpServlet {
     
     @Override
     public void init() {
-      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+      emf = Persistence.createEntityManagerFactory("MoodMapperDevPU--noDataSource"); 
       em = emf.createEntityManager(); 
       user = new UserEntity(); 
     }

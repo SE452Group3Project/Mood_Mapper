@@ -9,19 +9,19 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="css/styles.css" media="screen" charset="utf-8" />
+        <link rel="stylesheet" href="/css/signup.css" media="screen" charset="utf-8" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
-        <script src="js/app.js"></script>
+        <script src="/js/signup.js"></script>
         <title>Sign-Up Form</title>
     </head>
     <!-- Google Login -->
-
+<!--
     <div class="google-login">
         <a href="#" ><img src="http://app.dynamiccreative.com/assets/google-plus-sign-in-connect-1d4043fc5b3dc76beb2663e8e70cc1b1.jpg" width="100%"/></a>
-    </div>
+    </div>-->
     <!--Google Login-->
-    <div class="form-wrap" ng-app="loginOrSignUpForm">
+    <div id="registration" class="form-wrap" ng-app="loginOrSignUpForm">
 
         <div class="tabs">
 

@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
     
 
     public void init() {
-      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+      emf = Persistence.createEntityManagerFactory("MoodMapperDevPU--noDataSource"); 
       em = emf.createEntityManager(); 
       user = new UserEntity(); 
     }

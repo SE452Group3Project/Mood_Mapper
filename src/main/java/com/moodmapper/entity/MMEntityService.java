@@ -20,6 +20,7 @@ public class MMEntityService implements Serializable {
     //Use when you want to make sure it doesn't already exist in the database
     public void create(EntityManagerFactory emf) {
       EntityManager em; 
+      
       em = emf.createEntityManager();
       EntityTransaction tx = em.getTransaction(); 
        

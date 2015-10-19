@@ -5,7 +5,7 @@
  */
 
 jQuery(document).ready(function($) {
-	tab = $('.tabs h3 a');
+	tab = $('#registration .tabs h3 a');
 
 	tab.on('click', function(event) {
 		event.preventDefault();
@@ -81,26 +81,6 @@ app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
     };
   
   $scope.submit = console.log($scope.formData); 
-//function() {
-//  $http({
-//  method  : 'POST',
-//  url     : 'login',
-//  data    : $.param($scope.formData),  // pass in data as strings
-//  headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-// })
-//  .success(function(data) {
-//    console.log(data);
-//
-//    if (!data.success) {
-//      // if not successful, bind errors to error variables
-//      $scope.errorName = data.errors.name;
-//      $scope.errorSuperhero = data.errors.superheroAlias;
-//    } else {
-//      // if successful, bind success message to message
-//      $scope.message = data.message;
-//    }
-//  });
-//};
 
     $scope.reset();
   }]);
@@ -117,7 +97,7 @@ app.directive('usernameAvailable', function($q, $timeout, $http) {
           return $q.when();
         }
 
-          return $http.get('usernameavailability?username='+ modelValue).then(function(res){
+          return $http.get('/usernameavailability?username='+ modelValue).then(function(res){
           $timeout(function(){
             ctrl.$setValidity('usernameExists', res.data == 'true'); 
           }, 1000);

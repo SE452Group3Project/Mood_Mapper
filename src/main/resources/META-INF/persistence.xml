@@ -15,7 +15,7 @@
       <property name="eclipselink.logging.level" value="FINE"/>
     </properties>
   </persistence-unit>
-  <persistence-unit name="MoodMapperTestPU--noDataSource" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="MoodMapperDevPU--noDataSource" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.moodmapper.entity.EntityObject</class>
     <class>MoodMapperService.MoodMapperService</class>
@@ -26,11 +26,11 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.canonicalmodel.subpackage" value="two"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mood_mappertestdb"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mood_mapper"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value=""/>
-<!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+      <!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
       <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_ddlGeneration.jdbc"/>
       <property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_ddlGeneration.jdbc"/>
       <property name="eclipselink.ddl-generation.output-mode" value="both"/>

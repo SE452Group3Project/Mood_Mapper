@@ -11,12 +11,12 @@ String pageTitle = "Create Group";
 <!DOCTYPE html>
 <html>
 <jsp:include page="/WEB-INF/inc/head.jsp" flush="true">
-    <jsp:param name="pageTitle" value="<%=pageTitle%>" />
+    <jsp:param name="pageTitle" value="" />
 </jsp:include>
 <body>
-    <jsp:include page="WEB-INF/inc/background.jsp"/>
-    <jsp:include page="WEB-INF/inc/navbar.jsp"/>
-    <jsp:include page="WEB-INF/inc/navdrawer.jsp"/>
+    <jsp:include page="/WEB-INF/inc/background.jsp"/>
+    <jsp:include page="/WEB-INF/inc/navbar.jsp"/>
+    <jsp:include page="/WEB-INF/inc/navdrawer.jsp"/>
   
       <main class="mdl-layout__content">
         <div class="page-content">

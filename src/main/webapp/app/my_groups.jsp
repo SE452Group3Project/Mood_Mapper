@@ -14,9 +14,9 @@ String pageTitle = "My Groups";
     <jsp:param name="pageTitle" value="<%=pageTitle%>" />
 </jsp:include>
 <body>
-    <jsp:include page="WEB-INF/inc/background.jsp"/>
-    <jsp:include page="WEB-INF/inc/navbar.jsp"/>
-    <jsp:include page="WEB-INF/inc/navdrawer.jsp"/>
+    <jsp:include page="/WEB-INF/inc/background.jsp"/>
+    <jsp:include page="/WEB-INF/inc/navbar.jsp"/>
+    <jsp:include page="/WEB-INF/inc/navdrawer.jsp"/>
   
       <main class="mdl-layout__content">
         <div class="page-content">
