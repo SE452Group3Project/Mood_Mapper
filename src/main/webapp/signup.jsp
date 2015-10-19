@@ -17,9 +17,9 @@
     </head>
     <!-- Google Login -->
 
-    <div class="google-login">
+<!--    <div class="google-login">
         <a href="#" ><img src="http://app.dynamiccreative.com/assets/google-plus-sign-in-connect-1d4043fc5b3dc76beb2663e8e70cc1b1.jpg" width="100%"/></a>
-    </div>
+    </div>-->
     <!--Google Login-->
     <div class="form-wrap" ng-app="loginOrSignUpForm">
 

@@ -26,6 +26,14 @@ String pageTitle = "Home";
                     transform: translate(-50%, -50%);
                     ">
             </div>
+            <a class="mdl-button mdl-js-button mdl-button--accent" href="signup.jsp"
+               style="
+                    position: fixed;
+                    background-color: #fff;
+                    top: 60%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    ">Signup/Login</a>
         </div>
       </main>
 
