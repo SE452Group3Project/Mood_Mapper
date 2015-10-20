@@ -150,7 +150,8 @@ public class GroupEntity extends MMEntityService implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (name != null ? name.hashCode() : 0);
+        hash += (ownerId != null ? ownerId.hashCode() : 0); 
         return hash;
     }
 
@@ -161,9 +162,15 @@ public class GroupEntity extends MMEntityService implements Serializable {
             return false;
         }
         GroupEntity other = (GroupEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
+        
+        if (this.name != other.name ) {
+            return false; 
         }
+        
+        if (this.ownerId != other.ownerId) {
+            return false; 
+        }
+        
         return true;
     }
 

@@ -27,9 +27,7 @@ import org.junit.Test;
  */
 public class MMEntityServiceTest {
     
-    
-    private Connection con;
-    
+        
     private static EntityManagerFactory emf; 
     private EntityManager em;
       
