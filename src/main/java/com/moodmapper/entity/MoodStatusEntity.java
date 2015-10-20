@@ -192,7 +192,12 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
 
     @Override
     public String toString() {
-        return "components.MoodStatusesEntity[ id=" + id + " timeStamp=" + time_stamp + "]";
+        return "components.MoodStatusesEntity[ id=" + id 
+                + " pleasantnessRating=" + pleasantnessRating 
+                + " energyRating=" + energyRating
+                + " descriptiveWord=" + descriptiveWord
+                + " reflectiveParagraph=" + reflectiveParagraph
+                + " timeStamp=" + time_stamp + "]";
     }
     
 }
