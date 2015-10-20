@@ -73,10 +73,14 @@ public class GroupEntity extends MMEntityService implements Serializable {
   
     public GroupEntity() {
         this.groupMembers = new ArrayList<>(); 
+        this.joinCode = newJoinCode();
+
     }
     
     public GroupEntity(Integer id){
         this.groupMembers = new ArrayList<>(); 
+        this.joinCode = newJoinCode();
+
     }
     
     public GroupEntity(Integer id, String name) {

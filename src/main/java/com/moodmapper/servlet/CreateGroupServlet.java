@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.moodmapper.entity.GroupEntity;
+import com.moodmapper.entity.UserEntity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 
 /**
@@ -22,6 +26,15 @@ import javax.servlet.RequestDispatcher;
 @WebServlet(name = "CreateGroupServlet", urlPatterns = {"/CreateGroupServlet"})
 public class CreateGroupServlet extends HttpServlet {
 
+    
+    private static EntityManagerFactory emf; 
+    private EntityManager em;
+    
+    @Override
+    public void init() {
+      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+      em = emf.createEntityManager(); 
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -77,10 +90,16 @@ public class CreateGroupServlet extends HttpServlet {
         
         // get parameters from the request
         String groupName = request.getParameter("groupName");
-        Integer ownerID = 1234;
+        UserEntity ownerID = new UserEntity();
+        ownerID.setEmail("email@email.com");
+        ownerID.setFirstName("ownerName");
         
         // create a new Group object
-        GroupEntity newGroup = new GroupEntity(ownerID, groupName);
+        GroupEntity newGroup = new GroupEntity();
+        newGroup.setName(groupName);
+        newGroup.setOwner(ownerID); 
+        
+        newGroup.save(emf); 
         
         // store Group object in the request object
         request.setAttribute("newGroup", newGroup);
