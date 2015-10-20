@@ -58,13 +58,23 @@ public class MMEntityServiceTest {
     @Before
     public void setUp() {
         
+        try {
+                   emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+
+
+       } catch( Exception e){
+           e.printStackTrace();
+       }
         
-        emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
         ownerId = new UserEntity(1, "huang10", "2333928dd", "2334@134dd4.com");
-       group1 = new GroupEntity(1, "friends", "dkslsjiewiou");
-       group2 = new GroupEntity(2, "se452", "sklduwioeu"); 
+       group1 = new GroupEntity(1, "friends");
+       group2 = new GroupEntity(2, "se452"); 
        
-       em = emf.createEntityManager();
+       
+       
+                         em = emf.createEntityManager();
+
+       
 
        moodstatus1 = new MoodStatusEntity(); 
        moodstatus1.setId(1);

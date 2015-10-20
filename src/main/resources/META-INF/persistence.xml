@@ -23,6 +23,7 @@
     <class>com.moodmapper.entity.UserEntity</class>
     <class>com.moodmapper.entity.CommentEntity</class>
     <class>com.moodmapper.entity.MoodStatusEntity</class>
+    <class>com.moodmapper.entity.SchoolEntity</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.canonicalmodel.subpackage" value="two"/>
@@ -30,10 +31,11 @@
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value=""/>
-      <!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
       <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_ddlGeneration.jdbc"/>
       <property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_ddlGeneration.jdbc"/>
       <property name="eclipselink.ddl-generation.output-mode" value="both"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
   <persistence-unit name="MoodMapperTestPU" transaction-type="RESOURCE_LOCAL">

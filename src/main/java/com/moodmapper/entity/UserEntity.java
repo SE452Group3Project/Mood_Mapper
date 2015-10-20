@@ -23,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -97,6 +98,10 @@ public class UserEntity extends MMEntityService implements Serializable {
     
     @ManyToMany(mappedBy="groupMembers")
     private Collection<GroupEntity> groupsJoined;
+    
+    @JoinColumn(name = "school_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.MERGE,  optional = false)
+    private SchoolEntity schoolId; 
 
     public UserEntity() {
         this.groupsOwned = new ArrayList<>(); 

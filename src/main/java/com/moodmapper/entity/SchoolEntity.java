@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -17,9 +18,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -40,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "SchoolEntity.findAll", query = "SELECT c FROM SchoolEntity c"),
     @NamedQuery(name = "SchoolEntity.findById", query = "SELECT c FROM SchoolEntity c WHERE c.id = :id"),
-    @NamedQuery(name = "SchoolEntity.findBySchoolName", query = "SELECT c from SchoolEntity c WHERE c.schoolName = :schoolName"),
+    @NamedQuery(name = "SchoolEntity.findByName", query = "SELECT c from SchoolEntity c WHERE c.name = :name"),
     @NamedQuery(name = "SchoolEntity.findByCity", query = "SELECT c from SchoolEntity c WHERE c.city = :city"),
     @NamedQuery(name = "SchoolEntity.findByState", query = "SELECT c from SchoolEntity c WHERE c.state = :state"),
     @NamedQuery(name = "SchoolEntity.findByZip", query = "SELECT c from SchoolEntity c WHERE c.zip = :zip"),
@@ -63,15 +61,15 @@ public class SchoolEntity extends MMEntityService implements Serializable {
         serialVersionUID = aSerialVersionUID;
     }
     @Id
-    @Column(name = "school_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer schoolID;
+    private Integer id;
     
     @Basic(optional = false)
     @NotNull
     @Size(min=1, max=45)
-    @Column(name = "school_name")
-    private String schoolName;
+    @Column(name = "name")
+    private String name;
     
     @Basic(optional = false)
     @NotNull
@@ -91,21 +89,23 @@ public class SchoolEntity extends MMEntityService implements Serializable {
     @Column(name = "zip")
     private Integer zip;
     
-    @OneToMany(orphanRemoval = true, mappedBy = "school_id")
+    @OneToMany(mappedBy = "schoolId")
     private Collection<UserEntity> schoolUsers;
+    
+    
 
     public SchoolEntity(){
         this.schoolUsers = new ArrayList<>();
     }
     
     public SchoolEntity(Integer id){
-        this.schoolID = id;
+        this.id = id;
         this.schoolUsers = new ArrayList<>();
     }
     
     public SchoolEntity(Integer schoolID, String schoolName, String city, String state, Integer zip){
-        this.schoolID = schoolID;
-        this.schoolName = schoolName;
+        this.id = schoolID;
+        this.name = schoolName;
         this.city = city;
         this.state = state;
         this.zip = zip;
@@ -113,17 +113,17 @@ public class SchoolEntity extends MMEntityService implements Serializable {
     }
     
     public Integer getSchoolID() {
-        return schoolID;
+        return id;
     }
 
     public void setSchoolID(Integer id) {
-        this.schoolID = id;
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (schoolID != null ? schoolID.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -134,7 +134,7 @@ public class SchoolEntity extends MMEntityService implements Serializable {
             return false;
         }
         SchoolEntity other = (SchoolEntity) object;
-        if ((this.schoolID == null && other.schoolID != null) || (this.schoolID != null && !this.schoolID.equals(other.schoolID))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -142,21 +142,21 @@ public class SchoolEntity extends MMEntityService implements Serializable {
 
     @Override
     public String toString() {
-        return "com.moodmapper.entity.SchoolEntity[ id=" + schoolID + " ]";
+        return "com.moodmapper.entity.SchoolEntity[ id=" + id + " ]";
     }
 
     /**
      * @return the schoolName
      */
-    public String getSchoolName() {
-        return schoolName;
+    public String getName() {
+        return name;
     }
 
     /**
      * @param schoolName the schoolName to set
      */
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
+    public void setName(String schoolName) {
+        this.name = schoolName;
     }
 
     /**
