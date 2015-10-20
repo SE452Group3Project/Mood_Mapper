@@ -6,6 +6,7 @@
 package com.moodmapper.entity;
 
 import java.io.Serializable;
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -78,17 +79,17 @@ public class GroupEntity extends MMEntityService implements Serializable {
         this.groupMembers = new ArrayList<>(); 
     }
     
-    public GroupEntity(Integer id, String name, String joinCode) {
+    public GroupEntity(Integer id, String name) {
         this.id = id; 
         this.name = name; 
-        this.joinCode = joinCode; 
+        this.joinCode = newJoinCode();
         this.groupMembers = new ArrayList<>(); 
     }
     
-    public GroupEntity(Integer id, String name, String joinCode, UserEntity OwnerId) {
+    public GroupEntity(Integer id, String name, UserEntity OwnerId) {
         this.id = id; 
         this.name = name; 
-        this.joinCode = joinCode; 
+        this.joinCode = newJoinCode();
         this.ownerId = OwnerId; 
         this.groupMembers = new ArrayList<>(); 
     }
@@ -165,6 +166,10 @@ public class GroupEntity extends MMEntityService implements Serializable {
     @Override
     public String toString() {
         return "com.moodmapper.entity.GroupEntity[ id=" + id + " ]";
+    }
+
+    private String newJoinCode() {
+        return Long.toHexString(Double.doubleToLongBits(Math.random()));
     }
     
 }

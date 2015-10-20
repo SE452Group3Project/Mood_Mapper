@@ -5,8 +5,11 @@
 --%>
 
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.moodmapper.entity.GroupEntity" %>
+<% GroupEntity newGroup = (GroupEntity) request.getAttribute("newGroup"); %>
+
 <%
-String pageTitle = "Create Group";
+String pageTitle = "New Group Confirmation";
 %>
 <!DOCTYPE html>
 <html>
@@ -33,18 +36,8 @@ String pageTitle = "Create Group";
           </style>
           <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">Create Group</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-              <form action="CreateGroupServlet" method="post">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="groupName" name="groupName" required />
-                  <label class="mdl-textfield__label" for="groupName">Name of Group</label>
-                </div>
-                 <div class="mdl-card__actions mdl-card--border">
-                    <input type="submit" value="Create" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                 </div>
-              </form>
+                <h2 class="mdl-card__title-text"><%= newGroup.getName() %></h2>
+                <h2 class="mdl-card__title-text">Join Code s<%= newGroup.getJoinCode() %></h2>
             </div>
           </div>
         </div>
