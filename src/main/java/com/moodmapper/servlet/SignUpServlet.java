@@ -63,10 +63,10 @@ public class SignUpServlet extends HttpServlet {
                     user.create(emf);
                     HttpSession session = request.getSession(); 
                     session.setAttribute("user", user); 
-                    String url = "/user_profile.jsp";
+                    session.setAttribute("notice", "Account created successfully. Please activate your account.");
+                    String url = "home.jsp";
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
                     dispatcher.forward(request, response);
-                    out.println("Account created successfully. Please activate your account."); 
                  } catch (Exception e){
                      Logger.getLogger(Arrays.toString(e.getStackTrace())); 
                  }

@@ -8,10 +8,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
+    
+    String notice = ""; 
     if (request.getSession().getAttribute("user") != null) {
         out.print("You are already logged in"); 
-        response.sendRedirect("./home.jsp");
-    } 
+        response.sendRedirect("home.jsp");
+    } else {
+       if (session.getAttribute("notice") != null){
+           notice = (String) session.getAttribute("notice");
+       }
+
+    }
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +37,10 @@
         <a href="#" ><img src="http://app.dynamiccreative.com/assets/google-plus-sign-in-connect-1d4043fc5b3dc76beb2663e8e70cc1b1.jpg" width="100%"/></a>
     </div>-->
     <!--Google Login-->
+    <div class="notice"><%= (notice.isEmpty()) ? "" : notice %> </div>
+
     <div class="form-wrap" ng-app="loginOrSignUpForm">
+        
 
         <div class="tabs">
 
