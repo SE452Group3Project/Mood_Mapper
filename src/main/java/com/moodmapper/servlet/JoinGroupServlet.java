@@ -57,10 +57,10 @@ public class JoinGroupServlet extends HttpServlet {
       
       //Get the join code and find the group that corresponds to it
       String joinCode = request.getParameter("joinCode");
-      Query findByJoinCode = em.createNamedQuery("GroupEntity.findByJoinCode");
-      findByJoinCode.setParameter("joinCode", joinCode);
-      List groups = findByJoinCode.getResultList();
-      System.out.println("groups are" + groups);
+      Query findByJoinCode = em.createNamedQuery("GroupEntity.findByJoinCode")
+        .setParameter("joinCode", joinCode);
+      GroupEntity group = (GroupEntity) findByJoinCode.getResultList().get(0);
+      out.println("groups are" + group.getName());
       //GroupEntity group = (GroupEntity)groups.get(0);
       
       //TOD get the user using the session
