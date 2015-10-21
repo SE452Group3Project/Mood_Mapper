@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
      } else {
          HttpSession session = request.getSession(); 
          session.setAttribute("user", user); 
-         out.println("Login was successful"); 
+         session.setAttribute("notice","Login was successful"); 
          String url = "/home.jsp";
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);

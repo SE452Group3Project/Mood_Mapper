@@ -62,10 +62,11 @@ public class LogoutServlet extends HttpServlet {
         response.setContentType("text/html");  
             PrintWriter out=response.getWriter();  
                             
-            HttpSession session=request.getSession();  
-            session.invalidate();  
-              
-            out.print("You are successfully logged out!");  
+            HttpSession session=request.getSession(); 
+            session.setAttribute("user", null);
+            session.setAttribute("notice", "You are successfully logged out!");
+            response.sendRedirect("signup.jsp");
+
               
             out.close();  
     }

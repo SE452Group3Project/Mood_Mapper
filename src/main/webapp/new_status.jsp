@@ -6,7 +6,6 @@
 
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.moodmapper.entity.UserEntity"%>
-<%@page import="javax.servlet.http.HttpSession;"%>
 <%
     String pageTitle = "New Status";
     UserEntity user = null;

@@ -10,12 +10,20 @@
 <%
     String pageTitle = "App";
     UserEntity user = null;
+    String notice = ""; 
     if (session.getAttribute("user") != null) {
-        user = (UserEntity)session.getAttribute("user");  
+        user = (UserEntity)session.getAttribute("user"); 
+        if (session.getAttribute("notice") != null){
+               notice = (String) session.getAttribute("notice");
+
+        }
+
     } else {
-        out.println("Please login first"); 
+        session.setAttribute("notice", "Please login first"); 
         response.sendRedirect("signup.jsp");
     }
+    
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -28,7 +36,11 @@
     <jsp:include page="/WEB-INF/inc/navdrawer.jsp"/>
 
       <main class="mdl-layout__content">
+
         <div class="page-content">
+                    <div class="notice" style="margin: 0 auto; text-align: center; color: #fff;"><%= (notice.isEmpty()) ? "" : notice %> </div>
+
+            
           <div class="demo-card-wide mdl-shadow--2dp mdl-cell" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px; background-color: white; ">
             <h3>Welcome <%= (user != null) ? user.getUsername() : "!" %></h3>
           </div>
