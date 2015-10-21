@@ -7,7 +7,7 @@
     <div class="mdl-layout-spacer"></div>
     <!-- Navigation -->
     <nav class="mdl-navigation">
-      <a href="new-status.jsp">
+      <a href="new_status.jsp">
       <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
         <i class="material-icons">add</i>
       </button>
