@@ -15,11 +15,13 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -59,23 +61,32 @@ public class LoginServlet extends HttpServlet {
      
      
       if (EmailValidator.validate(emailOrUsername)) {
+          out.println("logging with email");
           String email = emailOrUsername; 
           user = UserEntity.loginByEmail(email, password, emf); 
+          out.println("User " + user);
       } else {
+           out.println("logging with username");
            String username = emailOrUsername; 
-            user = UserEntity.loginByUserName(username, password, emf); 
+            user = UserEntity.loginByUserName(username, password, emf);
+          out.println("User " + user);
       }
       
      if (user == null){
-         out.println("Username/Email and password do not match."); 
+         out.print("Username/Email and password do not match.");
+          request.setAttribute("error", "Username/Email and password do not match.");
+          response.sendError(403, "Username/Email and password do not match.");
      } else {
+         HttpSession session = request.getSession(); 
+         session.setAttribute("user", user); 
          out.println("Login was successful"); 
+         String url = "/user_profile.jsp";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
      }
       
-    
+     out.close();
 
-      
-      
       
       
     }

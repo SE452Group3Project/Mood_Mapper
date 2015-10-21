@@ -112,40 +112,29 @@ public class SchoolEntity extends MMEntityService implements Serializable {
         this.schoolUsers = new ArrayList<>();
     }
     
-    public Integer getSchoolID() {
+    public Integer getID() {
         return id;
     }
 
-    public void setSchoolID(Integer id) {
+    public void setID(Integer id) {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    
+    
+    
+    public Collection<UserEntity> getSchoolUsers() {
+        return schoolUsers;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SchoolEntity)) {
-            return false;
+    
+    public void addSchoolUser(UserEntity user){
+        if (!getSchoolUsers().contains(user)){
+            this.schoolUsers.add(user); 
+            user.setSchoolId(this);
         }
-        SchoolEntity other = (SchoolEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
-
-    @Override
-    public String toString() {
-        return "com.moodmapper.entity.SchoolEntity[ id=" + id + " ]";
-    }
-
-    /**
+    
+     /**
      * @return the schoolName
      */
     public String getName() {
@@ -201,10 +190,33 @@ public class SchoolEntity extends MMEntityService implements Serializable {
         this.zip = zip;
     }
     
-    /**
-     * @return the schoolUsers
-     */
-    public Collection<UserEntity> getSchoolUsers(){
-        return schoolUsers;
+    
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof SchoolEntity)) {
+            return false;
+        }
+        SchoolEntity other = (SchoolEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.moodmapper.entity.SchoolEntity[ id=" + id + " ]";
+    }
+
+   
+   
 }

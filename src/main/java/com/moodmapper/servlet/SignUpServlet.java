@@ -13,11 +13,13 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -54,12 +56,16 @@ public class SignUpServlet extends HttpServlet {
       user.setUsername(username);
       user.setPassword(password);
       user.setEmail(email);
-      
      
       if (user.hasUniqueEmail(emf)) {
           if (user.hasUniqueUsername(emf)) {
                  try {
                     user.create(emf);
+                    HttpSession session = request.getSession(); 
+                    session.setAttribute("user", user); 
+                    String url = "/user_profile.jsp";
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
                     out.println("Account created successfully. Please activate your account."); 
                  } catch (Exception e){
                      Logger.getLogger(Arrays.toString(e.getStackTrace())); 

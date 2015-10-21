@@ -4,7 +4,18 @@
     Author     : faithfulokoye
 --%>
 
+<%@page import="com.moodmapper.entity.UserEntity"%>
+<%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<% 
+    if (request.getSession().getAttribute("user") != null) {
+    out.print("You are already logged in"); 
+    response.sendRedirect("user_profile.jsp");
+    } 
+
+
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -60,7 +71,7 @@
                     <input 
                         type="password" 
                         name="password" 
-                        ng-model="password" 
+                        ng-model="user.password" 
                         class="input" 
                         id="user_pass" 
                         autocomplete="off" 
@@ -125,7 +136,7 @@
 
                     <input 
                         type="text" 
-                        ng-model="user.name" 
+                        ng-model="user.username" 
                         username-available 
                         ng-model-options="{ updateOn: 'blur' }"
                         ng-pattern="/[a-z0-9_]+/i"

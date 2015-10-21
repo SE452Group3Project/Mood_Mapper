@@ -172,6 +172,15 @@ public class UserEntity extends MMEntityService implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    
+    public SchoolEntity getSchoolId(){
+        return this.schoolId;
+    }
+    
+    public void setSchoolId(SchoolEntity school) {
+        this.schoolId = school; 
+        school.addSchoolUser(this);
+    }
 
     @XmlTransient
     public Collection<GroupEntity> getGroupsOwned() {

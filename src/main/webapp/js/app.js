@@ -22,87 +22,46 @@ jQuery(document).ready(function($) {
 (function(angular) {
   'use strict';
 var app = angular.module('loginOrSignUpForm', []); 
-app.controller('SignUpController', ['$scope', '$http', function($scope, $http) {  
-  //$scope.master = {}; 
-  $scope.formData = {}; 
-
-
-    $scope.update = function(user) {
-      $scope.formData = angular.copy(user);
-    };
-
-    $scope.reset = function(form) {
-      if (form) {
-        form.$setPristine();
-        form.$setUntouched();
-      }
-      $scope.user = angular.copy($scope.formData);
-    };
+app.controller('SignUpController', ['$scope', '$http', '$location', function($scope, $http, $location) {  
+  $scope.user = {}; 
   
   $scope.submit = function() {
-      
+
+      console.log("posting data....");
+        console.log($.param($scope.user)); 
   $http({
   method  : 'POST',
   url     : 'signup',
-  data    : $.param($scope.formData),  // pass in data as strings
+  data    : $.param($scope.user),  // pass in data as strings
   headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
  })
   .success(function(data) {
     console.log(data);
-
-    if (!data.success) {
-      // if not successful, bind errors to error variables
-      $scope.errorName = data.errors.name;
-      $scope.errorSuperhero = data.errors.superheroAlias;
-    } else {
-      // if successful, bind success message to message
-      $scope.message = data.message;
-    }
+     window.location = 'user_profile.jsp';
   });
 };
 
-    $scope.reset();
   }]);
-app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
-    //$scope.master = {};
-     $scope.formData = {}; 
+app.controller('LoginController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+    $scope.user = {};
 
+  $scope.submit = function() {
 
-    $scope.update = function(user) {
-      $scope.formData = angular.copy(user);
-    };
+      console.log("posting data....");
+        console.log($.param($scope.user)); 
+  $http({
+  method  : 'POST',
+  url     : 'login',
+  data    : $.param($scope.user),  // pass in data as strings
+  headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+ })
+  .success(function(data) {
+    console.log(data);
+     window.location = 'user_profile.jsp';
 
-    $scope.reset = function(form) {
-      if (form) {
-        form.$setPristine();
-        form.$setUntouched();
-      }
-      $scope.user = angular.copy($scope.formData);
-    };
-  
-  $scope.submit = console.log($scope.formData); 
-//function() {
-//  $http({
-//  method  : 'POST',
-//  url     : 'login',
-//  data    : $.param($scope.formData),  // pass in data as strings
-//  headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-// })
-//  .success(function(data) {
-//    console.log(data);
-//
-//    if (!data.success) {
-//      // if not successful, bind errors to error variables
-//      $scope.errorName = data.errors.name;
-//      $scope.errorSuperhero = data.errors.superheroAlias;
-//    } else {
-//      // if successful, bind success message to message
-//      $scope.message = data.message;
-//    }
-//  });
-//};
+  });
+};
 
-    $scope.reset();
   }]);
 app.directive('usernameAvailable', function($q, $timeout, $http) {
   return { 
