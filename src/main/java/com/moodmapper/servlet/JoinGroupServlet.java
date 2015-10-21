@@ -53,22 +53,18 @@ public class JoinGroupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       response.setContentType("text/html"); 
       out = response.getWriter(); 
-      //session = request.getSession(true);
+      session = request.getSession(true);
       
-      //Get the join code and find the group that corresponds to it
+      //get the join code and find the group that corresponds to it
       String joinCode = request.getParameter("joinCode");
-      Query findByJoinCode = em.createNamedQuery("GroupEntity.findByJoinCode")
-        .setParameter("joinCode", joinCode);
+      Query findByJoinCode = em.createNamedQuery("GroupEntity.findByJoinCode").setParameter("joinCode", joinCode);
       GroupEntity group = (GroupEntity) findByJoinCode.getResultList().get(0);
-      out.println("groups are" + group.getName());
-      //GroupEntity group = (GroupEntity)groups.get(0);
       
-      //TOD get the user using the session
-      //user = 
+      //get the user using the session
+      UserEntity user = (UserEntity) session.getAttribute("user");
       
-      //For testing purposes, remove when done
-      UserEntity user = new UserEntity(2, "jenny", "23828937rdk", "2839797@2389.com");
-      //group.addGroupMember(user); 
-      //group.save(emf);
+      //add current user to that group
+      group.addGroupMember(user); 
+      group.save(emf);
     }
 }

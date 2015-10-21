@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -90,9 +91,11 @@ public class CreateGroupServlet extends HttpServlet {
         
         // get parameters from the request
         String groupName = request.getParameter("groupName");
-        UserEntity ownerID = new UserEntity();
-        ownerID.setEmail("email@email.com");
-        ownerID.setFirstName("ownerName");
+//        UserEntity ownerID = new UserEntity();
+//        ownerID.setEmail("email@email.com");
+//        ownerID.setFirstName("ownerName");
+        HttpSession session = request.getSession(true);
+        UserEntity ownerID = (UserEntity) session.getAttribute("user");
         
         // create a new Group object
         GroupEntity newGroup = new GroupEntity();
