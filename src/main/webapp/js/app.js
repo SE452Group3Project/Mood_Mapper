@@ -67,7 +67,6 @@ app.directive('usernameAvailable', function($q, $timeout, $http) {
   return { 
     require: 'ngModel',
     link: function(scope, elm, attrs, ctrl) {
-      var usernames = ['Jim', 'John', 'Jill', 'Jackie'];
 
       ctrl.$asyncValidators.username = function(modelValue, viewValue) {
 
@@ -79,6 +78,29 @@ app.directive('usernameAvailable', function($q, $timeout, $http) {
           return $http.get('usernameavailability?username='+ modelValue).then(function(res){
           $timeout(function(){
             ctrl.$setValidity('usernameExists', res.data == 'true'); 
+          }, 1000);
+        }); 
+      };
+      
+    }
+  };
+});
+
+app.directive('emailAvailable', function($q, $timeout, $http) {
+  return { 
+    require: 'ngModel',
+    link: function(scope, elm, attrs, ctrl) {
+
+      ctrl.$asyncValidators.email = function(modelValue, viewValue) {
+
+        if (ctrl.$isEmpty(modelValue)) {
+          // consider empty model valid
+          return $q.when();
+        }
+
+          return $http.get('email_availability?email='+ modelValue).then(function(res){
+          $timeout(function(){
+            ctrl.$setValidity('emailExists', res.data == 'true'); 
           }, 1000);
         }); 
       };

@@ -11,7 +11,7 @@
     if (session.getAttribute("user") != null) {
     user = (UserEntity)session.getAttribute("user");  
 } else {
-    out.println("Please login first"); 
+    session.setAttribute("notice", "Please login first");
     response.sendRedirect("signup.jsp");
 }
 

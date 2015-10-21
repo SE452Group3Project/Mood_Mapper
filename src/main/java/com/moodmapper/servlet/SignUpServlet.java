@@ -63,18 +63,31 @@ public class SignUpServlet extends HttpServlet {
                     user.create(emf);
                     HttpSession session = request.getSession(); 
                     session.setAttribute("user", user); 
-                    String url = "/user_profile.jsp";
+                    session.setAttribute("notice", "Account created successfully. Please activate your account.");
+                    String url = "home.jsp";
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
                     dispatcher.forward(request, response);
-                    out.println("Account created successfully. Please activate your account."); 
                  } catch (Exception e){
                      Logger.getLogger(Arrays.toString(e.getStackTrace())); 
+                     HttpSession session = request.getSession(); 
+                    session.setAttribute("error", "There was an error processing your request");
+                    String url = "/signup.jsp";
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
                  }
           } else {
-              out.println("Username has already been taken."); 
+              HttpSession session = request.getSession(); 
+            session.setAttribute("error", "Username has already been taken.");
+            String url = "/signup.jsp";
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+            dispatcher.forward(request, response);
           }
       } else {
-          out.println("Email already exists"); 
+          HttpSession session = request.getSession(); 
+          session.setAttribute("error", "Email already exists");
+          String url = "/signup.jsp";
+          RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+          dispatcher.forward(request, response);
       }
      
       

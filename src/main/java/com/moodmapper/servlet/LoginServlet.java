@@ -73,13 +73,15 @@ public class LoginServlet extends HttpServlet {
       }
       
      if (user == null){
-         out.print("Username/Email and password do not match.");
-          request.setAttribute("error", "Username/Email and password do not match.");
-          response.sendError(403, "Username/Email and password do not match.");
+           HttpSession session = request.getSession(); 
+          session.setAttribute("error", "Username/Email and password do not match.");
+          String url = "/signup.jsp";
+           RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+           dispatcher.forward(request, response);
      } else {
          HttpSession session = request.getSession(); 
          session.setAttribute("user", user); 
-         out.println("Login was successful"); 
+         session.setAttribute("notice","Login was successful"); 
          String url = "/home.jsp";
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);

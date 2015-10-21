@@ -8,10 +8,26 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
+    
+    String notice = ""; 
+    String error = ""; 
     if (request.getSession().getAttribute("user") != null) {
         out.print("You are already logged in"); 
-        response.sendRedirect("./home.jsp");
-    } 
+        response.sendRedirect("home.jsp");
+    } else {
+       if (session.getAttribute("notice") != null){
+           notice = (String) session.getAttribute("notice");
+           
+       }
+       
+       if (session.getAttribute("error") != null){
+           error = (String) session.getAttribute("error"); 
+           notice = "";
+       }
+       
+
+    }
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +45,11 @@
         <a href="#" ><img src="http://app.dynamiccreative.com/assets/google-plus-sign-in-connect-1d4043fc5b3dc76beb2663e8e70cc1b1.jpg" width="100%"/></a>
     </div>-->
     <!--Google Login-->
+    <div class="notice"><%= notice %> </div>
+    <div class="notice error"><%= error %> </div>
+
     <div class="form-wrap" ng-app="loginOrSignUpForm">
+        
 
         <div class="tabs">
 
@@ -113,6 +133,7 @@
                     <input 
                         type="email" 
                         ng-model="user.email" 
+                        email-available
                         name="email" 
                         class="input" 
                         id="user_email" 
@@ -129,6 +150,14 @@
                         <span 
                             ng-show="form.email.$error.email">This is not a valid email.
                         </span>
+                        
+                    </div>
+                    <div class="error" 
+                         ng-show="form.email.$touched">
+
+                           <span ng-show="form.email.$pending">Checking if this email is available...</span>
+                        <span
+                            ng-show="form.email.$error.emailExists">This email is already being used!</span>
                     </div>
 
                     <input 
