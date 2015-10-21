@@ -47,6 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserEntity.findById", query = "SELECT u FROM UserEntity u WHERE u.id = :id"),
     @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
     @NamedQuery(name = "UserEntity.findByUsernameAndPassword", query = "SELECT u FROM UserEntity u WHERE u.username = :username and u.password = :password"),
+    @NamedQuery(name = "UserEntity.searchByUsername", query = "SELECT u FROM UserEntity u WHERE u.username LIKE :username"),
     @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
     @NamedQuery(name = "UserEntity.findByEmailAndPassword", query = "SELECT u FROM UserEntity u WHERE u.email = :email and u.password = :password"),
     @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT u FROM UserEntity u WHERE u.password = :password"),
