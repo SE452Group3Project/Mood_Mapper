@@ -256,6 +256,15 @@ public class UserEntity extends MMEntityService implements Serializable {
             .getResultList().isEmpty();
     }
     
+    public static boolean hasUniqueEmail(String email, EntityManagerFactory emf){
+        
+        EntityManager em; 
+        em = emf.createEntityManager();
+         return em.createNamedQuery("UserEntity.findByEmail")
+            .setParameter("email", email)
+            .getResultList().isEmpty();
+    }
+    
     public static UserEntity loginByUserName(String username, String password, EntityManagerFactory emf){
         
         EntityManager em; 
