@@ -15,13 +15,13 @@ import java.util.Enumeration;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 public class AddStatusServlet extends HttpServlet {
 
     private EntityManagerFactory emf;  
-    private EntityManager em;
-   
+    //private EntityManager em;
+    private UserEntity user;
 
     @Override
     public void init()
@@ -40,8 +40,10 @@ public class AddStatusServlet extends HttpServlet {
         super.init(); 
         
         emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
-        em = emf.createEntityManager();
+        //em = emf.createEntityManager();
     }
+
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -55,52 +57,44 @@ public class AddStatusServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //processRequest(request, response);
+//        HttpSession session = request.getSession();
+//        
+//        user = (UserEntity)session.getAttribute("user");
+//        
+//        response.setContentType("text/html");
+//        PrintWriter out = response.getWriter();
         
-       
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        
-        Enumeration<String> params = request.getParameterNames();
-        String[] result = new String[5];
-        int index = 0;
-        while(params.hasMoreElements()) {
-            String paramKey = params.nextElement();
-            //out.println(paramKey);
-            
-            //String[] result = request.getParameterValues(paramKey);
-            String[] keys = request.getParameterValues(paramKey);
-            for(int i = 0; i < keys.length; i++) {
-                result[index] = keys[0];
-            }
-            index++;
-        }
-        for(int i = 0; i < 5; i++) {
-            out.println(result[i]);
-        }
+        int energyRating = Integer.parseInt(request.getParameter("energy_level"));
+        int pleasantnessRating = Integer.parseInt(request.getParameter("pleasantness_level"));
+        String describeWord = request.getParameter("describe_word");
+        String reason = request.getParameter("reason");
+        String isPrivate = request.getParameter("is_private");
    
-        UserEntity group_member1 = new UserEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
-        
+        //UserEntity group_member1 = new UserEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
         
         MoodStatusEntity status = new MoodStatusEntity();
         
         // temp id value 
         //status.setUser(group_member1);
         status.setId(1);
-        status.setEnergyRating(Integer.parseInt(result[0]));
-        status.setPleasantnessRating(Integer.parseInt(result[1]));
-        status.setDescriptiveWord(result[2]);
-        status.setReflectiveParagraph(result[3]);
+        status.setEnergyRating(energyRating);
+        status.setPleasantnessRating(pleasantnessRating);
+        status.setDescriptiveWord(describeWord);
+        status.setReflectiveParagraph(reason);
         
-        if(result[4] == "on")
+        if(isPrivate == "on")
             status.setIsPrivate(Boolean.TRUE);
         else status.setIsPrivate(Boolean.FALSE);
-        Date date = new Date();
-        status.setTimeStamp(new Timestamp(date.getTime()));
         
-        out.println(status.toString());
+        status.setTimeStamp(new Timestamp(System.currentTimeMillis()));
         
-        status.save(emf);
-        emf.close();
+        //sout.println(status.toString());
+        
+        status.create(emf);
+        
+        //out.println(user);
+        
+        //response.sendRedirect("./mood_maps.jsp");
     }
     
     @Override

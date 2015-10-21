@@ -80,7 +80,7 @@ public class LoginServlet extends HttpServlet {
          HttpSession session = request.getSession(); 
          session.setAttribute("user", user); 
          out.println("Login was successful"); 
-         String url = "/user_profile.jsp";
+         String url = "/home.jsp";
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
      }

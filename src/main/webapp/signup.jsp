@@ -10,11 +10,9 @@
 
 <% 
     if (request.getSession().getAttribute("user") != null) {
-    out.print("You are already logged in"); 
-    response.sendRedirect("user_profile.jsp");
+        out.print("You are already logged in"); 
+        response.sendRedirect("home.jsp");
     } 
-
-
 %>
 <!DOCTYPE html>
 <html>

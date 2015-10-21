@@ -196,6 +196,7 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
                 + " pleasantnessRating=" + pleasantnessRating 
                 + " energyRating=" + energyRating
                 + " descriptiveWord=" + descriptiveWord
+                + " isPrivate=" + isPrivate
                 + " reflectiveParagraph=" + reflectiveParagraph
                 + " timeStamp=" + time_stamp + "]";
     }
