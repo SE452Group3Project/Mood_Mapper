@@ -8,8 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% 
     UserEntity user = null;
-    
-    if (request.getSession(false).getAttribute("user") != null) {
+    if (session.getAttribute("user") != null) {
     user = (UserEntity)session.getAttribute("user");  
 } else {
        
