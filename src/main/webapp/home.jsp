@@ -4,9 +4,18 @@
     Author     : Dave Messer
 --%>
 
+<%@page import="com.moodmapper.entity.UserEntity"%>
+<%@page import="javax.servlet.http.HttpSession"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
-String pageTitle = "App";
+    String pageTitle = "App";
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -20,8 +29,10 @@ String pageTitle = "App";
 
       <main class="mdl-layout__content">
         <div class="page-content">
-          
-
+          <div class="demo-card-wide mdl-shadow--2dp mdl-cell" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px; background-color: white; ">
+            <h3>Welcome <%= (user != null) ? user.getUsername() : "!" %></h3>
+          </div>
+            
           <!-- Wide card with share menu button -->
           <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title">

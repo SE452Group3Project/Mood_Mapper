@@ -37,7 +37,7 @@ app.controller('SignUpController', ['$scope', '$http', '$location', function($sc
  })
   .success(function(data) {
     console.log(data);
-     window.location = 'user_profile.jsp';
+     window.location = 'home.jsp';
   });
 };
 
@@ -57,7 +57,7 @@ app.controller('LoginController', ['$scope', '$http', '$location', function($sco
  })
   .success(function(data) {
     console.log(data);
-     window.location = 'user_profile.jsp';
+     window.location = 'home.jsp';
 
   });
 };

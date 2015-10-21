@@ -5,16 +5,13 @@
 --%>
 
 <%@page import="com.moodmapper.entity.UserEntity"%>
-<%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
     if (request.getSession().getAttribute("user") != null) {
-    out.print("You are already logged in"); 
-    response.sendRedirect("user_profile.jsp");
+        out.print("You are already logged in"); 
+        response.sendRedirect("./home.jsp");
     } 
-
-
 %>
 <!DOCTYPE html>
 <html>
