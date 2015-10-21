@@ -6,6 +6,8 @@
 package com.moodmapper.servlet;
 
 import com.moodmapper.entity.UserEntity;
+import com.moodmapper.security.*;
+import java.lang.reflect.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -52,6 +54,8 @@ public class SignUpServlet extends HttpServlet {
       String username = request.getParameter("username"); 
       String password = request.getParameter("password"); 
       String email = request.getParameter("email"); 
+      
+      
       
       user.setUsername(username);
       user.setPassword(password);

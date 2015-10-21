@@ -11,12 +11,16 @@
     String pageTitle = "App";
     UserEntity user = null;
     String notice = ""; 
+//    String debug = "";
     if (session.getAttribute("user") != null) {
         user = (UserEntity)session.getAttribute("user"); 
         if (session.getAttribute("notice") != null){
                notice = (String) session.getAttribute("notice");
 
         }
+//        if (session.getAttribute("log") != null){
+//            out.println(session.getAttribute("log"));
+//        }
 
     } else {
         session.setAttribute("notice", "Please login first"); 

@@ -5,6 +5,8 @@
  */
 package com.moodmapper.entity;
 
+import com.moodmapper.security.Invoker;
+import com.moodmapper.security.ProtectedConfigFile;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -150,12 +152,28 @@ public class UserEntity extends MMEntityService implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
+    public String getEncryptedPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = encryptPassword(password);
+    }
+    
+    private static String encryptPassword(String password){
+      String encryptedPassword = "";
+      try {
+        Class[] argTypes = new Class[] { String.class };
+        ProtectedConfigFile passwordProtect = new ProtectedConfigFile();
+        String[] ary = new String[1];
+        ary[0] = password;
+        encryptedPassword = (String) Invoker.invokeMethod("encrypt", passwordProtect, argTypes, ary);
+
+      } catch(Exception e){
+          e.printStackTrace();
+      }
+      
+      return encryptedPassword;
     }
 
     public String getFirstName() {
@@ -268,6 +286,7 @@ public class UserEntity extends MMEntityService implements Serializable {
     
     public static UserEntity loginByUserName(String username, String password, EntityManagerFactory emf){
         
+        password = encryptPassword(password);
         EntityManager em; 
         em = emf.createEntityManager();
         List<UserEntity> rs = em.createNamedQuery("UserEntity.findByUsernameAndPassword")
@@ -279,6 +298,9 @@ public class UserEntity extends MMEntityService implements Serializable {
     }
     
     public static UserEntity loginByEmail(String email, String password, EntityManagerFactory emf){
+        
+        password = encryptPassword(password);
+
         EntityManager em; 
         em = emf.createEntityManager();
         List<UserEntity> rs = em.createNamedQuery("UserEntity.findByEmailAndPassword")
