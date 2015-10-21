@@ -5,19 +5,10 @@
  */
 package com.moodmapper.servlet;
 
-import com.moodmapper.entity.GroupEntity;
-import com.moodmapper.entity.UserEntity;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,9 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Owner
  */
-@WebServlet(name = "SearchResultsServlet", urlPatterns = {"/SearchResultsServlet"})
-//@WebServlet("/search-results")
-public class SearchResultsServlet extends HttpServlet {
+public class SubmitTestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,28 +36,15 @@ public class SearchResultsServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchResultsServlet</title>");            
+            out.println("<title>Servlet SubmitTestServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SearchResultsServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SubmitTestServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-    private static EntityManagerFactory emf; 
-    private EntityManager em;
-    private static UserEntity user; 
-    
-    
-    public SearchResultsServlet() {
-       super(); 
-    }
-    public void init() {
-      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
-      em = emf.createEntityManager(); 
-      user = new UserEntity(); 
-    }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -82,41 +58,11 @@ public class SearchResultsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
-        String searchType = request.getParameter("type"); 
-        String searchQuery = request.getParameter("query"); 
-        
-        TypedQuery<UserEntity> query = em.createNamedQuery("UserEntity.searchByUsername", UserEntity.class).setParameter("username", "%" + searchQuery + "%");
-        List<UserEntity> searchResults = query.getResultList();
-        
-        TypedQuery<GroupEntity> groupQuery = em.createNamedQuery("GroupEntity.searchByGroupName", GroupEntity.class).setParameter("name", "%" + searchQuery + "%");
-       List<GroupEntity> groupSearchResults = groupQuery.getResultList();
-
-       
-           
-        if(searchType == "userSearch"){
-            System.out.println("User Search Results:");
-            if(!searchResults.isEmpty()){
-                for (UserEntity result : searchResults) {
-                    System.out.println(result.getUsername() + " exists on MoodMapper!");
-                    //System.out.println("Id: " + result.getId());
-                }
-            } else {
-                System.out.println("No results found for " + searchQuery);
-            }
-        } else if(searchType == "groupSearch"){
-            System.out.println("User Search Results:");
-            for (GroupEntity element : groupSearchResults) {
-           System.out.println("Group " + element.getName() + " was found!");
-           //System.out.println("Id:  " + element.getId());
-               }
-        } else {
-            System.out.println("Invalid Search Type!"); 
-        }
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        String searchTerm = request.getParameter("searchTerm");
+        out.println("You searched for " + searchTerm);
     }
-        
-    
-    
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -130,6 +76,15 @@ public class SearchResultsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        String searchTerm = request.getParameter("searchTerm");
+        out.println("You searched for " + searchTerm);
+        
+        /*String url = "/search.jsp";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);*/
     }
 
     /**

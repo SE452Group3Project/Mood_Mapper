@@ -68,7 +68,10 @@ public class SearchServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String searchTerm = request.getParameter("searchTerm");
-        out.println("You searched for " + searchTerm);
+        //out.println("You searched for " + searchTerm);
+        String url = "/search-results.jsp";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
     }
 
     /**

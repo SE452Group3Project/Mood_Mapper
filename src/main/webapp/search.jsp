@@ -48,13 +48,13 @@ String pageTitle = "Search";
                   <div>
                       <label for="searchtype">
                         
-                        <input type="radio" id = "searchType" name="searchType" value="usersearch"  for="searchBox" checked>Users<br>
-                        <input type="radio" id = "searchType" name="searchType" value="groupsearch" for="searchBox">Groups
+                        <!--<input type="radio" id = "searchType" name="searchType" value="usersearch"  for="searchBox" checked>Users<br>
+                        <input type="radio" id = "searchType" name="searchType" value="groupsearch" for="searchBox">Groups -->
                     </label>
                       
                   </div>
                  <div class="mdl-card__actions mdl-card--border">
-                    <input type="submit" value="Search" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                     <input type="submit" value="Search" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                  </div>
               </form>
             </div>
