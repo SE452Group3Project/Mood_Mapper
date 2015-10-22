@@ -6,7 +6,7 @@
 
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.moodmapper.entity.UserEntity"%>
-<%@page import="javax.servlet.http.HttpSession;"%>
+<%@page import="javax.servlet.http.HttpSession"%>
 <%
     String pageTitle = "New Status";
     UserEntity user = null;
@@ -34,6 +34,7 @@
               <h2 class="mdl-card__title-text">New Status</h2>
             </div>
             <div class="mdl-card__supporting-text" style="margin: auto;">
+                <h3>Welcome <%= (user != null) ? user.getUsername() : "!" %></h3>
               <form method="GET" action="./AddStatusServlet" style="margin: auto;">
                 
                 <!-- Energy -->
