@@ -41,15 +41,15 @@ String pageTitle = "Search";
                      
                     
                   <input class="mdl-textfield__input" type="text" id="searchTerm" name="searchTerm" required />
-                  <label class="mdl-textfield__label" for="searchBox">Enter Search Term</label>
+                  <label class="mdl-textfield__label" for="searchBox">Enter Search Term Here</label>
                   <br/>
                   
                 </div>
                   <div>
                       <label for="searchtype">
                         
-                        <!--<input type="radio" id = "searchType" name="searchType" value="usersearch"  for="searchBox" checked>Users<br>
-                        <input type="radio" id = "searchType" name="searchType" value="groupsearch" for="searchBox">Groups -->
+                        <input type="radio" id = "searchType" name="searchType" value="userSearch"  for="searchBox" checked>Users<br>
+                        <input type="radio" id = "searchType" name="searchType" value="groupSearch" for="searchBox">Groups
                     </label>
                       
                   </div>
