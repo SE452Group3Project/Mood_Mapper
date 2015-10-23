@@ -53,6 +53,7 @@ public class SearchResultsServlet extends HttpServlet {
             out.println("<h1>Servlet SearchResultsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
+            
         }
     }
     private static EntityManagerFactory emf; 
@@ -81,20 +82,34 @@ public class SearchResultsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        out.write("doGet");
         processRequest(request, response);
-        
-        String searchType = request.getParameter("type"); 
-        String searchQuery = request.getParameter("query"); 
+        List<UserEntity> searchResults;// = (List)request.getAttribute("searchResults");
+        List<GroupEntity> groupSearchResults;
+        String searchType = "userSearch";//request.getParameter("type"); 
+        String searchQuery = "Jenny";//request.getParameter("searchTerm"); 
         
         TypedQuery<UserEntity> query = em.createNamedQuery("UserEntity.searchByUsername", UserEntity.class).setParameter("username", "%" + searchQuery + "%");
-        List<UserEntity> searchResults = query.getResultList();
+        //List<UserEntity> 
+        searchResults = query.getResultList();
         
-        TypedQuery<GroupEntity> groupQuery = em.createNamedQuery("GroupEntity.searchByGroupName", GroupEntity.class).setParameter("name", "%" + searchQuery + "%");
-       List<GroupEntity> groupSearchResults = groupQuery.getResultList();
+        /*TypedQuery<GroupEntity> groupQuery = em.createNamedQuery("GroupEntity.searchByGroupName", GroupEntity.class).setParameter("name", "%" + searchQuery + "%");
+       List<GroupEntity> groupSearchResults = groupQuery.getResultList();*/
 
        
+            /*if(!searchResults.isEmpty()){
+                System.out.println(searchResults.size() + "Results found!" );
+                for (UserEntity result : searchResults) {
+                    System.out.println(result.getUsername() + " is on MoodMapper!");
+                    //System.out.println("Id: " + result.getId());
+                }
+            } else {
+                System.out.println("No results found for " + searchQuery);
+            }*/
            
         if(searchType == "userSearch"){
+            //searchResults = (List)request.getAttribute("searchResults");
             System.out.println("User Search Results:");
             if(!searchResults.isEmpty()){
                 for (UserEntity result : searchResults) {
@@ -105,13 +120,14 @@ public class SearchResultsServlet extends HttpServlet {
                 System.out.println("No results found for " + searchQuery);
             }
         } else if(searchType == "groupSearch"){
-            System.out.println("User Search Results:");
+            groupSearchResults = (List)request.getAttribute("searchResults");
+            out.println("Group Search Results:");
             for (GroupEntity element : groupSearchResults) {
-           System.out.println("Group " + element.getName() + " was found!");
+           out.println("Group " + element.getName() + " was found!");
            //System.out.println("Id:  " + element.getId());
                }
         } else {
-            System.out.println("Invalid Search Type!"); 
+            out.println("Invalid Search Type!"); 
         }
     }
         

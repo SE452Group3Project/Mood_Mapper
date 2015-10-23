@@ -102,15 +102,13 @@ public class AddStatusServlet extends HttpServlet {
         
         if (user != null) { 
             //first instantiate the user by calling it randomly: user.getUsername();
-            out.println("Saving your moodstatus, " + user.getUsername()); 
+            //out.println("Saving your moodstatus, " + user.getUsername()); 
             status.setUser(user); 
         } 
         
         status.create(emf);
         
-        
-                
-//        response.sendRedirect("home.jsp");
+        response.sendRedirect("mood_maps.jsp");
     }
     
     @Override
