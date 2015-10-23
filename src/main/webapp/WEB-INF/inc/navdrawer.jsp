@@ -6,6 +6,7 @@
 		<a class="mdl-navigation__link" href="my_groups.jsp"><i class="material-icons">people</i>My Groups</a>
 		<a class="mdl-navigation__link" href="mood_maps.jsp"><i class="material-icons">insert_chart</i>Mood Maps</a>
 		<a class="mdl-navigation__link" href="new_status.jsp"><i class="material-icons">add_circle</i>New Status</a>
-		<a class="mdl-navigation__link" href="logout"><i class="material-icons">exit_to_app</i>Sign out</a>
+                <a class="mdl-navigation__link" href="user_profile.jsp"><i class="material-icons">exit_to_app</i>User Profile</a>
+		<a class="mdl-navigation__link" href="logout"><i class="material-icons">account_circle</i>Sign out</a>
 	</nav>
 </div>

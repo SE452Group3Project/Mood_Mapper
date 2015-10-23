@@ -56,7 +56,6 @@ public class SignUpServlet extends HttpServlet {
       String email = request.getParameter("email"); 
       
       
-      
       user.setUsername(username);
       user.setPassword(password);
       user.setEmail(email);
@@ -96,6 +95,7 @@ public class SignUpServlet extends HttpServlet {
      
       
     }
+   
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

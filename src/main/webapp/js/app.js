@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
 (function(angular) {
   'use strict';
 var app = angular.module('loginOrSignUpForm', []); 
-app.controller('SignUpController', ['$scope', '$http', '$location', function($scope, $http, $location) {  
+app.controller('SignUpController', ['$scope', '$http', function($scope, $http) {  
   $scope.user = {}; 
   
   $scope.submit = function() {
@@ -42,7 +42,7 @@ app.controller('SignUpController', ['$scope', '$http', '$location', function($sc
 };
 
   }]);
-app.controller('LoginController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
     $scope.user = {};
 
   $scope.submit = function() {
@@ -59,6 +59,28 @@ app.controller('LoginController', ['$scope', '$http', '$location', function($sco
     console.log(data);
      window.location = 'home.jsp';
 
+  });
+};
+
+  }]);
+app.controller('UpdateUserController', ['$scope', '$http', function($scope, $http) {  
+  $scope.user = {}; 
+  
+  $scope.submit = function() {
+
+      console.log("updating data....");
+        console.log($.param($scope.user)); 
+  $http({
+  method  : 'POST',
+  url     : 'update_user',
+  data    : $.param($scope.user),  // pass in data as strings
+  headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+ })
+  .success(function(data) {
+    console.log(data);
+     window.location = 'home.jsp';
+  }).error(function(data){
+      console.log(data);
   });
 };
 
@@ -108,7 +130,29 @@ app.directive('emailAvailable', function($q, $timeout, $http) {
     }
   };
 });
- })(window.angular);
+
+
+
+app.directive('pwCheck', [function () {
+        return {
+            require: 'ngModel', 
+            link: function(scope, elem, attrs, ctrl) {
+                var firstPassword = '#' + attrs.pwCheck; 
+                elem.add(firstPassword).on('keyup', function() {
+                   scope.$apply(function() {
+                       var v = elem.val()===$(firstPassword).val(); 
+                       ctrl.$setValidity('pwmatch', v);
+                   });  
+                }); 
+            }
+        }
+        
+        
+}]); 
+
+
+
+})(window.angular);
 
 
 
