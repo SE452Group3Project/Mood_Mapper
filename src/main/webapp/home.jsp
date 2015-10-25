@@ -51,10 +51,22 @@
           <!-- Mood Status cards from other users -->
           <%
           
+          // get all groups, the users that belong to those groups, and the most recent statuses
+          
           if(user.getGroupsJoined() != null){
+              
+              // test to see if user has any groups
+          
               %>
               <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">User has groups :)</div>
               <%
+              // get all groups a user belongs to
+              
+              // for each group, get each list of group members
+              
+              // check through mood statuses for the 20 most recent statuses
+              // only if statuses belong to someone a user is 'connected to'
+              
           }
           else {
               %>
