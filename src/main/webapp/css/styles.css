@@ -127,3 +127,9 @@ body {
 .input.ng-touched.ng-invalid {
     border-color: red !important; 
 }
+
+.card {
+    margin: 0 auto;
+    margin-bottom: 48px;
+    margin-top: 48px;
+}

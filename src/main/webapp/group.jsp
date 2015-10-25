@@ -24,6 +24,11 @@ String pageTitle = "Advisory";
           <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title">
               <h2 class="mdl-card__title-text">Advisory</h2>
+              <%
+              
+                
+              
+              %>
             </div>
               <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%;">
               <tbody>
@@ -67,17 +72,6 @@ String pageTitle = "Advisory";
 
         </div>
       </main>
-      
-
-
-      <script>function onSignIn(googleUser) {
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-      }</script>
-
     </div>
   </body>
 </body>

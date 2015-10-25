@@ -13,9 +13,9 @@
 
    <!-- Material Design icon font -->
    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
+   <link href="css/styles.css" rel="stylesheet" type="text/css"/>
     <!-- D3.js Library -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
-	 <title>Mood Mapper | <%=request.getParameter("pageTitle")%></title>
+    <title>Mood Mapper | <%=request.getParameter("pageTitle")%></title>
 </head>
