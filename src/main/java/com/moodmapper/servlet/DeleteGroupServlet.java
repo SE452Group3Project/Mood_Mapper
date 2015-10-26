@@ -9,6 +9,7 @@ import com.moodmapper.entity.GroupEntity;
 import com.moodmapper.entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -59,11 +60,15 @@ public class DeleteGroupServlet extends HttpServlet {
       int groupID = Integer.parseInt(request.getParameter("groupID"));
       Query findById = em.createNamedQuery("GroupEntity.findById").setParameter("id", groupID);
       GroupEntity group = (GroupEntity) findById.getResultList().get(0);
+      out.println(group);
       
       //get the user using the session
       UserEntity user = (UserEntity) session.getAttribute("user");
       
       //remove the user from that group
+      //out.println(user.getGroupsJoined());
+      //out.println("SPACE");
+      //out.println(user.getGroupsJoined());
       user.deleteGroupJoined(group);
       user.deleteGroupOwned(group);
       user.save(emf);
@@ -72,9 +77,9 @@ public class DeleteGroupServlet extends HttpServlet {
       request.setAttribute("group", group);
 
       // forward request and response to jsp page
-      String url = "/remove_group_confirmation.jsp";
-      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-      dispatcher.forward(request, response);
+      //String url = "/remove_group_confirmation.jsp";
+      //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+      //dispatcher.forward(request, response);
     }
     
 }

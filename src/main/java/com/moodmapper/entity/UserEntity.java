@@ -254,13 +254,13 @@ public class UserEntity extends MMEntityService implements Serializable {
     }
     
     public void deleteGroupOwned(GroupEntity group){
-        if (getGroupsOwned().contains(group)){
+        if (this.groupsOwned.contains(group)){
             this.groupsOwned.remove(group);
         }
     }
     
     public void deleteGroupJoined(GroupEntity group){
-        if (getGroupsJoined().contains(group)){
+        if (this.groupsJoined.contains(group)){
             this.groupsJoined.remove(group);
         }
     }
