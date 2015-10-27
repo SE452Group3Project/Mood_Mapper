@@ -1,11 +1,21 @@
 <%-- 
     Document   : search
     Created on : Oct 21, 2015, 3:06:53 AM
-    Author     : Owner
+    Author     : Geoff Brown
 --%>
 
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.moodmapper.entity.UserEntity"%>
+<%@page import="com.moodmapper.entity.MoodStatusEntity"%>
 <%
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    }
+    
 String pageTitle = "Search";
 %>
 <!DOCTYPE html>
@@ -47,9 +57,10 @@ String pageTitle = "Search";
                 </div>
                   <div>
                       <label for="searchtype">
-                        
-                        <input type="radio" id = "searchType" name="searchType" value="userSearch"  for="searchBox" checked>Users<br>
-                        <input type="radio" id = "searchType" name="searchType" value="groupSearch" for="searchBox">Groups
+                          <strong>
+                            <input type="radio" id = "searchType" name="searchType" value="userSearch"  for="searchBox" checked>Users<br>
+                            <input type="radio" id = "searchType" name="searchType" value="groupSearch" for="searchBox">Groups
+                          </strong>
                     </label>
                       
                   </div>
@@ -61,4 +72,13 @@ String pageTitle = "Search";
           </div>
         </div>
       </main>
+    <script>function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+      }</script>
+</body>
+</html>
 
