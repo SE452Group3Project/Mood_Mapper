@@ -9,7 +9,6 @@ import com.moodmapper.entity.GroupEntity;
 import com.moodmapper.entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

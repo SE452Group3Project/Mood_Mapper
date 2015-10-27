@@ -32,7 +32,6 @@ public class DeleteGroupServlet extends HttpServlet {
     private static EntityManagerFactory emf; 
     private EntityManager em;
     private PrintWriter out;
-    private HttpSession session;
     
     public DeleteGroupServlet(){
         super(); 
@@ -40,7 +39,7 @@ public class DeleteGroupServlet extends HttpServlet {
     
     @Override
     public void init() {
-      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
       em = emf.createEntityManager();
     }
     
@@ -54,32 +53,30 @@ public class DeleteGroupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       response.setContentType("text/html"); 
       out = response.getWriter(); 
-      session = request.getSession(true);
+      HttpSession session = request.getSession();
       
       //get the group id and find the group that corresponds to it
       int groupID = Integer.parseInt(request.getParameter("groupID"));
       Query findById = em.createNamedQuery("GroupEntity.findById").setParameter("id", groupID);
       GroupEntity group = (GroupEntity) findById.getResultList().get(0);
-      out.println(group);
       
       //get the user using the session
       UserEntity user = (UserEntity) session.getAttribute("user");
       
       //remove the user from that group
-      //out.println(user.getGroupsJoined());
-      //out.println("SPACE");
-      //out.println(user.getGroupsJoined());
-      user.deleteGroupJoined(group);
-      user.deleteGroupOwned(group);
+//      out.println(user.getGroupsJoined());
+      group.removeGroupMember(user);
+      group.save(emf);
       user.save(emf);
+//      out.println(user.getGroupsJoined());
 
       // store Group object in the request object
       request.setAttribute("group", group);
 
       // forward request and response to jsp page
-      //String url = "/remove_group_confirmation.jsp";
-      //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-      //dispatcher.forward(request, response);
+      String url = "/remove_group_confirmation.jsp";
+      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+      dispatcher.forward(request, response);
     }
     
 }
