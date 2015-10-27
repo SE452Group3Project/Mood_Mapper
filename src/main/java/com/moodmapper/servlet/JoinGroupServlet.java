@@ -9,11 +9,11 @@ import com.moodmapper.entity.GroupEntity;
 import com.moodmapper.entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -66,5 +66,9 @@ public class JoinGroupServlet extends HttpServlet {
       //add current user to that group
       group.addGroupMember(user); 
       group.save(emf);
+      
+      String url = "/my_groups.jsp";
+      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+      dispatcher.forward(request, response);
     }
 }

@@ -9,6 +9,7 @@ import com.moodmapper.entity.GroupEntity;
 import com.moodmapper.entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -31,7 +32,6 @@ public class DeleteGroupServlet extends HttpServlet {
     private static EntityManagerFactory emf; 
     private EntityManager em;
     private PrintWriter out;
-    private HttpSession session;
     
     public DeleteGroupServlet(){
         super(); 
@@ -39,7 +39,7 @@ public class DeleteGroupServlet extends HttpServlet {
     
     @Override
     public void init() {
-      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
       em = emf.createEntityManager();
     }
     
@@ -53,7 +53,7 @@ public class DeleteGroupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       response.setContentType("text/html"); 
       out = response.getWriter(); 
-      session = request.getSession(true);
+      HttpSession session = request.getSession();
       
       //get the group id and find the group that corresponds to it
       int groupID = Integer.parseInt(request.getParameter("groupID"));
@@ -64,9 +64,11 @@ public class DeleteGroupServlet extends HttpServlet {
       UserEntity user = (UserEntity) session.getAttribute("user");
       
       //remove the user from that group
-      user.deleteGroupJoined(group);
-      user.deleteGroupOwned(group);
+//      out.println(user.getGroupsJoined());
+      group.removeGroupMember(user);
+      group.save(emf);
       user.save(emf);
+//      out.println(user.getGroupsJoined());
 
       // store Group object in the request object
       request.setAttribute("group", group);

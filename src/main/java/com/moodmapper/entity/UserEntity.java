@@ -161,6 +161,11 @@ public class UserEntity extends MMEntityService implements Serializable {
     }
     
     private static String encryptPassword(String password){
+        
+      if (password.isEmpty()) {
+          return ""; 
+      }
+      
       String encryptedPassword = "";
       try {
         Class[] argTypes = new Class[] { String.class };
@@ -334,6 +339,18 @@ public class UserEntity extends MMEntityService implements Serializable {
             .getResultList();
         
         return ((rs.isEmpty()) ? null : rs.get(0));
+    }
+    
+    public boolean verifyPassword(String other_password){
+        other_password = encryptPassword(other_password);
+        return this.password.equals(other_password); 
+    }
+    
+    
+    public void updateUser(UserEntity new_user){
+        this.firstName = (!new_user.firstName.isEmpty()) ? new_user.firstName : this.firstName; 
+        this.lastName = (!new_user.lastName.isEmpty()) ? new_user.lastName : this.lastName; 
+        this.password = (!new_user.password.isEmpty()) ? new_user.password : this.password; 
     }
     
     

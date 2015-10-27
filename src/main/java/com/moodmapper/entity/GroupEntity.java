@@ -146,6 +146,14 @@ public class GroupEntity extends MMEntityService implements Serializable {
         }
     
     }
+    
+    public void removeGroupMember(UserEntity group_member){
+        if (getGroupMembers().contains(group_member)){
+            this.groupMembers.remove(group_member); 
+            group_member.deleteGroupJoined(this);
+        }
+    
+    }
    
 
     @Override
