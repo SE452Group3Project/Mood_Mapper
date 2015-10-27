@@ -106,20 +106,8 @@ public class AddStatusServlet extends HttpServlet {
             //out.println("Saving your moodstatus, " + user.getUsername()); 
             status.setUser(user); 
         } 
-        //user.addMoodStatus(status);
-        //user.save(emf);
-
+       
         status.create(emf);
-        
-        session = request.getSession(); 
-        
-        //out.write(user.toString());
-        String username = user.getUsername();
-        String password = user.getEncryptedPassword();
-        user = UserEntity.getUserEntity(username, password, emf);
-        //UserEntity updatedUser = UserEntity.getUserEntity(user.getUsername(), user.getEncryptedPassword(), emf);
-        //user.addMoodStatus(status);
-        session.setAttribute("user", user);
         
         response.sendRedirect("mood_maps.jsp");
     }

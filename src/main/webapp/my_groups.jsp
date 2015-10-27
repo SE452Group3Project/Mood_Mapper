@@ -9,7 +9,7 @@
 <%@page import="com.moodmapper.entity.GroupEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
-String pageTitle = "My Groups";
+    String pageTitle = "My Groups";
 %>
 <!DOCTYPE html>
 <html>
