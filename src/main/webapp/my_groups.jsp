@@ -35,7 +35,7 @@ String pageTitle = "My Groups";
                     Collection<GroupEntity> groupsOwned = null;
                     Collection<GroupEntity> groupsJoined = null;
     
-                    if (request.getSession(false).getAttribute("user") != null) {
+                    if (request.getSession().getAttribute("user") != null) {
                         user = (UserEntity)session.getAttribute("user");
                         groupsOwned = user.getGroupsOwned();
                         groupsJoined = user.getGroupsJoined();
@@ -49,7 +49,6 @@ String pageTitle = "My Groups";
                 <%
                     for (GroupEntity group: groupsOwned) {
                        String groupOwnedName = group.getName();
-                       //NOTE THIS IS NULL RIGHT HERE AND IT SHOULDNT BE
                        String groupOwnedID = group.getId().toString();
                 %>
                 <tr>
@@ -63,13 +62,12 @@ String pageTitle = "My Groups";
                 <%
                     for (GroupEntity group: groupsJoined) {
                        String groupJoinedName = group.getName();
-                       //NOTE THIS IS NULL RIGHT HERE AND IT SHOULDNT BE
                        String groupJoinedID = group.getId().toString();
                 %>
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric"><%= groupJoinedName%>
                     <a href=""><i class="material-icons" style="float: right;">chevron_right</i></a>
-                    <a href="DeleteGroupServlet?groupID="<%=groupJoinedID%>><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
+                    <a href="DeleteGroupServlet?groupID=<%=groupJoinedID%>"><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
                   </td>
                 </tr>
                 <% } %>

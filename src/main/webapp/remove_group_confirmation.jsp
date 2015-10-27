@@ -51,8 +51,5 @@ String pageTitle = "Remove Group Confirmation";
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
       }</script>
-
-    </div>
   </body>
-</body>
 </html>

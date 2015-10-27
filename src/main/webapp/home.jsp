@@ -4,7 +4,11 @@
     Author     : Dave Messer
 --%>
 
+<%@page import="com.moodmapper.entity.MoodStatusEntity"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.moodmapper.entity.UserEntity"%>
+<%@page import="com.moodmapper.entity.GroupEntity"%>
+<%@page import="java.util.Collection"%>
 <%@page import="javax.servlet.http.HttpSession"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -42,15 +46,38 @@
       <main class="mdl-layout__content">
 
         <div class="page-content">
-                    <div class="notice" style="margin: 0 auto; text-align: center; color: #fff;"><%= (notice.isEmpty()) ? "" : notice %> </div>
-
+            <div class="notice" style="margin: 0 auto; text-align: center; color: #fff;"><%= (notice.isEmpty()) ? "" : notice %> </div>
             
-          <div class="demo-card-wide mdl-shadow--2dp mdl-cell" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px; background-color: white; ">
-            <h3>Welcome <%= (user != null) ? user.getUsername() : "!" %></h3>
-          </div>
-            
-          <!-- Wide card with share menu button -->
-          <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
+          <!-- Mood Status cards from other users -->
+          <%
+          
+          // get all groups, the users that belong to those groups, and the most recent statuses
+          
+          if(user.getGroupsJoined() != null){
+              
+              // test to see if user has any groups
+          
+              %>
+              <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">User has groups :)</div>
+              <%
+              // get all groups a user belongs to
+              
+              // for each group, get each list of group members
+              
+              // check through mood statuses for the 20 most recent statuses
+              // only if statuses belong to someone a user is 'connected to'
+              
+          }
+          else {
+              %>
+              <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">User has no groups :(</div>
+              <%
+          }
+ 
+          
+          %>
+          
+          <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
             <div class="mdl-card__title">
               <h2 class="mdl-card__title-text">Jimmy</h2>
             </div>
@@ -69,7 +96,7 @@
           </div>
 
           <!-- Wide card with share menu button -->
-          <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="margin: 0 auto; margin-bottom: 48px;">
+          <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
             <div class="mdl-card__title">
               <h2 class="mdl-card__title-text">Erin</h2>
             </div>
@@ -88,7 +115,7 @@
           </div>
 
           <!-- Wide card with share menu button -->
-          <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="margin: 0 auto; margin-bottom: 48px;">
+          <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
             <div class="mdl-card__title">
               <h2 class="mdl-card__title-text">Dave</h2>
             </div>
@@ -118,6 +145,8 @@
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
       }</script>
+      
+      <script>alert("Welcome <%= (user != null) ? user.getUsername() : "!" %>");</script>
 
     </div>
   </body>
