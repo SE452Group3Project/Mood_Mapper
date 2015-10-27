@@ -41,6 +41,7 @@ public class AddStatusServlet extends HttpServlet {
         super.init(); 
         
         emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
+        user = new UserEntity();
         //em = emf.createEntityManager();
     }
 
@@ -63,7 +64,7 @@ public class AddStatusServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
       
         HttpSession session = request.getSession();
-        UserEntity user = null;        
+        //user = null;        
         if (session.getAttribute("user") != null) {
             user = (UserEntity)session.getAttribute("user");  
         } else {
@@ -93,7 +94,7 @@ public class AddStatusServlet extends HttpServlet {
         else status.setIsPrivate(Boolean.FALSE);
         
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
-        java.util.Date date= new java.util.Date();
+        //java.util.Date date= new java.util.Date();
         Date now = new Date();
         String strDate = sdfDate.format(now);
         Timestamp complainDate= Timestamp.valueOf(strDate);
@@ -105,7 +106,7 @@ public class AddStatusServlet extends HttpServlet {
             //out.println("Saving your moodstatus, " + user.getUsername()); 
             status.setUser(user); 
         } 
-        
+       
         status.create(emf);
         
         response.sendRedirect("mood_maps.jsp");
