@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
     
     private static EntityManagerFactory emf; 
     private EntityManager em;
-    private static UserEntity user; 
+    private UserEntity user; 
     
     
     public LoginServlet() {
@@ -66,9 +66,9 @@ public class LoginServlet extends HttpServlet {
           user = UserEntity.loginByEmail(email, password, emf); 
           out.println("User " + user);
       } else {
-           out.println("logging with username");
-           String username = emailOrUsername; 
-            user = UserEntity.loginByUserName(username, password, emf);
+          out.println("logging with username");
+          String username = emailOrUsername; 
+          user = UserEntity.loginByUserName(username, password, emf);
           out.println("User " + user);
       }
       

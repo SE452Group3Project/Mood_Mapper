@@ -309,6 +309,19 @@ public class UserEntity extends MMEntityService implements Serializable {
         return ((rs.isEmpty()) ? null : rs.get(0));
     }
     
+    public static UserEntity getUserEntity(String username, String password, EntityManagerFactory emf){
+        
+        //password = encryptPassword(password);
+        EntityManager em; 
+        em = emf.createEntityManager();
+        List<UserEntity> rs = em.createNamedQuery("UserEntity.findByUsernameAndPassword")
+            .setParameter("username", username)
+            .setParameter("password", password)
+            .getResultList();
+        
+        return ((rs.isEmpty()) ? null : rs.get(0));
+    }
+    
     public static UserEntity loginByEmail(String email, String password, EntityManagerFactory emf){
         
         password = encryptPassword(password);

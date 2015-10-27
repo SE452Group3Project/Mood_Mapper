@@ -174,7 +174,7 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
 
     public void setUser(UserEntity user) {
         this.user = user;
-//        user.addMoodStatus(this); 
+        user.addMoodStatus(this); 
     }
 
     @Override
