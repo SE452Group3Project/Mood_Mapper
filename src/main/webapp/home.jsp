@@ -59,20 +59,20 @@
           <%
           
           // get the 20 most recent mood statuses
-          EntityManagerFactory emf;
-          EntityManager em;
-          emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
-          em = emf.createEntityManager();
-          TypedQuery<MoodStatusEntity> query = em.createNamedQuery("MoodStatusEntity.findAll", MoodStatusEntity.class);
-          List<MoodStatusEntity> results = query.getResultList();
-          for(MoodStatusEntity m : results){
-              
-              String userName = m.getUser().getUsername();
-              String reflectiveParagraph = m.getReflectiveParagraph();
-              String descriptiveWord = m.getDescriptiveWord();
-              String pleasantnessRating = m.getPleasantnessRating().toString();
-              String energyRating = m.getEnergyRating().toString();
-              Set<CommentEntity> comments = m.getComments();
+//            EntityManagerFactory emf;
+//            EntityManager em;
+//            emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
+//            em = emf.createEntityManager();
+//            TypedQuery<MoodStatusEntity> query = em.createNamedQuery("MoodStatusEntity.findAll", MoodStatusEntity.class);
+            List<MoodStatusEntity> results = new ArrayList<>(user.getMoodStatuses());
+            for(MoodStatusEntity m : results){
+
+                String userName = m.getUser().getUsername();
+                String reflectiveParagraph = m.getReflectiveParagraph();
+                String descriptiveWord = m.getDescriptiveWord();
+                String pleasantnessRating = m.getPleasantnessRating().toString();
+                String energyRating = m.getEnergyRating().toString();
+                Set<CommentEntity> comments = m.getComments();
               
               %>
               <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">

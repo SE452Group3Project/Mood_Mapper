@@ -60,8 +60,8 @@ String pageTitle = "Mood Maps";
                 <%
                     ArrayList<MoodStatusEntity> moods = new ArrayList<>(user.getMoodStatuses());
                     for(MoodStatusEntity mood: moods) { %>
-                        <img class="dot" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Red_pog.svg/2000px-Red_pog.svg.png"
-                   style="left: <%= (mood.getEnergyRating()+5) * 28 + 7 %>px; top: <%= 301-(mood.getPleasantnessRating()+5)*28 %>px;">
+                    <a><img class="dot" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Red_pog.svg/2000px-Red_pog.svg.png"
+                            style="left: <%= (mood.getEnergyRating()+5) * 28 + 7 %>px; top: <%= 301-(mood.getPleasantnessRating()+5)*28 %>px;"></a>
                   <% } %>
 <!--              <img class="dot" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Red_pog.svg/2000px-Red_pog.svg.png"
                    style="left: 0px; top: 0px;">-->
