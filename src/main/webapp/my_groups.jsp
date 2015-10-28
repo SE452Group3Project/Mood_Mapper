@@ -67,7 +67,7 @@
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric"><%= groupJoinedName%>
                     <a href=""><i class="material-icons" style="float: right;">chevron_right</i></a>
-                    <a href="DeleteGroupServlet?groupID=<%=groupJoinedID%>"><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
+                    <a href="DeleteGroupServlet?groupID="<%=groupJoinedID%>><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
                   </td>
                 </tr>
                 <% } %>
