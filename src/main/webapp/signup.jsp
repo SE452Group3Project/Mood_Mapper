@@ -18,15 +18,11 @@
     } else {
        if (session.getAttribute("notice") != null){
            notice = (String) session.getAttribute("notice");
-           
        }
-       
        if (session.getAttribute("error") != null){
            error = (String) session.getAttribute("error"); 
            notice = "";
        }
-       
-
     }
     
 %>
