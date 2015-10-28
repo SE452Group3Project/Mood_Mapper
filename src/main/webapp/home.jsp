@@ -4,12 +4,19 @@
     Author     : Dave Messer
 --%>
 
+<%@page import="java.util.Set"%>
+<%@page import="com.moodmapper.entity.CommentEntity"%>
+<%@page import="javax.persistence.EntityManagerFactory"%>
+<%@page import="javax.persistence.EntityManager"%>
+<%@page import="javax.persistence.TypedQuery"%>
+<%@page import="java.util.List"%>
 <%@page import="com.moodmapper.entity.MoodStatusEntity"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page import="com.moodmapper.entity.GroupEntity"%>
 <%@page import="java.util.Collection"%>
 <%@page import="javax.servlet.http.HttpSession"%>
+<%@page import="javax.persistence.Persistence"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
     String pageTitle = "App";
@@ -51,32 +58,67 @@
           <!-- Mood Status cards from other users -->
           <%
           
-          // get all groups, the users that belong to those groups, and the most recent statuses
-          
-          if(user.getGroupsJoined() != null){
+          // get the 20 most recent mood statuses
+          EntityManagerFactory emf;
+          EntityManager em;
+          emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
+          em = emf.createEntityManager();
+          TypedQuery<MoodStatusEntity> query = em.createNamedQuery("MoodStatusEntity.findAll", MoodStatusEntity.class);
+          List<MoodStatusEntity> results = query.getResultList();
+          for(MoodStatusEntity m : results){
               
-              // test to see if user has any groups
-          
+              String userName = m.getUser().getUsername();
+              String reflectiveParagraph = m.getReflectiveParagraph();
+              String descriptiveWord = m.getDescriptiveWord();
+              String pleasantnessRating = m.getPleasantnessRating().toString();
+              String energyRating = m.getEnergyRating().toString();
+              Set<CommentEntity> comments = m.getComments();
+              
               %>
-              <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">User has groups :)</div>
+              <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text"><%=userName%></h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    <%=reflectiveParagraph%>
+                    <h4>#<%=descriptiveWord%> (<%=pleasantnessRating%>,<%=energyRating%>)</h4>
+                </div>
+                <!-- comments -->
+                <% for (CommentEntity comment : comments){
+                    UserEntity commenter = comment.getUser();
+                    String commenterUserName = commenter.getUsername();
+                    //String commenterFirstName = commenter.getFirstName();
+                    //String commenterLastName = commenter.getLastName();
+                    String commentContent = comment.getContent();
+                    %>
+                <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+                    <%=commentContent%><b> <%=commenterUserName%> </b>
+                </div>
+                <%
+                    }
+                
+                %>
+                
+                <!-- new comment -->
+                <div class="mdl-card__actions mdl-card--border">
+                    <form action="#">
+                        <input type="text" name="comment" value="Write a comment..." /> 
+                        <input type="submit" value="Comment" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                        <i class="material-icons" style="float: right;">comment</i>
+                    </form>
+                </div>
+                <div class="mdl-card__menu">
+                </div>
+              </div>
+
               <%
-              // get all groups a user belongs to
-              
-              // for each group, get each list of group members
-              
-              // check through mood statuses for the 20 most recent statuses
-              // only if statuses belong to someone a user is 'connected to'
               
           }
-          else {
-              %>
-              <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">User has no groups :(</div>
-              <%
-          }
- 
+          
           
           %>
           
+          <!-- Template for mood status card
           <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
             <div class="mdl-card__title">
               <h2 class="mdl-card__title-text">Jimmy</h2>
@@ -94,57 +136,10 @@
             <div class="mdl-card__menu">
             </div>
           </div>
-
-          <!-- Wide card with share menu button -->
-          <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
-            <div class="mdl-card__title">
-              <h2 class="mdl-card__title-text">Erin</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-              Forgot to do my homework
-              <h4>#frustrated (2,-3)</h4>
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                <i class="material-icons">comment</i>
-                Comment
-              </a>
-            </div>
-            <div class="mdl-card__menu">
-            </div>
-          </div>
-
-          <!-- Wide card with share menu button -->
-          <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
-            <div class="mdl-card__title">
-              <h2 class="mdl-card__title-text">Dave</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-              Rode my bike to school!
-              <h4>#excited (4, 4)</h4>
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                <i class="material-icons">comment</i>
-                Comment
-              </a>
-            </div>
-            <div class="mdl-card__menu">
-            </div>
-          </div>
+          -->
 
         </div>
       </main>
-      
-
-
-      <script>function onSignIn(googleUser) {
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-      }</script>
       
       <script>alert("Welcome <%= (user != null) ? user.getUsername() : "!" %>");</script>
 
