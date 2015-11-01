@@ -59,22 +59,16 @@
           <%
           
           // get the 20 most recent mood statuses
-//            EntityManagerFactory emf;
-//            EntityManager em;
-//            emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
-//            em = emf.createEntityManager();
-//            TypedQuery<MoodStatusEntity> query = em.createNamedQuery("MoodStatusEntity.findAll", MoodStatusEntity.class);
-//            List<MoodStatusEntity> results = query.getResultList();
             List<MoodStatusEntity> results = new ArrayList<>(user.getMoodStatuses());
             for(MoodStatusEntity m : results){
-              
-              Integer moodStatusId = m.getId();
-              String userName = m.getUser().getUsername();
-              String reflectiveParagraph = m.getReflectiveParagraph();
-              String descriptiveWord = m.getDescriptiveWord();
-              String pleasantnessRating = m.getPleasantnessRating().toString();
-              String energyRating = m.getEnergyRating().toString();
-              Set<CommentEntity> comments = m.getComments();
+
+                String userName = m.getUser().getUsername();
+                String reflectiveParagraph = m.getReflectiveParagraph();
+                String descriptiveWord = m.getDescriptiveWord();
+                String pleasantnessRating = m.getPleasantnessRating().toString();
+                String energyRating = m.getEnergyRating().toString();
+                Set<CommentEntity> comments = m.getComments();
+                System.out.println(comments.toString());
               
               %>
               <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
@@ -85,8 +79,6 @@
                     <%=reflectiveParagraph%>
                     <h4>#<%=descriptiveWord%> (<%=pleasantnessRating%>,<%=energyRating%>)</h4>
                 </div>
-                
-                
                 <!-- comments -->
                 <% for (CommentEntity comment : comments){
                     UserEntity commenter = comment.getUser();
@@ -105,9 +97,9 @@
                 
                 <!-- new comment -->
                 <div class="mdl-card__actions mdl-card--border">
-                    <form action="AddCommentServlet" method="post">
-                        <input type="text" id = "commentbox<%=moodStatusId%>" name="commentbox<%=moodStatusId%>" value="Write a comment..." />
-                        <input type="hidden" id="moodStatusID" name="moodStatusID" value="<%=moodStatusId%>">
+                    <form action="AddCommentServlet" >
+                        <input type="hidden" name="moodStatusID" value="<%= m.getId()%>">
+                        <input type="text" name="comment" placeholder="Write a comment..." />
                         <input type="submit" value="Comment" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                         <i class="material-icons" style="float: right;">comment</i>
                     </form>

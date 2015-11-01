@@ -96,9 +96,9 @@ public class AddCommentServlet extends HttpServlet {
         // get parameters from the request
         
         Integer moodStatusID = (Integer) Integer.parseInt(request.getParameter("moodStatusID"));
-        String commentTextBox = "commentbox" + moodStatusID.toString();
-        String comment = request.getParameter(commentTextBox);
+        String comment = request.getParameter("comment");
         MoodStatusEntity moodStatus = em.find(MoodStatusEntity.class, moodStatusID); 
+        UserEntity moodStatusOwner = moodStatus.getUser();
         HttpSession session = request.getSession(true);
         UserEntity commenterID = (UserEntity)session.getAttribute("user");
         Long time = session.getLastAccessedTime();
@@ -122,16 +122,26 @@ public class AddCommentServlet extends HttpServlet {
         newComment.setUser(commenterID);
         newComment.setMoodStatus(moodStatus);
         newComment.save(emf);
+
+
+        commenterID.addComment(newComment);
+        commenterID.save(emf);
+        
+        moodStatus.addComment(newComment);
+        moodStatus.save(emf);
+        
+        moodStatusOwner.addMoodStatus(moodStatus);
+        moodStatusOwner.save(emf);
         
         // store Comment object in the request object
         //request.setAttribute("newComment", newComment);
         
         // forward request and response to jsp page
-        String url = "/home.jsp";
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
+        // String url = "/home.jsp";
+        // RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        // dispatcher.forward(request, response);
         
-        //response.sendRedirect("home.jsp");
+        response.sendRedirect("home.jsp");
     }
 
     /**
