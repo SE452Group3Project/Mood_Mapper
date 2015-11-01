@@ -121,7 +121,7 @@ public class AddCommentServlet extends HttpServlet {
         newComment.setTimeStamp(timeStamp);
         newComment.setUser(commenterID);
         newComment.setMoodStatus(moodStatus);
-        newComment.save(emf);
+        newComment.create(emf);
 
 
         commenterID.addComment(newComment);
