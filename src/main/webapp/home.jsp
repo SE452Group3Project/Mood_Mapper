@@ -19,12 +19,20 @@
 <%@page import="javax.persistence.Persistence"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    
+    
     String pageTitle = "App";
     UserEntity user = null;
+    
     String notice = ""; 
 //    String debug = "";
     if (session.getAttribute("user") != null) {
+        // Session was holding only current comments within the user's mood statuses (Taken from the UserEntity in the session) and not showing new comments after forward back.
+        // This is the work-around to make the new comments appear after a a new comment is posted.  
+        //userCurrent = (UserEntity)session.getAttribute("user"); 
         user = (UserEntity)session.getAttribute("user"); 
+        
+        
         if (session.getAttribute("notice") != null){
                notice = (String) session.getAttribute("notice");
 
@@ -59,9 +67,6 @@
           <%
           
           // get the 20 most recent mood statuses
-            if (request.getAttribute("user") != null){
-                user = (UserEntity)request.getAttribute("user");
-            }
             List<MoodStatusEntity> results = new ArrayList<>(user.getMoodStatuses());
             for(MoodStatusEntity m : results){
 
@@ -70,7 +75,8 @@
                 String descriptiveWord = m.getDescriptiveWord();
                 String pleasantnessRating = m.getPleasantnessRating().toString();
                 String energyRating = m.getEnergyRating().toString();
-                Set<CommentEntity> comments = m.getComments();
+                List<CommentEntity> comments = new ArrayList<>(m.getComments());
+                System.out.println(comments.toString());
               
               %>
               <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
@@ -99,14 +105,14 @@
                 
                 <!-- new comment -->
                 <div class="mdl-card__actions mdl-card--border">
-                    <form method="GET" action="AddCommentServlet" >
+                    <form action="AddCommentServlet" >
                         <input type="hidden" name="moodStatusID" value="<%= m.getId()%>">
                         <div class="mdl-textfield mdl-js-textfield">
                             <input class="mdl-textfield__input" type="text" name="comment" placeholder="Write a comment..." />
                         </div>
                         <button type="submit" value="Comment" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                             <i class="material-icons">comment</i>
-                        </button
+                        </button>
                     </form>
                 </div>
                 <div class="mdl-card__menu">
