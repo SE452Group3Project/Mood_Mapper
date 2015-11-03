@@ -59,6 +59,9 @@
           <%
           
           // get the 20 most recent mood statuses
+            if (request.getAttribute("user") != null){
+                user = (UserEntity)request.getAttribute("user");
+            }
             List<MoodStatusEntity> results = new ArrayList<>(user.getMoodStatuses());
             for(MoodStatusEntity m : results){
 
@@ -68,7 +71,6 @@
                 String pleasantnessRating = m.getPleasantnessRating().toString();
                 String energyRating = m.getEnergyRating().toString();
                 Set<CommentEntity> comments = m.getComments();
-                System.out.println(comments.toString());
               
               %>
               <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
@@ -97,11 +99,14 @@
                 
                 <!-- new comment -->
                 <div class="mdl-card__actions mdl-card--border">
-                    <form action="AddCommentServlet" >
+                    <form method="GET" action="AddCommentServlet" >
                         <input type="hidden" name="moodStatusID" value="<%= m.getId()%>">
-                        <input type="text" name="comment" placeholder="Write a comment..." />
-                        <input type="submit" value="Comment" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                        <i class="material-icons" style="float: right;">comment</i>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" name="comment" placeholder="Write a comment..." />
+                        </div>
+                        <button type="submit" value="Comment" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                            <i class="material-icons">comment</i>
+                        </button
                     </form>
                 </div>
                 <div class="mdl-card__menu">

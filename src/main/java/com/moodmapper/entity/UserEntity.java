@@ -239,6 +239,17 @@ public class UserEntity extends MMEntityService implements Serializable {
         }
     }
     
+    public void updateMoodStatus(MoodStatusEntity moodStatus){
+        if (getMoodStatuses().contains(moodStatus)){
+            Collection<MoodStatusEntity> moodStatuses = getMoodStatuses();
+            for(MoodStatusEntity m : moodStatuses){
+                if (m.equals(moodStatus)){
+                    m = moodStatus;
+                }
+            }
+        }
+    }
+    
     public void addGroupOwned(GroupEntity group){
         if (!getGroupsOwned().contains(group)){
             this.groupsOwned.add(group); 

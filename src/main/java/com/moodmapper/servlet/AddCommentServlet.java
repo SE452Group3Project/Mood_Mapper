@@ -32,13 +32,15 @@ import javax.servlet.RequestDispatcher;
 @WebServlet(name = "AddCommentServlet", urlPatterns = {"/AddCommentServlet"})
 public class AddCommentServlet extends HttpServlet {
     
-    private static EntityManagerFactory emf; 
+    private EntityManagerFactory emf; 
     private EntityManager em;
+    private UserEntity user;
     
     @Override
     public void init() {
       emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
-      em = emf.createEntityManager(); 
+      em = emf.createEntityManager();
+      user = new UserEntity();
     }
 
     /**
@@ -93,13 +95,22 @@ public class AddCommentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // get parameters from the request
+        
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        //user = null;        
+        if (session.getAttribute("user") != null) {
+            user = (UserEntity)session.getAttribute("user");  
+        } else {
+            out.println("Please login first"); 
+            response.sendRedirect("signup.jsp");
+        }   
         
         Integer moodStatusID = (Integer) Integer.parseInt(request.getParameter("moodStatusID"));
         String comment = request.getParameter("comment");
+        
         MoodStatusEntity moodStatus = em.find(MoodStatusEntity.class, moodStatusID); 
         UserEntity moodStatusOwner = moodStatus.getUser();
-        HttpSession session = request.getSession(true);
         UserEntity commenterID = (UserEntity)session.getAttribute("user");
         Long time = session.getLastAccessedTime();
         String stringTime = time.toString();
@@ -130,18 +141,17 @@ public class AddCommentServlet extends HttpServlet {
         moodStatus.addComment(newComment);
         moodStatus.save(emf);
         
-        moodStatusOwner.addMoodStatus(moodStatus);
-        moodStatusOwner.save(emf);
         
         // store Comment object in the request object
-        //request.setAttribute("newComment", newComment);
+        UserEntity updatedUser = em.find(UserEntity.class, user.getId());
+        request.setAttribute("user", updatedUser);
         
         // forward request and response to jsp page
-        // String url = "/home.jsp";
-        // RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        // dispatcher.forward(request, response);
+        String url = "/home.jsp";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
         
-        response.sendRedirect("home.jsp");
+        // response.sendRedirect("home.jsp");
     }
 
     /**

@@ -165,6 +165,7 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
         if (!getComments().contains(comment)){
             this.comments.add(comment); 
             comment.setMoodStatus(this);
+            this.user.updateMoodStatus(this);
         }
     }
 
