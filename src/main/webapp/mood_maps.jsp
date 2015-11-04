@@ -54,14 +54,47 @@ String pageTitle = "Mood Maps";
               font-style: italic;
               font-weight: bold;
           }
+          
+          .imgDescription {
+              position:fixed;
+              alignment-adjust: middle;
+              top:510px;
+              visibility: hidden;
+              opacity: 0;
+              background:grey;
+              border:1px solid black;
+          }
+
+          .imgWrap:hover .imgDescription {
+              visibility: visible;
+              opacity: 1;
+          }
+          
           </style>
           <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title mdl-card--expand">
                 <%
                     ArrayList<MoodStatusEntity> moods = new ArrayList<>(user.getMoodStatuses());
                     for(MoodStatusEntity mood: moods) { %>
-                    <a><img class="dot" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Red_pog.svg/2000px-Red_pog.svg.png"
-                            style="left: <%= (mood.getEnergyRating()+5) * 28 + 7 %>px; top: <%= 301-(mood.getPleasantnessRating()+5)*28 %>px;"></a>
+                    <div class="imgWrap">
+                        <img class="dot" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Red_pog.svg/2000px-Red_pog.svg.png"
+                              style="left: <%= (mood.getEnergyRating()+5) * 28 + 7 %>px; top: <%= 301-(mood.getPleasantnessRating()+5)*28 %>px;" alt="polaroid">
+                        <table class="imgDescription">
+                            <tr>
+                                <th>Create Date</th>
+                                <td><%= mood.getCreatedOn() %></td>
+                            </tr>
+                            <tr>
+                                <th>Descriptive Word</th>
+                                <td><%= mood.getDescriptiveWord() %></td>
+                            </tr>
+                            <tr>
+                                <th>Reflective Paragraph</th>
+                                <td><%= mood.getReflectiveParagraph() %></td>
+                            </tr>
+                        </table>
+                    </div>
+                             
                   <% } %>
 <!--              <img class="dot" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Red_pog.svg/2000px-Red_pog.svg.png"
                    style="left: 0px; top: 0px;">-->
