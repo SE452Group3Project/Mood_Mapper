@@ -135,10 +135,11 @@ public class AddCommentServlet extends HttpServlet {
         newComment.save(emf);
         
         
-        // store Comment object in the request object
-        //session.removeAttribute("user");
+        // Find copy of UserEntity by id, making it a managed object in the entity manager.
         UserEntity updatedUser = em.find(UserEntity.class, user.getId());
+        // Refresh entity
         em.refresh(updatedUser);
+        // Place updated User Entity into session attribute
         session.setAttribute("user", updatedUser);
         
         
