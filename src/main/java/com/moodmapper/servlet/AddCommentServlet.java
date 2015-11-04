@@ -133,18 +133,14 @@ public class AddCommentServlet extends HttpServlet {
         newComment.setUser(commenterID);
         newComment.setMoodStatus(moodStatus);
         newComment.save(emf);
-
-
-        commenterID.addComment(newComment);
-        commenterID.save(emf);
-        
-        moodStatus.addComment(newComment);
-        moodStatus.save(emf);
         
         
         // store Comment object in the request object
+        //session.removeAttribute("user");
         UserEntity updatedUser = em.find(UserEntity.class, user.getId());
+        em.refresh(updatedUser);
         session.setAttribute("user", updatedUser);
+        
         
         // forward request and response to jsp page
         String url = "/home.jsp";
