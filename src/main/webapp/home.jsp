@@ -58,10 +58,6 @@
           <!-- Mood Status cards from other users -->
           <%
           
-          // get the 20 most recent mood statuses
-            if (request.getAttribute("user") != null){
-                user = (UserEntity)request.getAttribute("user");
-            }
             List<MoodStatusEntity> results = new ArrayList<>(user.getMoodStatuses());
             for(MoodStatusEntity m : results){
 
@@ -99,14 +95,14 @@
                 
                 <!-- new comment -->
                 <div class="mdl-card__actions mdl-card--border">
-                    <form method="GET" action="AddCommentServlet" >
+                    <form method="POST" action="AddCommentServlet" >
                         <input type="hidden" name="moodStatusID" value="<%= m.getId()%>">
                         <div class="mdl-textfield mdl-js-textfield">
                             <input class="mdl-textfield__input" type="text" name="comment" placeholder="Write a comment..." />
                         </div>
                         <button type="submit" value="Comment" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                             <i class="material-icons">comment</i>
-                        </button
+                        </button>
                     </form>
                 </div>
                 <div class="mdl-card__menu">

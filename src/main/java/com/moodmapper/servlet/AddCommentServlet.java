@@ -132,7 +132,7 @@ public class AddCommentServlet extends HttpServlet {
         newComment.setTimeStamp(timeStamp);
         newComment.setUser(commenterID);
         newComment.setMoodStatus(moodStatus);
-        newComment.create(emf);
+        newComment.save(emf);
 
 
         commenterID.addComment(newComment);
@@ -144,7 +144,7 @@ public class AddCommentServlet extends HttpServlet {
         
         // store Comment object in the request object
         UserEntity updatedUser = em.find(UserEntity.class, user.getId());
-        request.setAttribute("user", updatedUser);
+        session.setAttribute("user", updatedUser);
         
         // forward request and response to jsp page
         String url = "/home.jsp";
