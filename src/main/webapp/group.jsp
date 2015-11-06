@@ -19,6 +19,14 @@
 <%@page import="javax.persistence.Persistence"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    } 
+    
     EntityManagerFactory emf; 
     EntityManager em;
     
@@ -60,8 +68,9 @@
               <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%;">
               <tbody>
                   <%
-                for(UserEntity user : users){
-                 String userName = user.getUsername();
+                for(UserEntity groupUser : users){
+                 String userName = groupUser.getUsername();
+                 //Integer userId = groupUser.getId();
               
                 %>
                   

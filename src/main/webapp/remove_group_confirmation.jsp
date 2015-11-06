@@ -3,12 +3,19 @@
     Created on : Oct 13, 2015, 8:18:50 PM
     Author     : Jase Kurasz
 --%>
-
+<%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.moodmapper.entity.GroupEntity" %>
 <% GroupEntity group = (GroupEntity) request.getAttribute("group"); %>
 
 <%
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    }
 String pageTitle = "Remove Group Confirmation";
 %>
 <!DOCTYPE html>

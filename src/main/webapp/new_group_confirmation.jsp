@@ -3,12 +3,20 @@
     Created on : Oct 13, 2015, 8:18:50 PM
     Author     : Dave Messer
 --%>
-
+<%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.moodmapper.entity.GroupEntity" %>
 <% GroupEntity newGroup = (GroupEntity) request.getAttribute("newGroup"); %>
 
 <%
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    }
+
 String pageTitle = "New Group Confirmation";
 %>
 <!DOCTYPE html>
@@ -34,10 +42,19 @@ String pageTitle = "New Group Confirmation";
               url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
           }
           </style>
-          <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
-            <div class="mdl-card__title mdl-card--expand">
-                <h2 class="mdl-card__title-text"><%= newGroup.getName() %></h2>
-                <h2 class="mdl-card__title-text">Join Code s<%= newGroup.getJoinCode() %></h2>
+          <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" >
+            <div >
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text"><%= newGroup.getName() %> created!</h2>
+                </div>
+                <div class="mdl-card__title">
+                
+                <h2 class="mdl-card__title-text" >Join Code:</h2>
+                </div>
+                
+                <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text" style="color:blue"><%= newGroup.getJoinCode() %></h2>
+                </div>
             </div>
           </div>
         </div>

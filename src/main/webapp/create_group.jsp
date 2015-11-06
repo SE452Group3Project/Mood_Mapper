@@ -3,9 +3,17 @@
     Created on : Oct 13, 2015, 8:18:50 PM
     Author     : Dave Messer
 --%>
-
+<%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    }
 String pageTitle = "Create Group";
 %>
 <!DOCTYPE html>

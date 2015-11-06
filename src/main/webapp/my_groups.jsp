@@ -9,6 +9,14 @@
 <%@page import="com.moodmapper.entity.GroupEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    }
+    
     String pageTitle = "My Groups";
 %>
 <!DOCTYPE html>
@@ -31,7 +39,7 @@
               <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%;">
               <tbody>
                 <% 
-                    UserEntity user = null;
+                    user = null;
                     Collection<GroupEntity> groupsOwned = null;
                     Collection<GroupEntity> groupsJoined = null;
     

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -43,6 +44,8 @@ public class JoinGroupServlet extends HttpServlet {
       em = emf.createEntityManager();
     }
     
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       doPost(request, response);
@@ -58,19 +61,37 @@ public class JoinGroupServlet extends HttpServlet {
       //get the join code and find the group that corresponds to it
       String joinCode = request.getParameter("joinCode");
       Query findByJoinCode = em.createNamedQuery("GroupEntity.findByJoinCode").setParameter("joinCode", joinCode);
-      GroupEntity group = (GroupEntity) findByJoinCode.getSingleResult();
+      
+      String postError;
+      String url;
+      GroupEntity group;
+      try {
+          group = (GroupEntity) findByJoinCode.getSingleResult();
+      } catch(NoResultException e) {
+        group = null;
+      }
       
       if(group != null){
+          
         //get the user using the session
         UserEntity user = (UserEntity) session.getAttribute("user");
 
         //add current user to that group
         group.addGroupMember(user); 
         group.save(emf);
-
-        String url = "/my_groups.jsp";
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
+        
+        postError = "";
+        url = "/my_groups.jsp";
+        
+        
+      } else {
+          postError = "Wrong Join code! Please try again!";
+          url = "/join_group.jsp";
       }
+      
+      session.setAttribute("error", postError);
+      
+      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+       dispatcher.forward(request, response);
     }
 }
