@@ -4,9 +4,40 @@
     Author     : Dave Messer
 --%>
 
+<%@page import="java.util.Set"%>
+<%@page import="com.moodmapper.entity.CommentEntity"%>
+<%@page import="javax.persistence.EntityManagerFactory"%>
+<%@page import="javax.persistence.EntityManager"%>
+<%@page import="javax.persistence.TypedQuery"%>
+<%@page import="java.util.List"%>
+<%@page import="com.moodmapper.entity.MoodStatusEntity"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.moodmapper.entity.UserEntity"%>
+<%@page import="com.moodmapper.entity.GroupEntity"%>
+<%@page import="java.util.Collection"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%@page import="javax.persistence.Persistence"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
-String pageTitle = "Advisory";
+    EntityManagerFactory emf; 
+    EntityManager em;
+    
+    emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+    em = emf.createEntityManager();
+    
+    String groupName  = request.getParameter("groupname");
+    
+    GroupEntity group = new GroupEntity();
+    
+    TypedQuery<GroupEntity> query = em.createNamedQuery("GroupEntity.findByGroupName", GroupEntity.class).setParameter("name", groupName);
+    //em.refresh(group);
+    group = query.getSingleResult();
+    
+    List<UserEntity> users = (List)group.getGroupMembers();
+    
+    
+    
+    String pageTitle = group.getName();
 %>
 <!DOCTYPE html>
 <html>
@@ -23,48 +54,26 @@ String pageTitle = "Advisory";
          
           <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title">
-              <h2 class="mdl-card__title-text">Advisory</h2>
-              <%
+              <h2 class="mdl-card__title-text"><%= group.getName() %></h2>
               
-                
-              
-              %>
             </div>
               <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%;">
               <tbody>
+                  <%
+                for(UserEntity user : users){
+                 String userName = user.getUsername();
+              
+                %>
+                  
                 <tr>
-                  <td class="mdl-data-table__cell--non-numeric">Aaron
+                  <td class="mdl-data-table__cell--non-numeric"><%= userName %>
                     <a href=""><i class="material-icons" style="float: right;"><i id="unfollow" class="material-icons">person</i></a>
                   </td>
                 </tr>
-                <tr>
-                  <td class="mdl-data-table__cell--non-numeric">Ben
-                    <a href=""><i class="material-icons" style="float: right;"><i id="unfollow1" class="material-icons">person</i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="mdl-data-table__cell--non-numeric">Courtney
-                    <a href=""><i class="material-icons" style="float: right;"><i id="follow" class="material-icons">person_outline</i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="mdl-data-table__cell--non-numeric">Dave
-                    <a href=""><i class="material-icons" style="float: right;"><i id="follow1" class="material-icons">person_outline</i></a>
-                  </td>
-                </tr>
+                <% 
+                }
+                %>
                 
-                <div class="mdl-tooltip" for="unfollow">
-                Unfollow
-                </div>
-                <div class="mdl-tooltip" for="unfollow1">
-                Unfollow
-                </div>
-                <div class="mdl-tooltip" for="follow">
-                Follow
-                </div>
-                <div class="mdl-tooltip" for="follow1">
-                Follow
-                </div>
               </tbody>
             </table>
             <!-- Right aligned menu on top of button  -->

@@ -58,17 +58,19 @@ public class JoinGroupServlet extends HttpServlet {
       //get the join code and find the group that corresponds to it
       String joinCode = request.getParameter("joinCode");
       Query findByJoinCode = em.createNamedQuery("GroupEntity.findByJoinCode").setParameter("joinCode", joinCode);
-      GroupEntity group = (GroupEntity) findByJoinCode.getResultList().get(0);
+      GroupEntity group = (GroupEntity) findByJoinCode.getSingleResult();
       
-      //get the user using the session
-      UserEntity user = (UserEntity) session.getAttribute("user");
-      
-      //add current user to that group
-      group.addGroupMember(user); 
-      group.save(emf);
-      
-      String url = "/my_groups.jsp";
-      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-      dispatcher.forward(request, response);
+      if(group != null){
+        //get the user using the session
+        UserEntity user = (UserEntity) session.getAttribute("user");
+
+        //add current user to that group
+        group.addGroupMember(user); 
+        group.save(emf);
+
+        String url = "/my_groups.jsp";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+      }
     }
 }

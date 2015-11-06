@@ -33,7 +33,7 @@ String pageTitle = "Join Group";
           </style>
           <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">Create Group</h2>
+              <h2 class="mdl-card__title-text">Join Group</h2>
             </div>
             <div class="mdl-card__supporting-text">
               <form action="JoinGroupServlet" method="POST">

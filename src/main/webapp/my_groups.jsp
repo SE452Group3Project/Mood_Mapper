@@ -53,7 +53,7 @@
                 %>
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric"><%= groupOwnedName%>
-                    <a href=""><i class="material-icons" style="float: right;">chevron_right</i></a>
+                    <a href="group.jsp?groupname=<%= groupOwnedName%>"><i class="material-icons" style="float: right;">chevron_right</i></a>
                     <a href="DeleteGroupServlet?groupID=<%=groupOwnedID%>"><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
                   </td>
                 </tr>
@@ -66,7 +66,7 @@
                 %>
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric"><%= groupJoinedName%>
-                    <a href=""><i class="material-icons" style="float: right;">chevron_right</i></a>
+                    <a href="group.jsp?groupname=<%= groupJoinedName%>"><i class="material-icons" style="float: right;">chevron_right</i></a>
                     <a href="DeleteGroupServlet?groupID=<%=groupJoinedID%>"><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
                   </td>
                 </tr>

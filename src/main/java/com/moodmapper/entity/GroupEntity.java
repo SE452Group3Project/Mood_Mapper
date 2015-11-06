@@ -38,8 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "GroupEntity.findAll", query = "SELECT u FROM GroupEntity u"), 
     @NamedQuery(name = "GroupEntity.findById", query = "SELECT u from GroupEntity u WHERE u.id = :id"), 
-    @NamedQuery(name = "GroupEntity.findByJoinCode", query = "SELECT u from GroupEntity u WHERE u.joinCode = :joinCode"), 
-    @NamedQuery(name = "GroupEntity.searchByGroupName", query = "SELECT u from GroupEntity u WHERE u.name LIKE :name"), 
+    @NamedQuery(name = "GroupEntity.findByJoinCode", query = "SELECT u from GroupEntity u WHERE u.joinCode = :joinCode"),
+    @NamedQuery(name = "GroupEntity.findByGroupName", query = "SELECT u from GroupEntity u WHERE u.name = :name"),
+    @NamedQuery(name = "GroupEntity.searchByGroupName", query = "SELECT u from GroupEntity u WHERE u.name LIKE :name") 
 })
 public class GroupEntity extends MMEntityService implements Serializable {
     private static final long serialVersionUID = 1L;

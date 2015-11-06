@@ -59,7 +59,7 @@ public class DeleteGroupServlet extends HttpServlet {
       int groupID = Integer.parseInt(request.getParameter("groupID"));
       Query findById = em.createNamedQuery("GroupEntity.findById").setParameter("id", groupID);
       
-      GroupEntity group = (GroupEntity) findById.getResultList().get(0);
+      GroupEntity group = (GroupEntity) findById.getSingleResult();
       
       UserEntity owner = group.getOwner();
       //get the user using the session
@@ -71,6 +71,7 @@ public class DeleteGroupServlet extends HttpServlet {
         group.removeGroupMember(user);
       } else {
           group.delele();
+        
       }
       group.save(emf);
       user.save(emf);
