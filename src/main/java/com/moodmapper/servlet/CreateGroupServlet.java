@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,31 +36,6 @@ public class CreateGroupServlet extends HttpServlet {
       emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
       em = emf.createEntityManager(); 
     }
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CreateGroupServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CreateGroupServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -73,7 +49,7 @@ public class CreateGroupServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doPost(request, response);
     }
 
     /**
@@ -90,16 +66,19 @@ public class CreateGroupServlet extends HttpServlet {
         
         // get parameters from the request
         String groupName = request.getParameter("groupName");
-        UserEntity ownerID = new UserEntity();
-        ownerID.setEmail("email@email.com");
-        ownerID.setFirstName("ownerName");
+//        UserEntity ownerID = new UserEntity();
+//        ownerID.setEmail("email@email.com");
+//        ownerID.setFirstName("ownerName");
+        HttpSession session = request.getSession();
+        UserEntity ownerID = (UserEntity) session.getAttribute("user");
         
         // create a new Group object
         GroupEntity newGroup = new GroupEntity();
+        
+        newGroup.setId(1);
         newGroup.setName(groupName);
         newGroup.setOwner(ownerID); 
-        
-        newGroup.save(emf); 
+        newGroup.create(emf); 
         
         // store Group object in the request object
         request.setAttribute("newGroup", newGroup);

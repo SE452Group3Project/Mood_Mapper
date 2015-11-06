@@ -1,3 +1,12 @@
+<%-- 
+    Document   : opening_head
+    Created on : Oct 21, 2015, 5:04:50 PM
+    Author     : faithfulokoye
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
 <!-- Header -->
 <head>
 
@@ -13,9 +22,8 @@
 
    <!-- Material Design icon font -->
    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-   <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+
     <!-- D3.js Library -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
 
     <title>Mood Mapper | <%=request.getParameter("pageTitle")%></title>
-</head>

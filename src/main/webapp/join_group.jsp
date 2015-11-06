@@ -3,10 +3,24 @@
     Created on : Oct 13, 2015, 8:19:36 PM
     Author     : Dave Messer
 --%>
-
+<%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    }
 String pageTitle = "Join Group";
+String postError = (String)session.getAttribute("error");
+String showError;
+if(postError == null){
+    showError = "";
+} else {
+    showError = postError;
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -33,24 +47,34 @@ String pageTitle = "Join Group";
           </style>
           <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">Create Group</h2>
+              <h2 class="mdl-card__title-text">Join Group</h2>
             </div>
+            
             <div class="mdl-card__supporting-text">
               <form action="JoinGroupServlet" method="POST">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                   <input class="mdl-textfield__input" type="text" id="joinCode" name="joinCode" required />
+                  
                   <label class="mdl-textfield__label" for="joinCode">Join Code</label>
+                  
                 </div>
                  <div class="mdl-card__actions mdl-card--border">
                     <input type="submit" value="Join" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                  </div>
               </form>
+              <div>
+                <span class = "error"> 
+                    <strong><%= showError %></strong>
+                </span>
+            </div>
             </div>
           </div>
         </div>
       </main>
       
-
+                    <% 
+                        // Reset error
+                        session.setAttribute("error", "");  %>
 
       <script>function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();

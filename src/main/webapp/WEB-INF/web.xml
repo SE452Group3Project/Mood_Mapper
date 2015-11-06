@@ -4,9 +4,18 @@
         <servlet-name>UsernameAvailabilityServlet</servlet-name>
         <servlet-class>com.moodmapper.servlet.UsernameAvailabilityServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SubmitTestServlet</servlet-name>
+        <servlet-class>com.moodmapper.servlet.SubmitTestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UsernameAvailabilityServlet</servlet-name>
         <url-pattern>/usernameavailability</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitTestServlet</servlet-name>
+        <url-pattern>/SubmitTestServlet</url-pattern>
+        <servlet-class>com.moodmapper.servlet.SubmitTestServlet</servlet-class>
     </servlet-mapping>
     <resource-ref>
         <description>DB Connection</description>

@@ -5,6 +5,8 @@
  */
 package com.moodmapper.entity;
 
+import com.moodmapper.security.Invoker;
+import com.moodmapper.security.ProtectedConfigFile;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,6 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserEntity.findById", query = "SELECT u FROM UserEntity u WHERE u.id = :id"),
     @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
     @NamedQuery(name = "UserEntity.findByUsernameAndPassword", query = "SELECT u FROM UserEntity u WHERE u.username = :username and u.password = :password"),
+    @NamedQuery(name = "UserEntity.searchByUsername", query = "SELECT u FROM UserEntity u WHERE u.username LIKE :username"),
     @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
     @NamedQuery(name = "UserEntity.findByEmailAndPassword", query = "SELECT u FROM UserEntity u WHERE u.email = :email and u.password = :password"),
     @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT u FROM UserEntity u WHERE u.password = :password"),
@@ -149,12 +152,33 @@ public class UserEntity extends MMEntityService implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
+    public String getEncryptedPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = encryptPassword(password);
+    }
+    
+    private static String encryptPassword(String password){
+        
+      if (password.isEmpty()) {
+          return ""; 
+      }
+      
+      String encryptedPassword = "";
+      try {
+        Class[] argTypes = new Class[] { String.class };
+        ProtectedConfigFile passwordProtect = new ProtectedConfigFile();
+        String[] ary = new String[1];
+        ary[0] = password;
+        encryptedPassword = (String) Invoker.invokeMethod("encrypt", passwordProtect, argTypes, ary);
+
+      } catch(Exception e){
+          e.printStackTrace();
+      }
+      
+      return encryptedPassword;
     }
 
     public String getFirstName() {
@@ -215,6 +239,17 @@ public class UserEntity extends MMEntityService implements Serializable {
         }
     }
     
+    public void updateMoodStatus(MoodStatusEntity moodStatus){
+        if (getMoodStatuses().contains(moodStatus)){
+            Collection<MoodStatusEntity> moodStatuses = getMoodStatuses();
+            for(MoodStatusEntity m : moodStatuses){
+                if (m.equals(moodStatus)){
+                    m = moodStatus;
+                }
+            }
+        }
+    }
+    
     public void addGroupOwned(GroupEntity group){
         if (!getGroupsOwned().contains(group)){
             this.groupsOwned.add(group); 
@@ -226,6 +261,18 @@ public class UserEntity extends MMEntityService implements Serializable {
         if (!getGroupsJoined().contains(group)){
             this.groupsJoined.add(group); 
             group.addGroupMember(this);
+        }
+    }
+    
+    public void deleteGroupOwned(GroupEntity group){
+        if (getGroupsOwned().contains(group)){
+            this.groupsOwned.remove(group);
+        }
+    }
+    
+    public void deleteGroupJoined(GroupEntity group){
+        if (getGroupsJoined().contains(group)){
+            this.groupsJoined.remove(group);
         }
     }
             
@@ -256,8 +303,31 @@ public class UserEntity extends MMEntityService implements Serializable {
             .getResultList().isEmpty();
     }
     
+    public static boolean hasUniqueEmail(String email, EntityManagerFactory emf){
+        
+        EntityManager em; 
+        em = emf.createEntityManager();
+         return em.createNamedQuery("UserEntity.findByEmail")
+            .setParameter("email", email)
+            .getResultList().isEmpty();
+    }
+    
     public static UserEntity loginByUserName(String username, String password, EntityManagerFactory emf){
         
+        password = encryptPassword(password);
+        EntityManager em; 
+        em = emf.createEntityManager();
+        List<UserEntity> rs = em.createNamedQuery("UserEntity.findByUsernameAndPassword")
+            .setParameter("username", username)
+            .setParameter("password", password)
+            .getResultList();
+        
+        return ((rs.isEmpty()) ? null : rs.get(0));
+    }
+    
+    public static UserEntity getUserEntity(String username, String password, EntityManagerFactory emf){
+        
+        //password = encryptPassword(password);
         EntityManager em; 
         em = emf.createEntityManager();
         List<UserEntity> rs = em.createNamedQuery("UserEntity.findByUsernameAndPassword")
@@ -269,6 +339,9 @@ public class UserEntity extends MMEntityService implements Serializable {
     }
     
     public static UserEntity loginByEmail(String email, String password, EntityManagerFactory emf){
+        
+        password = encryptPassword(password);
+
         EntityManager em; 
         em = emf.createEntityManager();
         List<UserEntity> rs = em.createNamedQuery("UserEntity.findByEmailAndPassword")
@@ -277,6 +350,18 @@ public class UserEntity extends MMEntityService implements Serializable {
             .getResultList();
         
         return ((rs.isEmpty()) ? null : rs.get(0));
+    }
+    
+    public boolean verifyPassword(String other_password){
+        other_password = encryptPassword(other_password);
+        return this.password.equals(other_password); 
+    }
+    
+    
+    public void updateUser(UserEntity new_user){
+        this.firstName = (!new_user.firstName.isEmpty()) ? new_user.firstName : this.firstName; 
+        this.lastName = (!new_user.lastName.isEmpty()) ? new_user.lastName : this.lastName; 
+        this.password = (!new_user.password.isEmpty()) ? new_user.password : this.password; 
     }
     
     

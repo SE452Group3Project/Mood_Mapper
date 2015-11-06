@@ -8,28 +8,48 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
+    String pageTitle = "Sign Up";
+
+    String notice = ""; 
+    String error = ""; 
     if (request.getSession().getAttribute("user") != null) {
         out.print("You are already logged in"); 
-        response.sendRedirect("./home.jsp");
-    } 
+        response.sendRedirect("home.jsp");
+    } else {
+       if (session.getAttribute("notice") != null){
+           notice = (String) session.getAttribute("notice");
+       }
+       if (session.getAttribute("error") != null){
+           error = (String) session.getAttribute("error"); 
+           notice = "";
+       }
+    }
+    
 %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="css/styles.css" media="screen" charset="utf-8" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
-        <script src="js/app.js"></script>
-        <title>Sign-Up Form</title>
-    </head>
-    <!-- Google Login -->
 
-<!--    <div class="google-login">
-        <a href="#" ><img src="http://app.dynamiccreative.com/assets/google-plus-sign-in-connect-1d4043fc5b3dc76beb2663e8e70cc1b1.jpg" width="100%"/></a>
-    </div>-->
-    <!--Google Login-->
+<jsp:include page="/WEB-INF/inc/opening_head.jsp" flush="true">
+    <jsp:param name="pageTitle" value="<%=pageTitle%>" />
+</jsp:include>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
+     <script src="js/app.js"></script>
+
+    <jsp:include page="/WEB-INF/inc/closing_head.jsp" flush="true"/>
+<body>
+    <jsp:include page="/WEB-INF/inc/background.jsp"/>
+    <jsp:include page="/WEB-INF/inc/navbarhome.jsp"/>
+    
+    <jsp:include page="/WEB-INF/inc/body_head.jsp" flush="true">
+        <jsp:param name="error" value="<%=error%>" />
+        <jsp:param name="notice" value="<%=notice%>" />
+    </jsp:include>
+    
+   
+
     <div class="form-wrap" ng-app="loginOrSignUpForm">
+        
 
         <div class="tabs">
 
@@ -70,7 +90,7 @@
                         name="password" 
                         ng-model="user.password" 
                         class="input" 
-                        id="user_pass" 
+                        id="user_password" 
                         autocomplete="off" 
                         placeholder="Password" required="">
                     <div 
@@ -113,6 +133,7 @@
                     <input 
                         type="email" 
                         ng-model="user.email" 
+                        email-available
                         name="email" 
                         class="input" 
                         id="user_email" 
@@ -129,6 +150,14 @@
                         <span 
                             ng-show="form.email.$error.email">This is not a valid email.
                         </span>
+                        
+                    </div>
+                    <div class="error" 
+                         ng-show="form.email.$touched">
+
+                           <span ng-show="form.email.$pending">Checking if this email is available...</span>
+                        <span
+                            ng-show="form.email.$error.emailExists">This email is already being used!</span>
                     </div>
 
                     <input 
@@ -181,6 +210,28 @@
                             ng-show="form.password.$error.pattern"> Password must have one lower case, one upper case letter, one digit, 6-13 length, and no spaces
                         </span>
                     </div>
+                    
+                    <input 
+                        type="password" 
+                        ng-model="user.confirmPassword" 
+                        name="confirm_password" 
+                        class="input" 
+                        id="user_confirm_password" 
+                        autocomplete="off" 
+                        placeholder="Confirm Password" 
+                        pw-check="user_pass"
+                        required="">
+                    
+                    <div 
+                        class="error" 
+                        ng-show="form.$submitted || form.confirm_password.$touched">
+                        <span 
+                            ng-show="form.confirm_password.$error.required">Password Confirmation is required
+                        </span>
+                        <span 
+                            ng-show="form.confirm_password.$error.pwmatch">Passwords do not match.
+                        </span>
+                    </div>
 
                     <input 
                         type="submit" 
@@ -202,5 +253,4 @@
         <!--.tabs-content-->
     </div>
     <!--.form-wrap-->
-
-</html>
+<jsp:include page="/WEB-INF/inc/footer.jsp"/>

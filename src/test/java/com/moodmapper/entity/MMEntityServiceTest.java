@@ -8,12 +8,14 @@ package com.moodmapper.entity;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -187,6 +189,29 @@ public class MMEntityServiceTest {
             System.out.println("Reverse - Comment's Owner Username" + element.getUser().getUsername()); 
 
         }
-    }
+        
+        String userNameSearched = "JeNNy";
+
+
+        TypedQuery<UserEntity> query = em.createNamedQuery("UserEntity.searchByUsername", UserEntity.class).setParameter("username", "%" + userNameSearched + "%");
+        List<UserEntity> searchResults = query.getResultList();
+
+        for (UserEntity element : searchResults) {
+            System.out.println(element.getUsername() + " was found!");
+            System.out.println("Id: " + element.getId());
+                }
     
+    
+
+       String groupNameSearched = "friends";   
+
+       TypedQuery<GroupEntity> groupQuery = em.createNamedQuery("GroupEntity.searchByGroupName", GroupEntity.class).setParameter("name", "%" + groupNameSearched + "%");
+       List<GroupEntity> groupSearchResults = groupQuery.getResultList();
+
+       for (GroupEntity element : groupSearchResults) {
+           System.out.println(element.getName() + " was found!");
+           System.out.println("Id:  " + element.getId());
+               }
+           }
+
 }

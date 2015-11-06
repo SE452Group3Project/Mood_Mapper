@@ -10,6 +10,7 @@ import com.moodmapper.entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import javax.persistence.EntityManager;
@@ -40,6 +41,7 @@ public class AddStatusServlet extends HttpServlet {
         super.init(); 
         
         emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
+        user = new UserEntity();
         //em = emf.createEntityManager();
     }
 
@@ -56,13 +58,19 @@ public class AddStatusServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //processRequest(request, response);
-//        HttpSession session = request.getSession();
-//        
-//        user = (UserEntity)session.getAttribute("user");
-//        
-//        response.setContentType("text/html");
-//        PrintWriter out = response.getWriter();
+        
+        
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+      
+        HttpSession session = request.getSession();
+        //user = null;        
+        if (session.getAttribute("user") != null) {
+            user = (UserEntity)session.getAttribute("user");  
+        } else {
+            out.println("Please login first"); 
+            response.sendRedirect("signup.jsp");
+        }    
         
         int energyRating = Integer.parseInt(request.getParameter("energy_level"));
         int pleasantnessRating = Integer.parseInt(request.getParameter("pleasantness_level"));
@@ -70,12 +78,11 @@ public class AddStatusServlet extends HttpServlet {
         String reason = request.getParameter("reason");
         String isPrivate = request.getParameter("is_private");
    
-        //UserEntity group_member1 = new UserEntity(2, "jenny", "23828937rdk", "2839797@2389.com"); 
         
         MoodStatusEntity status = new MoodStatusEntity();
         
         // temp id value 
-        //status.setUser(group_member1);
+        
         status.setId(1);
         status.setEnergyRating(energyRating);
         status.setPleasantnessRating(pleasantnessRating);
@@ -86,15 +93,23 @@ public class AddStatusServlet extends HttpServlet {
             status.setIsPrivate(Boolean.TRUE);
         else status.setIsPrivate(Boolean.FALSE);
         
-        status.setTimeStamp(new Timestamp(System.currentTimeMillis()));
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+        //java.util.Date date= new java.util.Date();
+        Date now = new Date();
+        String strDate = sdfDate.format(now);
+        Timestamp complainDate= Timestamp.valueOf(strDate);
         
-        //sout.println(status.toString());
+        status.setCreatedOn(complainDate);
         
+        if (user != null) { 
+            //first instantiate the user by calling it randomly: user.getUsername();
+            //out.println("Saving your moodstatus, " + user.getUsername()); 
+            status.setUser(user); 
+        } 
+       
         status.create(emf);
         
-        //out.println(user);
-        
-        //response.sendRedirect("./mood_maps.jsp");
+        response.sendRedirect("mood_maps.jsp");
     }
     
     @Override

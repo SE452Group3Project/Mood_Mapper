@@ -9,6 +9,7 @@ import com.moodmapper.entity.GroupEntity;
 import com.moodmapper.entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -20,31 +21,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.persistence.NoResultException;
 
 /**
  *
  * @author jasekurasz
  */
-@WebServlet(name = "JoinGroupServlet", urlPatterns = {"/JoinGroupServlet"})
-public class JoinGroupServlet extends HttpServlet {
+@WebServlet(name = "DeleteGroupServlet", urlPatterns = {"/DeleteGroupServlet"})
+public class DeleteGroupServlet extends HttpServlet {
     
     private static EntityManagerFactory emf; 
     private EntityManager em;
     private PrintWriter out;
-    private HttpSession session;
     
-    public JoinGroupServlet(){
+    public DeleteGroupServlet(){
         super(); 
     }
     
     @Override
     public void init() {
-      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource");
       em = emf.createEntityManager();
     }
-    
-    
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,42 +53,37 @@ public class JoinGroupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       response.setContentType("text/html"); 
       out = response.getWriter(); 
-      session = request.getSession(true);
+      HttpSession session = request.getSession();
       
-      //get the join code and find the group that corresponds to it
-      String joinCode = request.getParameter("joinCode");
-      Query findByJoinCode = em.createNamedQuery("GroupEntity.findByJoinCode").setParameter("joinCode", joinCode);
+      //get the group id and find the group that corresponds to it
+      int groupID = Integer.parseInt(request.getParameter("groupID"));
+      Query findById = em.createNamedQuery("GroupEntity.findById").setParameter("id", groupID);
       
-      String postError;
-      String url;
-      GroupEntity group;
-      try {
-          group = (GroupEntity) findByJoinCode.getSingleResult();
-      } catch(NoResultException e) {
-        group = null;
-      }
+      GroupEntity group = (GroupEntity) findById.getSingleResult();
       
-      if(group != null){
-          
-        //get the user using the session
-        UserEntity user = (UserEntity) session.getAttribute("user");
-
-        //add current user to that group
-        group.addGroupMember(user); 
-        group.save(emf);
-        
-        postError = "";
-        url = "/my_groups.jsp";
-        
-        
+      UserEntity owner = group.getOwner();
+      //get the user using the session
+      UserEntity user = (UserEntity) session.getAttribute("user");
+      
+      //remove the user from that group
+//      out.println(user.getGroupsJoined());
+      if(!owner.equals(user)) {
+        group.removeGroupMember(user);
       } else {
-          postError = "Wrong Join code! Please try again!";
-          url = "/join_group.jsp";
+          group.delele();
+        
       }
-      
-      session.setAttribute("error", postError);
-      
+      group.save(emf);
+      user.save(emf);
+//      out.println(user.getGroupsJoined());
+
+      // store Group object in the request object
+      request.setAttribute("group", group);
+
+      // forward request and response to jsp page
+      String url = "/remove_group_confirmation.jsp";
       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-       dispatcher.forward(request, response);
+      dispatcher.forward(request, response);
     }
+    
 }

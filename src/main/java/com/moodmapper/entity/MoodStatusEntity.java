@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "MoodStatusEntity.findAll", query = "SELECT m FROM MoodStatusEntity m"),
     @NamedQuery(name = "MoodStatusEntity.findById", query = "SELECT m FROM MoodStatusEntity m WHERE m.id = :id"),
-    @NamedQuery(name = "MoodStatusEntity.findByTimestamp", query = "SELECT m FROM MoodStatusEntity m WHERE m.time_stamp = :timestamp"),
+    @NamedQuery(name = "MoodStatusEntity.findByCreatedOn", query = "SELECT m FROM MoodStatusEntity m WHERE m.createdOn = :createdOn"),
     @NamedQuery(name = "MoodStatusEntity.findByPleasantnessRating", query = "SELECT m FROM MoodStatusEntity m WHERE m.pleasantnessRating = :pleasantnessRating"),
     @NamedQuery(name = "MoodStatusEntity.findByDescriptiveWord", query = "SELECT m FROM MoodStatusEntity m WHERE m.descriptiveWord = :descriptiveWord"),
     @NamedQuery(name = "MoodStatusEntity.findByReflectiveParagraph", query = "SELECT m FROM MoodStatusEntity m WHERE m.reflectiveParagraph = :reflectiveParagraph"),
@@ -52,7 +53,10 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
     private Integer id;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Date time_stamp;
+    @Column(name = "time_stamp")
+    private Date createdOn;
+    
+    // Maybe have a updated_on;
     
     @Column(name = "pleasantness_rating")
     private Integer pleasantnessRating;
@@ -75,7 +79,7 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
     private Set<CommentEntity> comments;
     
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(cascade = CascadeType.MERGE,  optional = false)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, optional = false)
     private UserEntity user;
 
     public MoodStatusEntity() {
@@ -88,7 +92,7 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
     public MoodStatusEntity(Integer id, UserEntity userId, Integer pleasantnessRating, String descrWord, String rParagraph, Integer eRating, Boolean isPrivate) {
         this.id = id;
         this.user = userId;
-//        this.time_stamp = new Date();
+//        this.createdOn = new Date();
         this.pleasantnessRating = pleasantnessRating;
         this.descriptiveWord = descrWord;
         this.reflectiveParagraph = rParagraph;
@@ -104,12 +108,12 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
         this.id = id;
     }
 
-    public Date getTimeStamp() {
-        return time_stamp;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
-    public void setTimeStamp(Date time_stamp) {
-        this.time_stamp = time_stamp;
+    public void setCreatedOn(Date time_stamp) {
+        this.createdOn = time_stamp;
     }
 
     public Integer getPleasantnessRating() {
@@ -161,6 +165,7 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
         if (!getComments().contains(comment)){
             this.comments.add(comment); 
             comment.setMoodStatus(this);
+            this.user.updateMoodStatus(this);
         }
     }
 
@@ -177,6 +182,8 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
+        hash += (user != null ? user.hashCode() : 0);
+        hash += (createdOn != null ? createdOn.hashCode() : 0);
         return hash;
     }
 
@@ -186,8 +193,30 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
         if (!(object instanceof MoodStatusEntity)) {
             return false;
         }
+        
         MoodStatusEntity other = (MoodStatusEntity) object;
-        return this.id.equals(other.id);
+        if (this.user != other.user){
+            return false; 
+        }
+        
+        if (this.id == null && other.id != null){
+            return false;
+        }
+        
+        if (this.id != other.id){
+            return false;
+        }
+        
+        if (this.createdOn != other.createdOn) {
+            return false; 
+        }
+        
+        
+        if (this.hashCode() != other.hashCode()){
+            return false;
+        }
+        
+        return true; 
     }
 
     @Override
@@ -198,7 +227,7 @@ public class MoodStatusEntity extends MMEntityService implements Serializable {
                 + " descriptiveWord=" + descriptiveWord
                 + " isPrivate=" + isPrivate
                 + " reflectiveParagraph=" + reflectiveParagraph
-                + " timeStamp=" + time_stamp + "]";
+                + " timeStamp=" + createdOn + "]";
     }
     
 }

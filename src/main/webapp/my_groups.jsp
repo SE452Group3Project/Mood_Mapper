@@ -4,9 +4,20 @@
     Author     : Dave Messer
 --%>
 
+<%@page import="java.util.Collection"%>
+<%@page import="com.moodmapper.entity.UserEntity"%>
+<%@page import="com.moodmapper.entity.GroupEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
-String pageTitle = "My Groups";
+    UserEntity user = null;
+    if (session.getAttribute("user") != null) {
+        user = (UserEntity)session.getAttribute("user");  
+    } else {
+        out.println("Please login first"); 
+        response.sendRedirect("signup.jsp");
+    }
+    
+    String pageTitle = "My Groups";
 %>
 <!DOCTYPE html>
 <html>
@@ -27,29 +38,47 @@ String pageTitle = "My Groups";
             </div>
               <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%;">
               <tbody>
-                <!-- Template for each group listing with text of the group name
-                <tr>
-                  <td class="mdl-data-table__cell--non-numeric">GroupName
-                    <a href="group.jsp"><i class="material-icons" style="float: right;">chevron_right</i></a>
-                  </td>
-                </tr>
-                -->
+                <% 
+                    user = null;
+                    Collection<GroupEntity> groupsOwned = null;
+                    Collection<GroupEntity> groupsJoined = null;
+    
+                    if (request.getSession().getAttribute("user") != null) {
+                        user = (UserEntity)session.getAttribute("user");
+                        groupsOwned = user.getGroupsOwned();
+                        groupsJoined = user.getGroupsJoined();
+                    } 
+                    else {
+                        out.println("Please login first"); 
+                        response.sendRedirect("signup.jsp");
+                    }
+                %>
                   
+                <%
+                    for (GroupEntity group: groupsOwned) {
+                       String groupOwnedName = group.getName();
+                       String groupOwnedID = group.getId().toString();
+                %>
                 <tr>
-                  <td class="mdl-data-table__cell--non-numeric">Advisory
-                    <a href="group.jsp"><i class="material-icons" style="float: right;">chevron_right</i></a>
+                  <td class="mdl-data-table__cell--non-numeric"><%= groupOwnedName%>
+                    <a href="group.jsp?groupname=<%= groupOwnedName%>"><i class="material-icons" style="float: right;">chevron_right</i></a>
+                    <a href="DeleteGroupServlet?groupID=<%=groupOwnedID%>"><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
                   </td>
                 </tr>
+                <% } %>
+                
+                <%
+                    for (GroupEntity group: groupsJoined) {
+                       String groupJoinedName = group.getName();
+                       String groupJoinedID = group.getId().toString();
+                %>
                 <tr>
-                  <td class="mdl-data-table__cell--non-numeric">1st Period
-                    <a href=""><i class="material-icons" style="float: right;">chevron_right</i></a>
+                  <td class="mdl-data-table__cell--non-numeric"><%= groupJoinedName%>
+                    <a href="group.jsp?groupname=<%= groupJoinedName%>"><i class="material-icons" style="float: right;">chevron_right</i></a>
+                    <a href="DeleteGroupServlet?groupID=<%=groupJoinedID%>"><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
                   </td>
                 </tr>
-                <tr>
-                  <td class="mdl-data-table__cell--non-numeric">Friends
-                    <a href=""><i class="material-icons" style="float: right;">chevron_right</i></a>
-                  </td>
-                </tr>
+                <% } %>
                 <tr>
                   <td class="mdl-data-table__cell--non-numeric">Create Group
                     <a href="create_group.jsp"><i class="material-icons" style="float: right;">add</i></a>
@@ -66,10 +95,7 @@ String pageTitle = "My Groups";
             <div class=""></div>
 
         </div>
-      </main>
-      
-
-
+  
       <script>function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
         console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -79,6 +105,6 @@ String pageTitle = "My Groups";
       }</script>
 
     </div>
-  </body>
-</body>
+  </main>
+ </body>
 </html>

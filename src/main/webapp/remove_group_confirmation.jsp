@@ -1,12 +1,12 @@
 <%-- 
     Document   : index
     Created on : Oct 13, 2015, 8:18:50 PM
-    Author     : Dave Messer
+    Author     : Jase Kurasz
 --%>
 <%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.moodmapper.entity.GroupEntity" %>
-<% GroupEntity newGroup = (GroupEntity) request.getAttribute("newGroup"); %>
+<% GroupEntity group = (GroupEntity) request.getAttribute("group"); %>
 
 <%
     UserEntity user = null;
@@ -16,8 +16,7 @@
         out.println("Please login first"); 
         response.sendRedirect("signup.jsp");
     }
-
-String pageTitle = "New Group Confirmation";
+String pageTitle = "Remove Group Confirmation";
 %>
 <!DOCTYPE html>
 <html>
@@ -42,19 +41,9 @@ String pageTitle = "New Group Confirmation";
               url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
           }
           </style>
-          <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" >
-            <div >
-                <div class="mdl-card__title">
-                    <h2 class="mdl-card__title-text"><%= newGroup.getName() %> created!</h2>
-                </div>
-                <div class="mdl-card__title">
-                
-                <h2 class="mdl-card__title-text" >Join Code:</h2>
-                </div>
-                
-                <div class="mdl-card__title">
-                <h2 class="mdl-card__title-text" style="color:blue"><%= newGroup.getJoinCode() %></h2>
-                </div>
+          <div class="demo-card-square mdl-card mdl-shadow--2dp" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
+            <div class="mdl-card__title mdl-card--expand">
+                <h2 class="mdl-card__title-text">You are no longer a member of <%= group.getName() %></h2>
             </div>
           </div>
         </div>
@@ -69,8 +58,5 @@ String pageTitle = "New Group Confirmation";
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
       }</script>
-
-    </div>
   </body>
-</body>
 </html>
