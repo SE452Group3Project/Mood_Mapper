@@ -38,6 +38,7 @@
         <jsp:include page="/WEB-INF/inc/navbarhome.jsp"/>
     <% } else { %>
         <jsp:include page="/WEB-INF/inc/navbar.jsp"/>
+        <jsp:include page="/WEB-INF/inc/navdrawer.jsp"/>
     <% } %>
     
      <jsp:include page="/WEB-INF/inc/body_head.jsp" flush="true">
