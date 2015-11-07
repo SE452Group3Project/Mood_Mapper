@@ -5,8 +5,13 @@
  */
 package com.moodmapper.servlet;
 
+import com.moodmapper.entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,10 +21,27 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author faithfulokoye
+ * @author faithful.okoye
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name = "LoginWithGoogleServlet", urlPatterns = {"/google_sign_in"})
+public class LoginWithGoogleServlet extends HttpServlet {
+    
+    
+    private static EntityManagerFactory emf; 
+    private EntityManager em;
+    private UserEntity user; 
+    
+    
+    public LoginWithGoogleServlet() {
+       super(); 
+    }
+    
+
+    public void init() {
+      emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+      em = emf.createEntityManager(); 
+      user = new UserEntity(); 
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,19 +54,36 @@ public class LogoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LogoutServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+    
+      String email = request.getParameter("email"); 
+      String name = ((String) request.getParameter("username")).replace(" ", "_");
+      String password = "Password1"; 
+      
+      UserEntity userToFind = new UserEntity(); 
+      userToFind.setEmail(email);
+      userToFind.setPassword(password);
+      userToFind.setUsername(name);
+      
+      user = UserEntity.loginWithGoogle(userToFind, emf); 
+      
+      if (user == null){
+           HttpSession session = request.getSession(); 
+          session.setAttribute("error", "There was an error. Please try signing up through out website");
+          session.setAttribute("googleLogin", "true"); 
+          String url = "/signup.jsp";
+           RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+           dispatcher.forward(request, response);
+     } else {
+         HttpSession session = request.getSession(); 
+         session.setAttribute("user", user); 
+         session.setAttribute("notice","Login was successful"); 
+         String url = "/home.jsp";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+     }
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -59,20 +98,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html");  
-            PrintWriter out=response.getWriter();  
-            
-            
-                            
-            HttpSession session=request.getSession(); 
-           
-            
-            session.setAttribute("user", null);
-            session.setAttribute("notice", "You are successfully logged out!");
-            response.sendRedirect("signup.jsp");
-
-              
-            out.close();  
+        processRequest(request, response);
     }
 
     /**
@@ -86,7 +112,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     /**

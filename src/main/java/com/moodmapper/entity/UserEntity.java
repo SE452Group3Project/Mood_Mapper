@@ -121,7 +121,7 @@ public class UserEntity extends MMEntityService implements Serializable {
         this.id = id;
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.password = encryptPassword(password);
         this.groupsOwned = new ArrayList<>();
         this.groupsJoined = new ArrayList<>(); 
     }
@@ -325,6 +325,29 @@ public class UserEntity extends MMEntityService implements Serializable {
         return ((rs.isEmpty()) ? null : rs.get(0));
     }
     
+    public static UserEntity loginWithGoogle(UserEntity user, EntityManagerFactory emf){
+       
+        UserEntity foundUser; 
+        
+        String email = user.email; 
+        System.err.println(email); 
+        EntityManager em; 
+        em = emf.createEntityManager();
+        List<UserEntity> rs = em.createNamedQuery("UserEntity.findByEmail")
+            .setParameter("email", email)
+            .getResultList();
+        
+        
+        if (!rs.isEmpty()){
+            foundUser = rs.get(0);
+        } else {
+            foundUser = user; 
+            foundUser.save(emf); 
+        }
+        
+        return foundUser;
+    }
+    
     public static UserEntity getUserEntity(String username, String password, EntityManagerFactory emf){
         
         //password = encryptPassword(password);
@@ -351,6 +374,7 @@ public class UserEntity extends MMEntityService implements Serializable {
         
         return ((rs.isEmpty()) ? null : rs.get(0));
     }
+    
     
     public boolean verifyPassword(String other_password){
         other_password = encryptPassword(other_password);

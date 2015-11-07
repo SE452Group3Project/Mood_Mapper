@@ -143,7 +143,6 @@
         </div>
       </main>
       
-      <script>alert("Welcome <%= (user != null) ? user.getUsername() : "!" %>");</script>
 
     </div>
   </body>
