@@ -21,7 +21,7 @@
 <%
     
     
-    String pageTitle = "App";
+    String pageTitle = "Group Mood Statuses";
     UserEntity user = null;
     
     String notice = ""; 
@@ -46,6 +46,22 @@
         response.sendRedirect("signup.jsp");
     }
     
+    EntityManagerFactory emf; 
+    EntityManager em;
+    
+    emf = Persistence.createEntityManagerFactory("MoodMapperTestPU--noDataSource"); 
+    em = emf.createEntityManager();
+    
+    String groupName  = request.getParameter("groupname");
+    
+    GroupEntity group = new GroupEntity();
+    
+    TypedQuery<GroupEntity> query = em.createNamedQuery("GroupEntity.findByGroupName", GroupEntity.class).setParameter("name", groupName);
+    //em.refresh(group);
+    group = query.getSingleResult();
+    
+    List<UserEntity> users = (List)group.getGroupMembers();
+    
     
 %>
 <!DOCTYPE html>
@@ -62,17 +78,23 @@
 
         <div class="page-content">
             <div class="notice" style="margin: 0 auto; text-align: center; color: #fff;"><%= (notice.isEmpty()) ? "" : notice %> </div>
-            <% 
-                String groupName = request.getParameter("groupname");
-                GroupEntity group = new GroupEntity();
-                
-            %>
+            <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" >
+            <div >
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text" style="margin: 0 auto; text-align: center;"><%= groupName %> Member Moods</h2>
+                </div>
+            </div>
+          </div>
           <!-- Mood Status cards from other users -->
           <%
-          
-            List<MoodStatusEntity> results = new ArrayList<>(user.getMoodStatuses());
+          //List<UserEntity> users = new ArrayList<>(group.getGroupMembers());
+          for (UserEntity u : users){
+              UserEntity updatedUser = new UserEntity();
+            updatedUser = em.find(UserEntity.class, u.getId());
+            em.refresh(updatedUser);
+            List<MoodStatusEntity> results = new ArrayList<>(updatedUser.getMoodStatuses());
             for(MoodStatusEntity m : results){
-
+              //if(!m.getIsPrivate()){
                 String userName = m.getUser().getUsername();
                 String reflectiveParagraph = m.getReflectiveParagraph();
                 String descriptiveWord = m.getDescriptiveWord();
@@ -80,6 +102,7 @@
                 String energyRating = m.getEnergyRating().toString();
                 List<CommentEntity> comments = new ArrayList<>(m.getComments());
                 System.out.println(comments.toString());
+                
               
               %>
               <div class="card demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
@@ -108,7 +131,7 @@
                 
                 <!-- new comment -->
                 <div class="mdl-card__actions mdl-card--border">
-                    <form method="POST" action="AddCommentServlet" >
+                    <form method="POST" action="GroupMoodStatusCommentServlet" >
                         <input type="hidden" name="moodStatusID" value="<%= m.getId()%>">
                         <div class="mdl-textfield mdl-js-textfield">
                             <input class="mdl-textfield__input" type="text" name="comment" placeholder="Write a comment..." />
@@ -123,9 +146,9 @@
               </div>
 
               <%
-              
+                //}
+            }
           }
-          
           
           %>
           
@@ -152,7 +175,7 @@
         </div>
       </main>
       
-      <script>alert("Welcome <%= (user != null) ? user.getUsername() : "!" %>");</script>
+      
 
     </div>
   </body>
