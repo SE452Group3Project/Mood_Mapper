@@ -34,12 +34,14 @@
     em = emf.createEntityManager();
     
     String groupName  = request.getParameter("groupname");
+    session.setAttribute("currentgroup", groupName);
     
     GroupEntity group = new GroupEntity();
     
     TypedQuery<GroupEntity> query = em.createNamedQuery("GroupEntity.findByGroupName", GroupEntity.class).setParameter("name", groupName);
     //em.refresh(group);
     group = query.getSingleResult();
+    em.refresh(group);
     
     if (group == null){
         session.setAttribute("notice", "no group specified or found");  
@@ -64,11 +66,16 @@
          
           <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="margin: 0 auto; margin-bottom: 48px; margin-top: 48px;">
             <div class="mdl-card__title">
-              <h2 class="mdl-card__title-text"><%= group.getName() %></h2>
+              <h2 class="mdl-card__title-text " style="margin: 0 auto; text-align: center;"><%= group.getName() %> Group</h2>
               
             </div>
               <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%;">
               <tbody>
+                  <tr>
+                   <td class="mdl-data-table__cell--non-numeric">
+                       <strong><a href="group_mood_statuses.jsp?groupname=<%= groupName %>">Click here to see all of group <%= groupName %>'s mood statuses</a></strong>
+                  </td> 
+                </tr>
                   <%
                 for(UserEntity groupUser : users){
                  String userName = groupUser.getUsername();
@@ -84,6 +91,7 @@
                 <% 
                 }
                 %>
+                
                 
               </tbody>
             </table>
