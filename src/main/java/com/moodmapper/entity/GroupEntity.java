@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -150,11 +151,13 @@ public class GroupEntity extends MMEntityService implements Serializable {
     
     public void delele() {
         for(UserEntity member: groupMembers) {
-            this.groupMembers.removeAll(groupMembers);
-            if(!member.equals(ownerId))
-                member.deleteGroupJoined(this);
-            else member.deleteGroupOwned(this);
+            //this.groupMembers.removeAll(groupMembers);
+            member.deleteGroupJoined(this);
+            //groupMembers.remove(member);
         }
+        groupMembers.clear();
+        ownerId.deleteGroupOwned(this);
+        //super.delete(emf);
     }
     
     public void removeGroupMember(UserEntity group_member){
