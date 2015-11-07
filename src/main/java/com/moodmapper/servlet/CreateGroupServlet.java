@@ -70,14 +70,14 @@ public class CreateGroupServlet extends HttpServlet {
 //        ownerID.setEmail("email@email.com");
 //        ownerID.setFirstName("ownerName");
         HttpSession session = request.getSession();
-        UserEntity ownerID = (UserEntity) session.getAttribute("user");
+        UserEntity owner = (UserEntity) session.getAttribute("user");
         
         // create a new Group object
         GroupEntity newGroup = new GroupEntity();
         
         newGroup.setId(1);
         newGroup.setName(groupName);
-        newGroup.setOwner(ownerID); 
+        newGroup.setOwner(owner); 
         newGroup.create(emf); 
         
         // store Group object in the request object

@@ -69,14 +69,17 @@ public class DeleteGroupServlet extends HttpServlet {
 //      out.println(user.getGroupsJoined());
       if(!owner.equals(user)) {
         group.removeGroupMember(user);
+        group.save(emf);
+        user.save(emf);
       } else {
-          group.delele();
+        group.delele();
+        group.save(emf);
         
+        session.removeAttribute("user");
+        session.setAttribute("user", owner);
       }
-      group.save(emf);
-      user.save(emf);
 //      out.println(user.getGroupsJoined());
-
+       
       // store Group object in the request object
       request.setAttribute("group", group);
 

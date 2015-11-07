@@ -42,5 +42,14 @@ public class MMEntityService implements Serializable {
        em.close(); 
     }
     
-    
+    public void delete(EntityManagerFactory emf) {
+        EntityManager em;
+        em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        
+        tx.begin();
+        em.remove(this);
+        tx.commit();
+        em.close();
+    }
 }
