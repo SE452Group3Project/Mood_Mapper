@@ -9,12 +9,8 @@
 <%@page import="com.moodmapper.entity.MoodStatusEntity"%>
 <%
     UserEntity user = null;
-    if (session.getAttribute("user") != null) {
-        user = (UserEntity)session.getAttribute("user");  
-    } else {
-        out.println("Please login first"); 
-        response.sendRedirect("signup.jsp");
-    }
+    user = (UserEntity)session.getAttribute("user");  
+   
     
 String pageTitle = "Search";
 %>

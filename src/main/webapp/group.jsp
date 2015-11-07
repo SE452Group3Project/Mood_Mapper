@@ -41,10 +41,12 @@
     //em.refresh(group);
     group = query.getSingleResult();
     
+    if (group == null){
+        session.setAttribute("notice", "no group specified or found");  
+        response.sendRedirect("my_groups.jsp");
+    }
+    
     List<UserEntity> users = (List)group.getGroupMembers();
-    
-    
-    
     String pageTitle = group.getName();
 %>
 <!DOCTYPE html>

@@ -11,24 +11,18 @@
     UserEntity user = null;
     
     String first_name = ""; String last_name = ""; 
- 
- if (session.getAttribute("user") != null) {
-    user = (UserEntity)session.getAttribute("user");  
-       first_name = user.getFirstName(); 
-       first_name = (first_name == null) ? "" : first_name; 
+    
+     user = (UserEntity)session.getAttribute("user");  
+     first_name = user.getFirstName(); 
+     first_name = (first_name == null) ? "" : first_name; 
        
-       last_name = user.getLastName();
-       last_name = (last_name == null) ? "" : last_name; 
+     last_name = user.getLastName();
+     last_name = (last_name == null) ? "" : last_name; 
 
-} else {
-    session.setAttribute("notice", "Please login first");
-    response.sendRedirect("signup.jsp");
-}
     String notice = ""; 
     String error = ""; 
      if (session.getAttribute("notice") != null){
-           notice = (String) session.getAttribute("notice");
-           
+           notice = (String) session.getAttribute("notice");   
      }
        
      if (session.getAttribute("error") != null){

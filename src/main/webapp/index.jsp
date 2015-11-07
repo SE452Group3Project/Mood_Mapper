@@ -6,13 +6,6 @@
 <%@page import="com.moodmapper.entity.UserEntity"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    UserEntity user = null;
-    if (session.getAttribute("user") != null) {
-        user = (UserEntity)session.getAttribute("user");  
-    } else {
-        out.println("Please login first"); 
-        response.sendRedirect("signup.jsp");
-    }
 String pageTitle = "Home";
 %>
 <!DOCTYPE html>

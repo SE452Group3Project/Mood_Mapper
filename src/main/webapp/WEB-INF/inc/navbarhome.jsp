@@ -7,7 +7,7 @@
   <div class="mdl-layout-spacer"></div>
   <!-- Navigation -->
   <nav class="mdl-navigation">
-    <a class="mdl-navigation__link" href="">About</a>
+    <a class="mdl-navigation__link" href="about.jsp">About</a>
   </nav>
 </div>
 </header>

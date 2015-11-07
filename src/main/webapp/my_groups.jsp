@@ -10,13 +10,8 @@
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
     UserEntity user = null;
-    if (session.getAttribute("user") != null) {
-        user = (UserEntity)session.getAttribute("user");  
-    } else {
-        out.println("Please login first"); 
-        response.sendRedirect("signup.jsp");
-    }
-    
+    user = (UserEntity)session.getAttribute("user");  
+     
     String pageTitle = "My Groups";
 %>
 <!DOCTYPE html>

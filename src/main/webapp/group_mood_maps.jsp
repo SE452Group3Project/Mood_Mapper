@@ -26,7 +26,7 @@
     
     String notice = ""; 
 //    String debug = "";
-    if (session.getAttribute("user") != null) {
+  
         // Session was holding only current comments within the user's mood statuses (Taken from the UserEntity in the session) and not showing new comments after forward back.
         // This is the work-around to make the new comments appear after a a new comment is posted.  
         //userCurrent = (UserEntity)session.getAttribute("user"); 
@@ -41,11 +41,6 @@
 //            out.println(session.getAttribute("log"));
 //        }
 
-    } else {
-        session.setAttribute("notice", "Please login first"); 
-        response.sendRedirect("signup.jsp");
-    }
-    
     
 %>
 <!DOCTYPE html>

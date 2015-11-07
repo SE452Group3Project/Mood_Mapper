@@ -38,19 +38,4 @@
       <!--      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
     </properties>
   </persistence-unit>
-  <persistence-unit name="MoodMapperTestPU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <non-jta-data-source>java:comp/env/jdbc/testdb</non-jta-data-source>
-    <class>com.moodmapper.entity.EntityObject</class>
-    <class>MoodMapperService.MoodMapperService</class>
-    <class>com.moodmapper.entity.GroupEntity</class>
-    <class>com.moodmapper.entity.UserEntity</class>
-    <class>com.moodmapper.entity.CommentEntity</class>
-    <class>com.moodmapper.entity.MoodStatusEntity</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
-      <property name="eclipselink.canonicalmodel.subpackage" value="three"/>
-      <property name="eclipselink.logging.level" value="FINEST"/>
-    </properties>
-  </persistence-unit>
 </persistence>
