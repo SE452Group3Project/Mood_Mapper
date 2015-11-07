@@ -58,9 +58,10 @@
                     for (GroupEntity group: groupsOwned) {
                        String groupOwnedName = group.getName();
                        String groupOwnedID = group.getId().toString();
+                       String groupJoinCode = group.getJoinCode();
                 %>
                 <tr>
-                  <td class="mdl-data-table__cell--non-numeric">Owns <%= groupOwnedName%>
+                  <td class="mdl-data-table__cell--non-numeric">Owns <%= groupOwnedName%> with a Join Code of <span style="color: blue"> <%=groupJoinCode %>
                     <a href="group.jsp?groupname=<%= groupOwnedName%>"><i class="material-icons" style="float: right;">chevron_right</i></a>
                     <a href="DeleteGroupServlet?groupID=<%=groupOwnedID%>"><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
                   </td>
@@ -73,7 +74,7 @@
                        String groupJoinedID = group.getId().toString();
                 %>
                 <tr>
-                  <td class="mdl-data-table__cell--non-numeric">Is a member of <%= groupJoinedName%>
+                    <td class="mdl-data-table__cell--non-numeric">Is a member of <%= groupJoinedName%> 
                     <a href="group.jsp?groupname=<%= groupJoinedName%>"><i class="material-icons" style="float: right;">chevron_right</i></a>
                     <a href="DeleteGroupServlet?groupID=<%=groupJoinedID%>"><i class="material-icons" style="float: right; padding-right: 20px">delete</i></a>
                   </td>
