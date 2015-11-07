@@ -2,10 +2,16 @@
 <head>
 
    <meta charset="utf-8">
-   <meta name="google-signin-client_id" content="260435330613-uvlunbaam70iv523mmh5457gm4r8cc57.apps.googleusercontent.com">
-
+   
    <!-- Google OAuth -->
+   <meta name="google-signin-scope" content="profile email">
+   <meta name="google-signin-client_id" content="823629571123-jnn58qjcabua37341qvb2co1foorh5n7.apps.googleusercontent.com">
+
    <script src="https://apis.google.com/js/platform.js" async defer></script>
+   
+   <!--Jquery --> 
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
 
    <!-- Material Design Lite -->
    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>

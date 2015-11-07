@@ -8,6 +8,6 @@
 		<a class="mdl-navigation__link" href="new_status.jsp"><i class="material-icons">add_circle</i>New Status</a>
                 <a class="mdl-navigation__link" href="user_profile.jsp"><i class="material-icons">exit_to_app</i>User Profile</a>
                 <a class="mdl-navigation__link" href="search.jsp"><i class="material-icons">search</i>Search</a>
-		<a class="mdl-navigation__link" href="logout"><i class="material-icons">account_circle</i>Sign out</a>
+		<a class="mdl-navigation__link" onclick="var auth2 = gapi.auth2.getAuthInstance(); auth2.signOut();" href="logout"><i class="material-icons">account_circle</i>Sign out</a>
 	</nav>
 </div>

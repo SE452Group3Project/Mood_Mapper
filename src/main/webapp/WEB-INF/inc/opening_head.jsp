@@ -11,7 +11,7 @@
 <head>
 
    <meta charset="utf-8">
-   <meta name="google-signin-client_id" content="260435330613-uvlunbaam70iv523mmh5457gm4r8cc57.apps.googleusercontent.com">
+   <meta name="google-signin-client_id" content="823629571123-jnn58qjcabua37341qvb2co1foorh5n7.apps.googleusercontent.com">
 
    <!-- Google OAuth -->
    <script src="https://apis.google.com/js/platform.js" async defer></script>

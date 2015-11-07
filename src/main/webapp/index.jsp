@@ -37,12 +37,42 @@ String pageTitle = "Home";
         </div>
       </main>
 
-      <script>function onSignIn(googleUser) {
+      <script>
+          
+      function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
+        var id_token = googleUser.getAuthResponse().id_token;
+        
+         var data = 'idtoken=' + id_token + "&username=" + profile.getName() + "&email=" + profile.getEmail(); 
+        var url = 'google_sign_in'; 
+       
+        
+        var dataType = 'application/x-www-form-urlencoded'; 
+        
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            dataType: dataType
+          }).done(function() {
+                console.log("it worked");
+                window.location = 'home.jsp';
+            });
+        
+//        var xhr = new XMLHttpRequest();
+//        xhr.open('POST', 'google_sign_in');
+//        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//        xhr.onload = function() {
+//             console.log('Signed in as: ' + xhr.responseText);
+//        };
+//        xhr.send('idtoken=' + id_token + "&username=" + profile.getName() + "&email=" + profile.getEmail());
+//
+//        console.log(googleUser); 
+//
+//        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+//        console.log('Name: ' + profile.getName());
+//        console.log('Image URL: ' + profile.getImageUrl());
+//        console.log('Email: ' + profile.getEmail());
       }</script>
 
     </div>
