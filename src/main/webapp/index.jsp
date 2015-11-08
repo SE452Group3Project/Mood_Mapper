@@ -7,6 +7,11 @@
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%
 String pageTitle = "Home";
+
+if (request.getSession().getAttribute("user") != null) {
+        out.print("You are already logged in"); 
+        response.sendRedirect("home.jsp");
+    }
 %>
 <!DOCTYPE html>
 <html>

@@ -14,7 +14,7 @@
    <meta name="google-signin-client_id" content="823629571123-jnn58qjcabua37341qvb2co1foorh5n7.apps.googleusercontent.com">
 
    <!-- Google OAuth -->
-   <script src="https://apis.google.com/js/platform.js" async defer></script>
+   <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 
    <!-- Material Design Lite -->
    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>

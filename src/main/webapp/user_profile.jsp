@@ -10,6 +10,11 @@
     String pageTitle = "User Profile";
     UserEntity user = null;
     
+//    Boolean isGoogleLogin = ( session.getAttribute("googleLogin") != null);
+//    String password = (isGoogleLogin) ? "Password1" : ""; 
+    
+//    if (isGoogleLogin) { out.println(password);}
+    
     String first_name = ""; String last_name = ""; 
     
      user = (UserEntity)session.getAttribute("user");  
@@ -121,7 +126,7 @@
                     </div>
                     
                     <input 
-                        type="password" 
+                        type="password"
                         ng-model="user.confirm_password" 
                         name="confirm_password" 
                         class="input" 
@@ -141,7 +146,7 @@
 
                     
                     <input 
-                        type="password" 
+                        type="password"
                         ng-model="user.current_password" 
                         name="current_password" 
                         class="input" 

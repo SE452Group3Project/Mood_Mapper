@@ -7,7 +7,7 @@
    <meta name="google-signin-scope" content="profile email">
    <meta name="google-signin-client_id" content="823629571123-jnn58qjcabua37341qvb2co1foorh5n7.apps.googleusercontent.com">
 
-   <script src="https://apis.google.com/js/platform.js" async defer></script>
+   <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
    
    <!--Jquery --> 
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -24,4 +24,14 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <title>Mood Mapper | <%=request.getParameter("pageTitle")%></title>
+    
+    
 </head>
+
+<script>
+    function onLoad() {
+      gapi.load('auth2', function() {
+        gapi.auth2.init();
+      });
+    }</script>
+

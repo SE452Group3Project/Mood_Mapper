@@ -11,3 +11,9 @@
 		<a class="mdl-navigation__link" onclick="var auth2 = gapi.auth2.getAuthInstance(); auth2.signOut();" href="logout"><i class="material-icons">account_circle</i>Sign out</a>
 	</nav>
 </div>
+
+<script>
+    
+  
+    
+</script>

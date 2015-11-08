@@ -70,7 +70,6 @@ public class LoginWithGoogleServlet extends HttpServlet {
       if (user == null){
            HttpSession session = request.getSession(); 
           session.setAttribute("error", "There was an error. Please try signing up through out website");
-          session.setAttribute("googleLogin", "true"); 
           String url = "/signup.jsp";
            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
            dispatcher.forward(request, response);
@@ -78,6 +77,7 @@ public class LoginWithGoogleServlet extends HttpServlet {
          HttpSession session = request.getSession(); 
          session.setAttribute("user", user); 
          session.setAttribute("notice","Login was successful"); 
+         session.setAttribute("googleLogin", "true"); 
          String url = "/home.jsp";
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
