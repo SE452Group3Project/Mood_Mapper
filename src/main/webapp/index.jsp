@@ -74,7 +74,6 @@ String pageTitle = "Home";
         };
         xhr.send('idtoken=' + id_token + "&username=" + profile.getName() + "&email=" + profile.getEmail());
 
-
       }</script>
 
     </div>
